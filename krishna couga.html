@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Krishna Couga — German Language Trainer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --saffron:#E8621A;--saffron-light:#F5894A;--saffron-pale:#FDE8D8;
+  --indigo:#1A2E5A;--indigo-mid:#2A4080;--indigo-light:#4A6AAA;
+  --turmeric:#D4A017;--turmeric-light:#F0C840;
+  --cream:#FBF5E6;--cream-dark:#F2E8D0;
+  --earth:#7A4A1E;--leaf:#2A6040;--leaf-light:#3D8A5A;
+  --ink:#1A0A00;--lotus:#C0395A;--white:#FFFDF7;
+  --success:#2A7A4A;--warning:#C4800A;--danger:#B02A2A;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Josefin Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;cursor:none;}
+.cursor{width:12px;height:12px;background:var(--saffron);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:multiply;transition:transform 0.1s;}
+.cursor-trail{width:32px;height:32px;border:1.5px solid var(--saffron);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;opacity:0.45;transition:all 0.28s ease;}
+
+/* ═══════════════ PAGES ═══════════════ */
+.page{display:none;min-height:100vh;}
+.page.active{display:block;}
+
+/* ═══════════════ LANDING ═══════════════ */
+#page-landing{background:var(--cream);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 4rem;background:rgba(251,245,230,0.94);backdrop-filter:blur(16px);border-bottom:1px solid rgba(232,98,26,0.12);transition:all 0.3s;}
+nav.scrolled{padding:0.75rem 4rem;box-shadow:0 4px 24px rgba(26,10,0,0.08);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:700;color:#000000;text-decoration:none;}
+.nav-logo span{color:var(--saffron);}
+.nav-links{display:flex;gap:2.2rem;align-items:center;}
+.nav-links a{font-size:0.72rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#000000;text-decoration:none;transition:color 0.2s;cursor:none;}
+.nav-links a:hover{color:var(--saffron);}
+.nav-cta{background:var(--saffron);color:var(--white)!important;padding:0.5rem 1.3rem;border-radius:2px;transition:background 0.2s!important;}
+.nav-cta:hover{background:var(--indigo)!important;}
+
+/* HERO */
+#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding-top:78px;position:relative;overflow:hidden;}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:4rem 3rem 4rem 4.5rem;position:relative;z-index:2;}
+.hero-eyebrow{display:flex;align-items:center;gap:0.8rem;margin-bottom:1.6rem;animation:fadeUp 0.7s ease both;}
+.eyebrow-line{width:36px;height:2px;background:var(--saffron);}
+.eyebrow-text{font-size:0.68rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--saffron);}
+.hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,5.5vw,5.5rem);font-weight:300;color:var(--indigo);line-height:0.95;animation:fadeUp 0.7s 0.1s ease both;}
+.hero-name strong{font-weight:700;display:block;color:var(--saffron);}
+.hero-band{display:inline-flex;align-items:center;gap:0.8rem;background:var(--indigo);color:var(--white);padding:0.45rem 1.1rem;margin:1rem 0 1.8rem;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;animation:fadeUp 0.7s 0.2s ease both;}
+.hero-band .dot{width:5px;height:5px;background:var(--turmeric);border-radius:50%;}
+.hero-desc{font-family:'Cormorant Garamond',serif;font-size:1.12rem;font-style:italic;color:var(--earth);line-height:1.8;max-width:400px;margin-bottom:2rem;animation:fadeUp 0.7s 0.3s ease both;}
+.hero-contact{display:flex;align-items:center;gap:0.6rem;margin-bottom:2.2rem;animation:fadeUp 0.7s 0.35s ease both;}
+.hero-contact-item{display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;font-weight:600;color:var(--indigo);padding:0.4rem 0.9rem;background:rgba(26,46,90,0.07);border-radius:2px;}
+.hero-contact-item svg{color:var(--saffron);}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp 0.7s 0.4s ease both;}
+.btn-primary{background:var(--saffron);color:var(--white);padding:0.85rem 1.8rem;font-family:'Josefin Sans',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;border:none;border-radius:2px;cursor:none;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;transition:all 0.25s;position:relative;overflow:hidden;}
+.btn-primary:hover{background:var(--indigo);transform:translateY(-1px);box-shadow:0 8px 24px rgba(232,98,26,0.3);}
+.btn-outline{border:2px solid var(--indigo);color:var(--indigo);padding:0.83rem 1.8rem;font-family:'Josefin Sans',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;background:transparent;border-radius:2px;cursor:none;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;transition:all 0.25s;}
+.btn-outline:hover{background:var(--indigo);color:var(--white);}
+
+/* HERO RIGHT */
+.hero-right{position:relative;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;background:linear-gradient(155deg,var(--indigo) 0%,#2A4080 60%,#3A2060 100%);}
+.hero-right::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 25% 25%,rgba(232,98,26,0.18),transparent 55%),radial-gradient(ellipse at 80% 75%,rgba(212,160,23,0.12),transparent 55%);}
+.portrait-wrap{position:relative;width:68%;max-width:360px;z-index:2;animation:riseUp 0.9s 0.3s ease both;}
+.portrait-top-orn,.portrait-bot-orn{position:absolute;left:50%;transform:translateX(-50%);z-index:3;}
+.portrait-top-orn{top:-28px;}
+.portrait-bot-orn{bottom:-18px;}
+.portrait-box{width:100%;aspect-ratio:3/4;border:3px solid rgba(232,98,26,0.5);position:relative;overflow:hidden;}
+.portrait-badge{position:absolute;bottom:0;right:-18px;background:var(--turmeric);padding:0.8rem 1rem;z-index:4;text-align:center;}
+.pb-num{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;color:var(--indigo);line-height:1;}
+.pb-lbl{font-size:0.55rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--indigo);}
+.floating-word{position:absolute;font-family:'Cormorant Garamond',serif;font-style:italic;color:rgba(255,255,255,0.15);pointer-events:none;user-select:none;}
+.fw1{font-size:4.5rem;top:6%;left:4%;animation:floatW 5s ease-in-out infinite;}
+.fw2{font-size:2.8rem;bottom:22%;right:4%;animation:floatW 6s 1.5s ease-in-out infinite;}
+.fw3{font-size:1.8rem;top:42%;right:6%;animation:floatW 4s 3s ease-in-out infinite;}
+
+/* HERO STATS */
+.hero-stats{position:absolute;bottom:0;left:0;right:50%;display:flex;border-top:1px solid rgba(26,46,90,0.1);z-index:3;animation:fadeUp 0.7s 0.6s ease both;}
+.hero-stat{flex:1;padding:1rem 1.3rem;border-right:1px solid rgba(26,46,90,0.1);background:rgba(251,245,230,0.88);backdrop-filter:blur(8px);}
+.hero-stat:last-child{border-right:none;}
+.hs-num{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:700;color:var(--saffron);line-height:1;}
+.hs-lbl{font-size:0.62rem;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--indigo);margin-top:2px;}
+
+/* KALAM WAVE DIVIDER */
+.kwave{width:100%;overflow:hidden;line-height:0;}
+.kwave svg{display:block;width:100%;}
+
+/* ABOUT */
+#about{padding:6rem 0;background:var(--white);position:relative;}
+#about::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23E8621A' fill-opacity='0.025'%3E%3Cpath d='M20 0L40 20L20 40L0 20z'/%3E%3C/g%3E%3C/svg%3E");pointer-events:none;}
+.sc{max-width:1160px;margin:0 auto;padding:0 3.5rem;}
+.sh{display:flex;align-items:flex-end;gap:1.8rem;margin-bottom:3.5rem;}
+.sh-num{font-family:'Cormorant Garamond',serif;font-size:4.5rem;font-weight:700;color:rgba(232,98,26,0.1);line-height:1;user-select:none;}
+.sh-eye{font-size:0.65rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--saffron);margin-bottom:0.25rem;}
+.sh-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3.5vw,3rem);font-weight:600;color:var(--indigo);line-height:1.1;}
+.about-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:4rem;align-items:start;}
+.about-img{position:relative;width:100%;aspect-ratio:4/5;background:var(--cream-dark);overflow:hidden;}
+.about-img::before{content:'';position:absolute;top:-12px;left:-12px;right:12px;bottom:12px;border:2px solid var(--saffron);z-index:0;}
+.about-quote{position:absolute;bottom:-18px;right:-18px;background:var(--indigo);color:var(--white);padding:1.3rem;max-width:190px;z-index:2;}
+.aq-t{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.9rem;line-height:1.5;}
+.aq-s{font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--turmeric);margin-top:0.4rem;}
+.about-lead{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--indigo);line-height:1.65;margin-bottom:1.3rem;}
+.about-body{font-size:0.85rem;color:#4A3820;line-height:1.9;margin-bottom:1.8rem;}
+.about-info{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1.8rem;}
+.ai-item{background:var(--cream);padding:0.8rem 1rem;border-left:3px solid var(--saffron);}
+.ai-label{font-size:0.6rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--saffron);margin-bottom:0.2rem;}
+.ai-val{font-size:0.82rem;font-weight:600;color:var(--indigo);}
+.about-tags{display:flex;flex-wrap:wrap;gap:0.5rem;}
+.tag{padding:0.35rem 0.8rem;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;border-radius:2px;}
+.tag-s{background:var(--saffron-pale);border:1px solid rgba(232,98,26,0.2);color:var(--saffron);}
+.tag-i{background:rgba(26,46,90,0.06);border:1px solid rgba(26,46,90,0.15);color:var(--indigo);}
+
+/* COURSES */
+#courses{padding:5.5rem 0;background:var(--cream);}
+.courses-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;}
+.cc{background:var(--white);border:1px solid rgba(26,46,90,0.07);position:relative;overflow:hidden;transition:transform 0.3s,box-shadow 0.3s;cursor:none;}
+.cc:hover{transform:translateY(-5px);box-shadow:0 18px 48px rgba(26,10,0,0.1);}
+.cc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--saffron),var(--turmeric));transform:scaleX(0);transform-origin:left;transition:transform 0.4s;}
+.cc:hover::before{transform:scaleX(1);}
+.cc-top{padding:1.6rem 1.6rem 1.1rem;}
+.cc-icon{width:44px;height:44px;background:var(--saffron-pale);border-radius:2px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1.3rem;}
+.cc-lvl{font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--saffron);margin-bottom:0.35rem;}
+.cc-name{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;color:var(--indigo);line-height:1.2;margin-bottom:0.5rem;}
+.cc-desc{font-size:0.8rem;color:#6A5040;line-height:1.7;}
+.cc-bot{padding:1.1rem 1.6rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(26,46,90,0.06);}
+.cc-meta{font-size:0.68rem;font-weight:600;color:var(--earth);}
+.cc-meta span{color:var(--saffron);}
+.cc-btn{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--indigo);text-decoration:none;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;cursor:none;}
+.cc-btn:hover{color:var(--saffron);}
+.cc.feat{background:var(--indigo);}
+.cc.feat .cc-name,.cc.feat .cc-icon{color:var(--white);}
+.cc.feat .cc-desc{color:rgba(255,255,255,0.55);}
+.cc.feat .cc-meta{color:rgba(255,255,255,0.45);}
+.cc.feat .cc-btn{color:var(--turmeric-light);}
+.cc.feat .cc-bot{border-top-color:rgba(255,255,255,0.08);}
+.cc.feat .cc-icon{background:rgba(232,98,26,0.2);}
+
+/* FEES */
+#fees{padding:5.5rem 0;background:var(--cream-dark);}
+.fees-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;}
+.fee-card{background:var(--white);padding:2rem;position:relative;border-bottom:3px solid transparent;transition:all 0.3s;cursor:none;}
+.fee-card:hover{border-bottom-color:var(--saffron);transform:translateY(-4px);box-shadow:0 16px 40px rgba(26,10,0,0.1);}
+.fee-card.popular{background:var(--indigo);border-bottom-color:var(--turmeric);}
+.fee-pop-badge{position:absolute;top:-1px;right:20px;background:var(--turmeric);color:var(--indigo);font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.7rem;}
+.fee-level{font-size:0.65rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--saffron);margin-bottom:0.5rem;}
+.fee-card.popular .fee-level{color:var(--turmeric-light);}
+.fee-name{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--indigo);margin-bottom:0.5rem;}
+.fee-card.popular .fee-name{color:var(--white);}
+.fee-price{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:700;color:var(--saffron);line-height:1;margin-bottom:0.2rem;}
+.fee-card.popular .fee-price{color:var(--turmeric-light);}
+.fee-period{font-size:0.72rem;color:var(--earth);margin-bottom:1.5rem;}
+.fee-card.popular .fee-period{color:rgba(255,255,255,0.5);}
+.fee-features{list-style:none;display:flex;flex-direction:column;gap:0.55rem;margin-bottom:1.8rem;}
+.fee-features li{font-size:0.8rem;color:#4A3820;display:flex;align-items:center;gap:0.5rem;}
+.fee-card.popular .fee-features li{color:rgba(255,255,255,0.7);}
+.fee-features li::before{content:'✦';color:var(--saffron);font-size:0.6rem;}
+.fee-card.popular .fee-features li::before{color:var(--turmeric-light);}
+.fee-enroll{display:block;width:100%;padding:0.8rem;text-align:center;background:var(--saffron);color:var(--white);font-family:'Josefin Sans',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;border:none;border-radius:2px;cursor:none;transition:all 0.2s;text-decoration:none;}
+.fee-enroll:hover{background:var(--indigo);transform:translateY(-1px);}
+.fee-card.popular .fee-enroll{background:var(--turmeric);color:var(--indigo);}
+.fee-card.popular .fee-enroll:hover{background:var(--turmeric-light);}
+
+/* TESTIMONIALS */
+#testimonials{padding:5.5rem 0;background:var(--white);}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem;}
+.tc{background:var(--cream);padding:1.8rem;border-bottom:3px solid transparent;transition:all 0.3s;cursor:none;}
+.tc:hover{border-bottom-color:var(--saffron);transform:translateY(-4px);}
+.tc-q{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:700;color:var(--saffron-pale);line-height:0.5;margin-bottom:0.5rem;user-select:none;}
+.tc-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--indigo);line-height:1.7;margin-bottom:1.3rem;}
+.tc-author{display:flex;align-items:center;gap:0.7rem;}
+.tc-av{width:38px;height:38px;border-radius:50%;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--saffron);flex-shrink:0;}
+.tc-name{font-size:0.78rem;font-weight:700;color:var(--ink);}
+.tc-role{font-size:0.65rem;color:var(--earth);}
+.tc-stars{color:var(--turmeric);font-size:0.7rem;margin-top:1px;}
+
+/* ═══════════════ LOGIN PAGE ═══════════════ */
+#page-login{min-height:100vh;background:var(--indigo);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;z-index:10;}
+#page-login::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 10% 30%,rgba(232,98,26,0.15),transparent 60%),radial-gradient(ellipse 60% 70% at 90% 70%,rgba(212,160,23,0.1),transparent 55%);pointer-events:none;}
+.login-mandala{position:absolute;opacity:0.04;pointer-events:none;}
+.login-mandala.lm1{top:-150px;left:-150px;width:500px;height:500px;}
+.login-mandala.lm2{bottom:-150px;right:-150px;width:500px;height:500px;}
+
+.login-wrap{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;max-width:960px;width:100%;margin:0 auto;padding:2rem;}
+.login-info{padding:3rem 2.5rem;display:flex;flex-direction:column;justify-content:center;}
+.li-back{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);text-decoration:none;margin-bottom:2.5rem;cursor:none;transition:color 0.2s;}
+.li-back:hover{color:var(--saffron);}
+.li-eye{font-size:0.65rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--turmeric-light);margin-bottom:0.6rem;}
+.li-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:600;color:var(--white);line-height:1.15;margin-bottom:1.2rem;}
+.li-title em{font-style:italic;color:var(--saffron-light);}
+.li-body{font-size:0.83rem;color:rgba(255,255,255,0.55);line-height:1.8;margin-bottom:2rem;}
+.li-perks{display:flex;flex-direction:column;gap:0.75rem;}
+.li-perk{display:flex;align-items:center;gap:0.9rem;}
+.lp-icon{width:34px;height:34px;flex-shrink:0;background:rgba(232,98,26,0.18);border:1px solid rgba(232,98,26,0.3);display:flex;align-items:center;justify-content:center;font-size:0.85rem;border-radius:2px;}
+.lp-text{font-size:0.78rem;color:rgba(255,255,255,0.7);}
+.lp-text strong{color:var(--white);}
+
+/* Login Card */
+.login-card{background:var(--white);position:relative;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,0.3);}
+.lc-rainbow{height:6px;background:linear-gradient(90deg,var(--saffron),var(--turmeric),var(--leaf),var(--indigo-light),var(--lotus));}
+.lc-inner{padding:2.2rem 2.5rem 2.8rem;}
+.lc-tabs{display:flex;border-bottom:2px solid var(--cream-dark);margin-bottom:1.8rem;}
+.lc-tab{flex:1;padding:0.65rem;background:none;border:none;font-family:'Josefin Sans',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(26,46,90,0.35);cursor:none;position:relative;transition:color 0.2s;}
+.lc-tab::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;background:var(--saffron);transform:scaleX(0);transition:transform 0.3s;}
+.lc-tab.active{color:var(--saffron);}
+.lc-tab.active::after{transform:scaleX(1);}
+.lc-title{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:600;color:var(--indigo);margin-bottom:0.2rem;}
+.lc-sub{font-size:0.75rem;color:var(--earth);margin-bottom:1.4rem;line-height:1.5;}
+.fg{margin-bottom:1.1rem;}
+.fg label{display:block;font-size:0.62rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--indigo);margin-bottom:0.38rem;}
+.fi{position:relative;}
+.fi-ico{position:absolute;left:0.9rem;top:50%;transform:translateY(-50%);color:rgba(26,46,90,0.3);pointer-events:none;}
+.fi input,.fi select{width:100%;padding:0.72rem 0.9rem 0.72rem 2.4rem;border:1.5px solid rgba(26,46,90,0.14);background:var(--cream);font-family:'Josefin Sans',sans-serif;font-size:0.8rem;color:var(--ink);border-radius:2px;outline:none;transition:all 0.2s;-webkit-appearance:none;}
+.fi input:focus,.fi select:focus{border-color:var(--saffron);background:var(--white);box-shadow:0 0 0 3px rgba(232,98,26,0.08);}
+.fi input::placeholder{color:rgba(26,10,0,0.25);}
+.form-row{display:flex;gap:0.8rem;}
+.form-row .fg{flex:1;}
+.form-opts{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.3rem;}
+.chk{display:flex;align-items:center;gap:0.4rem;font-size:0.72rem;color:var(--earth);cursor:none;user-select:none;}
+.chk input{width:13px;height:13px;accent-color:var(--saffron);cursor:none;}
+.fgt{font-size:0.68rem;font-weight:700;letter-spacing:0.06em;color:var(--indigo);text-decoration:none;transition:color 0.2s;cursor:none;}
+.fgt:hover{color:var(--saffron);}
+.btn-sub{width:100%;padding:0.85rem;background:linear-gradient(135deg,var(--saffron),var(--saffron-light));color:var(--white);border:none;font-family:'Josefin Sans',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;cursor:none;border-radius:2px;transition:all 0.2s;}
+.btn-sub:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,98,26,0.4);}
+.form-div{display:flex;align-items:center;gap:0.8rem;margin:1rem 0;font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(26,10,0,0.28);}
+.form-div::before,.form-div::after{content:'';flex:1;height:1px;background:rgba(26,46,90,0.1);}
+.btn-google{width:100%;padding:0.72rem;background:var(--white);border:1.5px solid rgba(26,46,90,0.13);font-family:'Josefin Sans',sans-serif;font-size:0.75rem;font-weight:600;color:var(--ink);cursor:none;border-radius:2px;display:flex;align-items:center;justify-content:center;gap:0.6rem;transition:all 0.2s;}
+.btn-google:hover{border-color:var(--saffron);box-shadow:0 4px 12px rgba(0,0,0,0.06);}
+.switch-link{text-align:center;margin-top:1rem;font-size:0.72rem;color:var(--earth);}
+.switch-link a{color:var(--saffron);font-weight:700;text-decoration:none;cursor:none;}
+#form-register{display:none;}
+
+/* ═══════════════ DASHBOARD ═══════════════ */
+#page-dashboard{display:none;min-height:100vh;background:#F4EFE5;}
+#page-dashboard.active{display:flex;flex-direction:row;align-items:stretch;}
+
+/* SIDEBAR */
+.sidebar{width:260px;min-width:260px;flex-shrink:0;background:var(--indigo);min-height:100vh;height:100vh;display:flex;flex-direction:column;position:sticky;top:0;overflow-y:auto;z-index:100;}
+.sb-header{padding:1.6rem 1.5rem;border-bottom:1px solid rgba(255,255,255,0.08);}
+.sb-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:#000000;}
+.sb-logo span{color:var(--saffron);}
+.sb-tagline{font-size:0.58rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#333333;margin-top:2px;}
+.sb-user{padding:1.2rem 1.5rem;display:flex;align-items:center;gap:0.8rem;border-bottom:1px solid rgba(255,255,255,0.07);}
+.sb-av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--saffron),var(--turmeric));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--white);flex-shrink:0;}
+.sb-uname{font-size:0.82rem;font-weight:700;color:#000000;}
+.sb-uid{font-size:0.62rem;color:#333333;}
+.sb-nav{padding:1rem 0;flex:1;}
+.sb-section{font-size:0.55rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#444444;padding:0.8rem 1.5rem 0.4rem;}
+.sb-link{display:flex;align-items:center;gap:0.8rem;padding:0.7rem 1.5rem;color:#000000;font-size:0.75rem;font-weight:600;letter-spacing:0.04em;text-decoration:none;cursor:none;transition:all 0.2s;position:relative;}
+.sb-link:hover{color:#000000;background:rgba(255,255,255,0.1);}
+.sb-link.active{color:#000000;background:rgba(232,98,26,0.35);}
+.sb-link.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--saffron);}
+.sb-link svg{width:17px;height:17px;flex-shrink:0;color:#000000;}
+.sb-bottom{padding:1rem 1.5rem;border-top:1px solid rgba(255,255,255,0.07);}
+.sb-logout{display:flex;align-items:center;gap:0.7rem;color:rgba(255,255,255,0.4);font-size:0.72rem;font-weight:600;cursor:none;transition:color 0.2s;background:none;border:none;}
+.sb-logout:hover{color:var(--lotus);}
+
+/* MAIN */
+.dash-main{flex:1;min-width:0;display:flex;flex-direction:column;overflow-x:hidden;}
+.dash-topbar{background:var(--white);padding:0.9rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(26,46,90,0.07);position:sticky;top:0;z-index:50;}
+.dt-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--indigo);}
+.dt-date{font-size:0.7rem;color:var(--earth);}
+.dt-right{display:flex;align-items:center;gap:1rem;}
+.dt-badge{background:var(--saffron-pale);color:var(--saffron);font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.3rem 0.7rem;border-radius:2px;}
+.dt-phone{font-size:0.7rem;font-weight:600;color:var(--indigo);display:flex;align-items:center;gap:0.3rem;}
+
+/* DASHBOARD VIEWS */
+.dash-view{display:none;padding:2rem;}
+.dash-view.active{display:block;}
+
+/* OVERVIEW */
+.ov-welcome{background:linear-gradient(135deg,var(--indigo),var(--indigo-mid));color:var(--black);padding:2rem;margin-bottom:1.8rem;position:relative;overflow:hidden;}
+.ov-welcome::before{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:rgba(232,98,26,0.1);}
+.ov-welcome::after{content:'';position:absolute;right:40px;bottom:-50px;width:150px;height:150px;border-radius:50%;background:rgba(212,160,23,0.08);}
+.ow-eye{font-size:0.62rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;}
+.ow-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;line-height:1.15;margin-bottom:0.5rem;}
+.ow-title em{font-style:italic;color:var(--saffron-light);}
+.ow-sub{font-size:0.8rem;color:rgba(255,255,255,0.6);line-height:1.6;}
+.ow-kalam{position:absolute;right:2rem;top:50%;transform:translateY(-50%);opacity:0.08;pointer-events:none;}
+
+.stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.8rem;}
+.stat-card{background:var(--white);padding:1.4rem;border-bottom:3px solid transparent;transition:all 0.25s;cursor:none;}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,10,0,0.08);}
+.stat-card.sc-s{border-bottom-color:var(--saffron);}
+.stat-card.sc-i{border-bottom-color:var(--indigo);}
+.stat-card.sc-l{border-bottom-color:var(--leaf);}
+.stat-card.sc-t{border-bottom-color:var(--turmeric);}
+.sc-icon{width:36px;height:36px;border-radius:2px;display:flex;align-items:center;justify-content:center;margin-bottom:0.8rem;font-size:1rem;}
+.sc-icon.bg-s{background:var(--saffron-pale);}
+.sc-icon.bg-i{background:rgba(26,46,90,0.08);}
+.sc-icon.bg-l{background:rgba(42,96,64,0.1);}
+.sc-icon.bg-t{background:rgba(212,160,23,0.12);}
+.sc-val{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--indigo);line-height:1;}
+.sc-lbl{font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--earth);margin-top:3px;}
+.sc-trend{font-size:0.68rem;color:var(--leaf);margin-top:4px;}
+
+.dash-row{display:grid;grid-template-columns:1.6fr 1fr;gap:1.2rem;margin-bottom:1.5rem;}
+.dcard{background:var(--white);padding:1.5rem;}
+.dcard-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--indigo);margin-bottom:1.2rem;padding-bottom:0.7rem;border-bottom:1px solid var(--cream-dark);display:flex;align-items:center;gap:0.6rem;}
+.dcard-title .dtag{font-family:'Josefin Sans',sans-serif;font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:var(--saffron-pale);color:var(--saffron);padding:0.2rem 0.5rem;border-radius:2px;}
+
+/* Progress bars */
+.prog-item{margin-bottom:1rem;}
+.prog-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;}
+.prog-name{font-size:0.75rem;font-weight:600;color:var(--indigo);}
+.prog-pct{font-size:0.68rem;font-weight:700;color:var(--saffron);}
+.prog-bar-bg{height:6px;background:var(--cream-dark);border-radius:3px;overflow:hidden;}
+.prog-bar{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--saffron),var(--turmeric));transition:width 1.2s ease;}
+
+/* Schedule */
+.sched-item{display:flex;align-items:center;gap:0.9rem;padding:0.75rem 0;border-bottom:1px solid var(--cream-dark);}
+.sched-item:last-child{border-bottom:none;}
+.si-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.si-dot.live{background:var(--leaf);box-shadow:0 0 0 3px rgba(42,96,64,0.2);}
+.si-dot.upcoming{background:var(--turmeric);}
+.si-dot.done{background:rgba(26,46,90,0.2);}
+.si-time{font-size:0.68rem;font-weight:700;color:var(--indigo);min-width:55px;}
+.si-info{flex:1;}
+.si-topic{font-size:0.78rem;font-weight:600;color:var(--ink);}
+.si-sub{font-size:0.65rem;color:var(--earth);}
+.si-badge{font-size:0.6rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.2rem 0.55rem;border-radius:2px;}
+.si-badge.live{background:rgba(42,96,64,0.1);color:var(--leaf);}
+.si-badge.soon{background:rgba(212,160,23,0.12);color:var(--warning);}
+.si-badge.done{background:rgba(26,46,90,0.06);color:rgba(26,46,90,0.5);}
+.join-btn{font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:var(--leaf);color:var(--white);border:none;padding:0.3rem 0.7rem;border-radius:2px;cursor:none;transition:background 0.2s;}
+.join-btn:hover{background:var(--leaf-light);}
+
+/* COURSES VIEW */
+.course-levels{display:flex;flex-direction:column;gap:1.5rem;}
+.cl-header{padding:1.5rem;background:var(--indigo);color:var(--white);display:flex;align-items:center;justify-content:space-between;cursor:none;}
+.clh-left{}
+.clh-eye{font-size:0.6rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--turmeric-light);margin-bottom:0.2rem;}
+.clh-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;}
+.clh-meta{font-size:0.7rem;color:rgba(255,255,255,0.5);margin-top:0.2rem;}
+.clh-badge{background:rgba(232,98,26,0.2);border:1px solid rgba(232,98,26,0.4);color:var(--saffron-light);font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.3rem 0.8rem;border-radius:2px;}
+.cl-body{background:var(--white);}
+.cl-modules{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.cm{padding:1.1rem 1.3rem;border-bottom:1px solid var(--cream-dark);border-right:1px solid var(--cream-dark);display:flex;align-items:flex-start;gap:0.8rem;cursor:none;transition:background 0.2s;}
+.cm:hover{background:var(--cream);}
+.cm-num{width:28px;height:28px;background:var(--saffron-pale);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:var(--saffron);flex-shrink:0;}
+.cm-num.done{background:rgba(42,96,64,0.1);color:var(--leaf);}
+.cm-num.locked{background:var(--cream-dark);color:rgba(26,10,0,0.2);}
+.cm-topic{font-size:0.8rem;font-weight:600;color:var(--indigo);}
+.cm-sub{font-size:0.68rem;color:var(--earth);margin-top:2px;}
+.cm-status{font-size:0.6rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;margin-top:4px;}
+.cm-status.done{color:var(--leaf);}
+.cm-status.inprog{color:var(--saffron);}
+.cm-status.locked{color:rgba(26,10,0,0.2);}
+
+/* PAYMENT VIEW */
+.pay-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:1.4rem;}
+.pay-plans{display:flex;flex-direction:column;gap:1rem;}
+.pay-plan{background:var(--white);padding:1.3rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-left:4px solid transparent;cursor:none;transition:all 0.2s;}
+.pay-plan:hover,.pay-plan.selected{border-left-color:var(--saffron);background:var(--saffron-pale);}
+.pay-plan.selected .pp-name{color:var(--saffron);}
+.pp-left{}
+.pp-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--indigo);}
+.pp-sub{font-size:0.72rem;color:var(--earth);}
+.pp-right{text-align:right;}
+.pp-price{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--saffron);}
+.pp-period{font-size:0.65rem;color:var(--earth);}
+
+.pay-card{background:var(--white);padding:1.8rem;}
+.pay-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--indigo);margin-bottom:1.3rem;padding-bottom:0.7rem;border-bottom:1px solid var(--cream-dark);}
+.pay-summary{background:var(--cream);padding:1rem;margin-bottom:1.5rem;}
+.ps-row{display:flex;justify-content:space-between;align-items:center;font-size:0.78rem;padding:0.3rem 0;}
+.ps-row.total{font-weight:700;font-size:0.88rem;border-top:1px solid rgba(26,46,90,0.1);padding-top:0.6rem;margin-top:0.3rem;}
+.ps-row.total .ps-val{color:var(--saffron);}
+.ps-label{color:var(--earth);}
+.ps-val{color:var(--indigo);font-weight:600;}
+
+.pay-methods{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:1.5rem;}
+.pm-btn{padding:0.7rem;border:1.5px solid rgba(26,46,90,0.12);background:var(--white);border-radius:2px;cursor:none;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:0.4rem;font-size:0.72rem;font-weight:700;color:var(--indigo);}
+.pm-btn:hover,.pm-btn.active{border-color:var(--saffron);background:var(--saffron-pale);color:var(--saffron);}
+.pay-upi{background:var(--cream);padding:0.9rem;margin-bottom:1.3rem;border-left:3px solid var(--saffron);}
+.pay-upi-label{font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--saffron);margin-bottom:0.3rem;}
+.pay-upi-id{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--indigo);}
+.pay-upi-sub{font-size:0.7rem;color:var(--earth);margin-top:2px;}
+.pay-note{font-size:0.72rem;color:var(--earth);line-height:1.6;margin-bottom:1.3rem;}
+.pay-note strong{color:var(--indigo);}
+.btn-pay{width:100%;padding:0.9rem;background:var(--saffron);color:var(--white);border:none;font-family:'Josefin Sans',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;border-radius:2px;cursor:none;transition:all 0.2s;}
+.btn-pay:hover{background:var(--indigo);transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,98,26,0.3);}
+
+/* TEST VIEW */
+.test-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
+.test-card{background:var(--white);overflow:hidden;cursor:none;transition:all 0.3s;}
+.test-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(26,10,0,0.1);}
+.tc-head{padding:1.3rem 1.4rem;display:flex;align-items:center;justify-content:space-between;}
+.tc-head.bg-s{background:var(--saffron);color:var(--white);}
+.tc-head.bg-i{background:var(--indigo);color:var(--white);}
+.tc-head.bg-l{background:var(--leaf);color:var(--white);}
+.tc-head.bg-t{background:linear-gradient(135deg,var(--turmeric),var(--turmeric-light));color:var(--indigo);}
+.tc-hname{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;}
+.tc-hlvl{font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.7;margin-top:2px;}
+.tc-hbadge{background:rgba(255,255,255,0.2);font-size:0.62rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.25rem 0.6rem;border-radius:2px;}
+.tc-body{padding:1.2rem 1.4rem;}
+.tc-stats{display:flex;gap:1.5rem;margin-bottom:1.1rem;}
+.tcs-item{text-align:center;}
+.tcs-val{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--indigo);line-height:1;}
+.tcs-lbl{font-size:0.6rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--earth);margin-top:2px;}
+.tc-desc{font-size:0.78rem;color:var(--earth);line-height:1.6;margin-bottom:1.2rem;}
+.btn-test{display:inline-block;padding:0.65rem 1.3rem;background:var(--indigo);color:var(--white);font-family:'Josefin Sans',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;border:none;border-radius:2px;cursor:none;transition:all 0.2s;text-decoration:none;}
+.btn-test:hover{background:var(--saffron);}
+.btn-test.disabled{background:rgba(26,46,90,0.15);color:rgba(26,46,90,0.4);pointer-events:none;}
+
+/* Active Test Modal */
+.test-modal{display:none;position:fixed;inset:0;background:rgba(26,10,0,0.7);z-index:500;align-items:center;justify-content:center;padding:2rem;}
+.test-modal.open{display:flex;}
+.tm-box{background:var(--white);max-width:680px;width:100%;max-height:90vh;overflow-y:auto;position:relative;}
+.tm-top{background:var(--indigo);padding:1.3rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;}
+.tm-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--white);}
+.tm-timer{font-size:0.8rem;font-weight:700;color:var(--saffron-light);}
+.tm-close{background:none;border:none;color:rgba(255,255,255,0.5);font-size:1.2rem;cursor:none;transition:color 0.2s;}
+.tm-close:hover{color:var(--white);}
+.tm-body{padding:1.5rem;}
+.tm-progress{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;}
+.tm-prog-lbl{font-size:0.7rem;font-weight:600;color:var(--earth);}
+.tm-prog-bar{flex:1;height:4px;background:var(--cream-dark);border-radius:2px;margin:0 0.8rem;overflow:hidden;}
+.tm-prog-fill{height:100%;background:var(--saffron);border-radius:2px;transition:width 0.4s;}
+.question-block{margin-bottom:1.5rem;}
+.q-num{font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--saffron);margin-bottom:0.4rem;}
+.q-text{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--indigo);line-height:1.5;margin-bottom:1rem;font-weight:600;}
+.q-options{display:flex;flex-direction:column;gap:0.5rem;}
+.q-opt{padding:0.7rem 1rem;border:1.5px solid rgba(26,46,90,0.12);background:var(--cream);border-radius:2px;font-size:0.82rem;color:var(--ink);cursor:none;transition:all 0.2s;display:flex;align-items:center;gap:0.6rem;}
+.q-opt:hover{border-color:var(--saffron);background:var(--saffron-pale);}
+.q-opt.selected{border-color:var(--saffron);background:var(--saffron-pale);color:var(--saffron);}
+.q-opt.correct{border-color:var(--leaf);background:rgba(42,96,64,0.08);color:var(--leaf);}
+.q-opt.wrong{border-color:var(--danger);background:rgba(176,42,42,0.07);color:var(--danger);}
+.q-opt-letter{width:22px;height:22px;border-radius:50%;background:rgba(26,46,90,0.08);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;flex-shrink:0;}
+.tm-footer{display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:1px solid var(--cream-dark);}
+.btn-next{padding:0.7rem 1.5rem;background:var(--saffron);color:var(--white);border:none;font-family:'Josefin Sans',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;border-radius:2px;cursor:none;transition:all 0.2s;}
+.btn-next:hover{background:var(--indigo);}
+.tm-skip{font-size:0.7rem;color:var(--earth);cursor:none;background:none;border:none;transition:color 0.2s;}
+.tm-skip:hover{color:var(--saffron);}
+
+/* ATTENDANCE VIEW */
+.att-grid{display:grid;grid-template-columns:2fr 1fr;gap:1.3rem;}
+.att-calendar{background:var(--white);padding:1.5rem;}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.3rem;}
+.cal-month{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--indigo);}
+.cal-btn{background:none;border:1px solid rgba(26,46,90,0.12);width:30px;height:30px;border-radius:2px;cursor:none;display:flex;align-items:center;justify-content:center;color:var(--indigo);transition:all 0.2s;}
+.cal-btn:hover{background:var(--saffron);border-color:var(--saffron);color:var(--white);}
+.cal-grid-header{display:grid;grid-template-columns:repeat(7,1fr);gap:0;margin-bottom:0.4rem;}
+.cal-day-name{text-align:center;font-size:0.62rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--earth);padding:0.3rem 0;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:600;border-radius:2px;cursor:none;transition:all 0.15s;position:relative;}
+.cal-day.empty{background:transparent;}
+.cal-day.present{background:rgba(42,96,64,0.12);color:var(--leaf);}
+.cal-day.present::after{content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--leaf);}
+.cal-day.absent{background:rgba(176,42,42,0.08);color:var(--danger);}
+.cal-day.today{background:var(--saffron);color:var(--white);font-weight:700;}
+.cal-day.future{color:rgba(26,10,0,0.2);}
+.cal-day.holiday{background:rgba(212,160,23,0.1);color:var(--warning);}
+
+.att-legend{display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.2rem;}
+.al-item{display:flex;align-items:center;gap:0.4rem;font-size:0.68rem;color:var(--earth);}
+.al-dot{width:10px;height:10px;border-radius:50%;}
+.al-dot.p{background:var(--leaf);}
+.al-dot.a{background:var(--danger);}
+.al-dot.t{background:var(--saffron);}
+.al-dot.h{background:var(--turmeric);}
+
+.att-stats{background:var(--white);padding:1.5rem;}
+.att-ring{position:relative;width:130px;height:130px;margin:0 auto 1.3rem;}
+.att-ring svg{transform:rotate(-90deg);}
+.att-ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.ar-pct{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;color:var(--indigo);line-height:1;}
+.ar-lbl{font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--earth);}
+.att-breakdown{display:flex;flex-direction:column;gap:0.7rem;}
+.ab-row{display:flex;align-items:center;justify-content:space-between;}
+.ab-label{font-size:0.75rem;color:var(--ink);display:flex;align-items:center;gap:0.5rem;}
+.ab-dot{width:8px;height:8px;border-radius:50%;}
+.ab-val{font-size:0.75rem;font-weight:700;color:var(--indigo);}
+
+.att-table{background:var(--white);padding:1.5rem;margin-top:1.2rem;grid-column:span 2;}
+.att-tbl{width:100%;border-collapse:collapse;}
+.att-tbl th{font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--earth);padding:0.6rem 0.8rem;text-align:left;border-bottom:2px solid var(--cream-dark);}
+.att-tbl td{font-size:0.78rem;padding:0.7rem 0.8rem;border-bottom:1px solid var(--cream-dark);color:var(--ink);}
+.att-tbl tr:last-child td{border-bottom:none;}
+.att-badge{display:inline-block;font-size:0.6rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.2rem 0.55rem;border-radius:2px;}
+.att-badge.p{background:rgba(42,96,64,0.1);color:var(--leaf);}
+.att-badge.a{background:rgba(176,42,42,0.08);color:var(--danger);}
+.att-badge.h{background:rgba(212,160,23,0.1);color:var(--warning);}
+
+/* FOOTER */
+footer{background:var(--ink);color:rgba(255,255,255,0.55);padding:4rem 0 2rem;}
+footer::before{content:'';display:block;height:4px;background:linear-gradient(90deg,var(--saffron),var(--turmeric),var(--leaf),var(--indigo-light),var(--lotus));margin-bottom:4rem;}
+.fi-grid{max-width:1160px;margin:0 auto;padding:0 3.5rem;display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;margin-bottom:3rem;}
+.f-logo{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:700;color:var(--white);margin-bottom:0.6rem;}
+.f-logo span{color:var(--saffron);}
+.f-tag{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.9rem;color:rgba(255,255,255,0.35);margin-bottom:0.8rem;line-height:1.6;}
+.f-contact{font-size:0.78rem;color:rgba(255,255,255,0.5);line-height:1.8;}
+.f-contact strong{color:var(--saffron);}
+.f-social{display:flex;gap:0.6rem;margin-top:1rem;}
+.soc{width:32px;height:32px;border:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-size:0.7rem;font-weight:700;border-radius:2px;text-decoration:none;transition:all 0.2s;cursor:none;}
+.soc:hover{background:var(--saffron);border-color:var(--saffron);color:var(--white);}
+.fl-title{font-size:0.65rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--white);margin-bottom:1rem;}
+.fl-list{list-style:none;display:flex;flex-direction:column;gap:0.5rem;}
+.fl-list li a{font-size:0.78rem;color:rgba(255,255,255,0.45);text-decoration:none;transition:color 0.2s;cursor:none;}
+.fl-list li a:hover{color:var(--saffron);}
+.f-bottom{max-width:1160px;margin:0 auto;padding:1.3rem 3.5rem 0;border-top:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;}
+.f-copy{font-size:0.7rem;color:rgba(255,255,255,0.25);}
+.f-kalam{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.8rem;color:rgba(232,98,26,0.4);}
+
+/* TOAST */
+.toast{position:fixed;bottom:1.8rem;right:1.8rem;background:var(--indigo);color:var(--white);padding:0.9rem 1.3rem;border-left:4px solid var(--saffron);font-size:0.82rem;box-shadow:0 10px 32px rgba(0,0,0,0.2);z-index:9990;transform:translateX(130%);transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);max-width:300px;}
+.toast.show{transform:translateX(0);}
+.t-title{font-weight:700;margin-bottom:2px;}
+.t-body{font-size:0.75rem;color:rgba(255,255,255,0.65);}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes riseUp{from{opacity:0;transform:translateY(55px)}to{opacity:1;transform:translateY(0)}}
+@keyframes floatW{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-12px) rotate(-4deg)}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.65s ease,transform 0.65s ease;}
+.reveal.vis{opacity:1;transform:translateY(0);}
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem;}
+  .nav-links{display:none;}
+  #hero{grid-template-columns:1fr;}
+  .hero-right{display:none;}
+  .hero-stats{position:static;}
+  .about-grid,.courses-grid,.fees-grid,.testi-grid,.dash-row,.stat-cards,.pay-grid,.att-grid,.test-grid,.cl-modules{grid-template-columns:1fr;}
+  .sc{padding:0 1.5rem;}
+  .login-wrap{grid-template-columns:1fr;padding:1.5rem;}
+  .login-info{display:none;}
+  .sidebar{width:220px;}
+  .fi-grid,.f-bottom{padding-left:1.5rem;padding-right:1.5rem;}
+  .fi-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-trail" id="trail"></div>
+
+<!-- ═══════════════════════════════════
+     LANDING PAGE
+═══════════════════════════════════ -->
+<div class="page active" id="page-landing">
+
+<nav id="navbar">
+  <a href="#" class="nav-logo">Krishna <span>Couga</span></a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#courses">Courses</a>
+    <a href="#fees">Fees</a>
+    <a href="#testimonials">Reviews</a>
+    <a href="#" class="nav-cta" onclick="showPage('login');return false">Student Login</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-text">Certified German Language Trainer</span></div>
+    <h1 class="hero-name">Krishna<strong>Couga</strong></h1>
+    <div class="hero-band"><div class="dot"></div>Deutsch · A1 to B1 · Online Classes<div class="dot"></div></div>
+    <p class="hero-desc">"Die Sprache ist das Kleid der Gedanken" — Language is the dress of thought. Wear it beautifully.</p>
+    <div class="hero-contact">
+      <div class="hero-contact-item">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.5 2 2 0 0 1 3.6 1.35h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6.07 6.07l.94-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        90437 70488
+      </div>
+      <div class="hero-contact-item">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Lawspet, Pondicherry
+      </div>
+    </div>
+    <div class="hero-btns">
+      <a href="#courses" class="btn-primary">Explore Courses →</a>
+      <a href="#" class="btn-outline" onclick="showPage('login');return false">Student Login</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="floating-word fw1">Deutsch</div>
+    <div class="floating-word fw2">Lernen</div>
+    <div class="floating-word fw3">Sprechen</div>
+    <div class="portrait-wrap">
+      <svg class="portrait-top-orn" width="200" height="36" viewBox="0 0 200 36">
+        <path d="M0,18 Q25,0 50,18 Q75,36 100,18 Q125,0 150,18 Q175,36 200,18" stroke="#E8621A" stroke-width="2" fill="none"/>
+        <circle cx="50" cy="18" r="4" fill="#E8621A"/><circle cx="100" cy="18" r="6" fill="#D4A017"/><circle cx="150" cy="18" r="4" fill="#E8621A"/>
+        <path d="M88,4 Q100,-4 112,4 Q108,14 100,17 Q92,14 88,4 Z" fill="#E8621A"/>
+      </svg>
+      <div class="portrait-box">
+        <svg width="100%" height="100%" viewBox="0 0 320 430" xmlns="http://www.w3.org/2000/svg">
+          <rect width="320" height="430" fill="#1A2E5A"/>
+          <radialGradient id="bg1" cx="50%" cy="30%" r="60%"><stop offset="0%" stop-color="#2A4080"/><stop offset="100%" stop-color="#1A2E5A"/></radialGradient>
+          <rect width="320" height="430" fill="url(#bg1)"/>
+          <circle cx="160" cy="160" r="130" fill="none" stroke="rgba(232,98,26,0.15)" stroke-width="1"/>
+          <circle cx="160" cy="160" r="100" fill="none" stroke="rgba(212,160,23,0.1)" stroke-width="1"/>
+          <path d="M60,430 Q60,330 160,310 Q260,330 260,430" fill="#2A4080"/>
+          <path d="M85,430 Q85,340 160,325 Q235,340 235,430" fill="#3A5090" opacity="0.4"/>
+          <!-- Body with kalamkari saree/kurta patterns -->
+          <rect x="108" y="238" width="104" height="130" rx="4" fill="#C4702A"/>
+          <line x1="160" y1="238" x2="160" y2="368" stroke="rgba(212,160,23,0.5)" stroke-width="1.5"/>
+          <path d="M130,265 Q160,255 190,265" stroke="rgba(212,160,23,0.4)" stroke-width="1" fill="none"/>
+          <path d="M126,285 Q160,273 194,285" stroke="rgba(212,160,23,0.35)" stroke-width="1" fill="none"/>
+          <path d="M124,305 Q160,291 196,305" stroke="rgba(212,160,23,0.3)" stroke-width="1" fill="none"/>
+          <!-- Chest lotus -->
+          <circle cx="160" cy="265" r="9" fill="none" stroke="rgba(232,98,26,0.7)" stroke-width="1.5"/>
+          <circle cx="160" cy="265" r="5" fill="rgba(232,98,26,0.6)"/>
+          <!-- Arms -->
+          <rect x="78" y="243" width="32" height="85" rx="10" fill="#C4702A"/>
+          <rect x="210" y="243" width="32" height="85" rx="10" fill="#C4702A"/>
+          <!-- Bangles -->
+          <ellipse cx="94" cy="310" rx="10" ry="4" fill="none" stroke="#D4A017" stroke-width="2"/>
+          <ellipse cx="226" cy="310" rx="10" ry="4" fill="none" stroke="#D4A017" stroke-width="2"/>
+          <!-- Head -->
+          <ellipse cx="160" cy="188" rx="54" ry="62" fill="#C4702A"/>
+          <!-- Hair -->
+          <path d="M106,180 Q104,132 122,115 Q142,100 160,98 Q178,100 198,115 Q216,132 214,180 Q202,158 182,150 Q160,144 138,150 Q118,158 106,180 Z" fill="#1A0A00"/>
+          <!-- Bun -->
+          <ellipse cx="160" cy="98" rx="22" ry="15" fill="#1A0A00"/>
+          <circle cx="160" cy="88" r="5" fill="#D4A017"/>
+          <!-- Eyes -->
+          <path d="M132,178 Q146,167 162,178 Q146,189 132,178 Z" fill="#1A0A00"/>
+          <path d="M162,178 Q176,167 190,178 Q176,189 162,178 Z" fill="#1A0A00"/>
+          <circle cx="147" cy="178" r="5" fill="#1A0A00"/>
+          <circle cx="175" cy="178" r="5" fill="#1A0A00"/>
+          <circle cx="148" cy="176" r="2" fill="white"/>
+          <circle cx="176" cy="176" r="2" fill="white"/>
+          <!-- Brows -->
+          <path d="M128,165 Q146,157 162,163" stroke="#2A0A00" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M160,163 Q176,157 194,165" stroke="#2A0A00" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <!-- Nose -->
+          <path d="M154,183 Q160,197 166,183" fill="none" stroke="#A05020" stroke-width="1.5" opacity="0.5"/>
+          <!-- Lips -->
+          <path d="M143,208 Q160,218 177,208" stroke="#7A2A10" stroke-width="2.5" fill="rgba(180,60,30,0.3)" stroke-linecap="round"/>
+          <path d="M146,208 Q160,202 174,208" stroke="#7A2A10" stroke-width="1.5" fill="none"/>
+          <!-- Bindi -->
+          <circle cx="160" cy="160" r="6" fill="#E8621A"/>
+          <circle cx="160" cy="160" r="3" fill="#D4A017"/>
+          <!-- Earrings -->
+          <circle cx="106" cy="196" r="9" fill="#D4A017" opacity="0.85"/>
+          <ellipse cx="106" cy="210" rx="4" ry="7" fill="#D4A017" opacity="0.7"/>
+          <circle cx="214" cy="196" r="9" fill="#D4A017" opacity="0.85"/>
+          <ellipse cx="214" cy="210" rx="4" ry="7" fill="#D4A017" opacity="0.7"/>
+          <!-- Necklace -->
+          <path d="M128,248 Q160,264 192,248" stroke="#D4A017" stroke-width="2.5" fill="none"/>
+          <circle cx="160" cy="262" r="5" fill="#D4A017"/>
+          <!-- Bottom kalamkari border -->
+          <rect x="0" y="403" width="320" height="27" fill="#E8621A" opacity="0.85"/>
+          <path d="M0,403 Q16,393 32,403 Q48,413 64,403 Q80,393 96,403 Q112,413 128,403 Q144,393 160,403 Q176,413 192,403 Q208,393 224,403 Q240,413 256,403 Q272,393 288,403 Q304,413 320,403" stroke="#D4A017" stroke-width="2" fill="none"/>
+          <text x="160" y="422" text-anchor="middle" font-family="Josefin Sans,sans-serif" font-size="8" font-weight="700" fill="white" letter-spacing="3">GERMAN TRAINER</text>
+        </svg>
+      </div>
+      <svg class="portrait-bot-orn" width="200" height="28" viewBox="0 0 200 28">
+        <path d="M0,10 Q25,28 50,10 Q75,-8 100,10 Q125,28 150,10 Q175,-8 200,10" stroke="#E8621A" stroke-width="2" fill="none"/>
+        <circle cx="50" cy="10" r="3" fill="#D4A017"/><circle cx="100" cy="10" r="5" fill="#E8621A"/><circle cx="150" cy="10" r="3" fill="#D4A017"/>
+      </svg>
+      <div class="portrait-badge">
+        <div class="pb-num">8+</div>
+        <div class="pb-lbl">Years<br>Teaching</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hs-num" id="cnt1">0+</div><div class="hs-lbl">Students</div></div>
+    <div class="hero-stat"><div class="hs-num">A1–B1</div><div class="hs-lbl">CEFR Levels</div></div>
+    <div class="hero-stat"><div class="hs-num" id="cnt2">0%</div><div class="hs-lbl">Pass Rate</div></div>
+  </div>
+</section>
+
+<!-- KWAVE -->
+<div class="kwave" style="background:var(--white)"><svg viewBox="0 0 1440 50" preserveAspectRatio="none" height="50"><path d="M0,50 L0,30 Q360,5 720,30 Q1080,55 1440,30 L1440,50 Z" fill="#FBF5E6"/></svg></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sc">
+    <div class="sh reveal"><div class="sh-num">01</div><div><div class="sh-eye">Who I Am</div><h2 class="sh-title">About Krishna Couga</h2></div></div>
+    <div class="about-grid">
+      <div style="position:relative" class="reveal">
+        <div class="about-img">
+          <svg width="100%" height="100%" viewBox="0 0 280 350" xmlns="http://www.w3.org/2000/svg">
+            <rect width="280" height="350" fill="#F2E8D0"/>
+            <rect x="0" y="0" width="280" height="350" fill="none" stroke="#E8621A" stroke-width="6" stroke-dasharray="18,9"/>
+            <!-- Tree of life -->
+            <line x1="140" y1="335" x2="140" y2="185" stroke="#7A4A1E" stroke-width="4"/>
+            <line x1="140" y1="270" x2="75" y2="210" stroke="#7A4A1E" stroke-width="3"/>
+            <line x1="140" y1="250" x2="205" y2="195" stroke="#7A4A1E" stroke-width="3"/>
+            <line x1="140" y1="230" x2="95" y2="175" stroke="#7A4A1E" stroke-width="2.5"/>
+            <line x1="140" y1="218" x2="195" y2="165" stroke="#7A4A1E" stroke-width="2.5"/>
+            <line x1="140" y1="205" x2="140" y2="158" stroke="#7A4A1E" stroke-width="2"/>
+            <!-- Flowers -->
+            <circle cx="75" cy="210" r="14" fill="#E8621A" opacity="0.85"/><circle cx="75" cy="210" r="7" fill="#D4A017"/>
+            <circle cx="205" cy="195" r="14" fill="#C0395A" opacity="0.85"/><circle cx="205" cy="195" r="7" fill="#D4A017"/>
+            <circle cx="95" cy="175" r="12" fill="#2A6040" opacity="0.85"/><circle cx="95" cy="175" r="6" fill="#D4A017"/>
+            <circle cx="195" cy="165" r="12" fill="#E8621A" opacity="0.85"/><circle cx="195" cy="165" r="6" fill="#D4A017"/>
+            <circle cx="140" cy="158" r="16" fill="#1A2E5A" opacity="0.85"/><circle cx="140" cy="158" r="8" fill="#D4A017"/>
+            <!-- Leaves -->
+            <ellipse cx="54" cy="228" rx="14" ry="6" transform="rotate(-35 54 228)" fill="#2A6040" opacity="0.7"/>
+            <ellipse cx="228" cy="210" rx="14" ry="6" transform="rotate(35 228 210)" fill="#2A6040" opacity="0.7"/>
+            <!-- Peacock -->
+            <ellipse cx="140" cy="345" rx="28" ry="10" fill="#1A2E5A" opacity="0.6"/>
+            <circle cx="140" cy="330" r="10" fill="#1A2E5A"/>
+            <!-- German flag colors at bottom -->
+            <rect x="0" y="335" width="280" height="5" fill="#1A0A00"/>
+            <rect x="0" y="340" width="280" height="5" fill="#E8621A"/>
+            <rect x="0" y="345" width="280" height="5" fill="#D4A017"/>
+            <text x="140" y="22" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="17" font-weight="700" fill="#1A2E5A">Krishna Couga</text>
+            <text x="140" y="42" text-anchor="middle" font-family="Josefin Sans,sans-serif" font-size="7" font-weight="700" letter-spacing="3" fill="#E8621A">GERMAN TRAINER</text>
+            <path d="M55,50 Q140,60 225,50" stroke="#E8621A" stroke-width="1.5" fill="none"/>
+            <circle cx="140" cy="55" r="4" fill="#D4A017"/>
+          </svg>
+        </div>
+        <div class="about-quote">
+          <div class="aq-t">"German opens doors — to Europe, to opportunity, to yourself."</div>
+          <div class="aq-s">— Krishna Couga</div>
+        </div>
+      </div>
+      <div class="reveal" style="padding-top:0.5rem">
+        <p class="about-lead">A dedicated German trainer based in Lawspet, Pondicherry — teaching online, reaching everywhere.</p>
+        <p class="about-body">With 8+ years of experience, Krishna Couga has helped 500+ students across India master the German language — from A1 beginners to B1 level and beyond. Specialized in online teaching with a methodology that combines cultural immersion, structured grammar, and practical conversation.<br><br>All classes are conducted fully online via Google Meet / Zoom, making quality German education accessible to students across India. Special focus on Goethe Institute exam preparation.</p>
+        <div class="about-info">
+          <div class="ai-item"><div class="ai-label">Location</div><div class="ai-val">Lawspet, Pondicherry</div></div>
+          <div class="ai-item"><div class="ai-label">Mode</div><div class="ai-val">100% Online Classes</div></div>
+          <div class="ai-item"><div class="ai-label">Contact</div><div class="ai-val">90437 70488</div></div>
+          <div class="ai-item"><div class="ai-label">Certification</div><div class="ai-val">Goethe Institute</div></div>
+        </div>
+        <div class="about-tags">
+          <span class="tag tag-s">A1 Beginner</span><span class="tag tag-s">A2 Elementary</span><span class="tag tag-s">B1 Intermediate</span>
+          <span class="tag tag-i">Online Only</span><span class="tag tag-i">Goethe Prep</span><span class="tag tag-i">TestDaF</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KWAVE -->
+<div class="kwave" style="background:var(--cream)"><svg viewBox="0 0 1440 50" preserveAspectRatio="none" height="50"><path d="M0,0 Q360,50 720,25 Q1080,0 1440,40 L1440,50 L0,50 Z" fill="var(--white)"/></svg></div>
+
+<!-- COURSES -->
+<section id="courses">
+  <div class="sc">
+    <div class="sh reveal"><div class="sh-num">02</div><div><div class="sh-eye">What I Teach</div><h2 class="sh-title">German A1 to B1 Courses</h2></div></div>
+    <div class="courses-grid">
+      <div class="cc reveal"><div class="cc-top"><div class="cc-icon">🌱</div><div class="cc-lvl">Level A1 · Beginner</div><h3 class="cc-name">German A1 — Foundation</h3><p class="cc-desc">Start from scratch. Learn the German alphabet, greetings, numbers, basic grammar (Nominativ, Akkusativ), everyday vocabulary, and simple conversations. Goethe A1 exam preparation included.</p></div><div class="cc-bot"><div class="cc-meta"><span>3 months</span> · 48 hrs online</div><a href="#" class="cc-btn" onclick="showPage('login');return false">Enroll →</a></div></div>
+      <div class="cc feat reveal"><div class="cc-top"><div class="cc-icon">⭐</div><div class="cc-lvl" style="color:var(--turmeric-light)">Level A2 · Elementary</div><h3 class="cc-name">German A2 — Elementary</h3><p class="cc-desc">Build on A1 foundations. Master past tense, modal verbs, prepositions, and expand vocabulary to 1500+ words. Real-life conversations about family, work, and daily routines with Goethe A2 prep.</p></div><div class="cc-bot"><div class="cc-meta"><span>3 months</span> · 52 hrs online</div><a href="#" class="cc-btn" onclick="showPage('login');return false">Enroll →</a></div></div>
+      <div class="cc reveal"><div class="cc-top"><div class="cc-icon">🎓</div><div class="cc-lvl">Level B1 · Intermediate</div><h3 class="cc-name">German B1 — Intermediate</h3><p class="cc-desc">Achieve conversational fluency. Learn Konjunktiv II, complex sentences, reading comprehension, and writing skills. Intensive Goethe B1 exam preparation with mock tests and personalized feedback.</p></div><div class="cc-bot"><div class="cc-meta"><span>4 months</span> · 64 hrs online</div><a href="#" class="cc-btn" onclick="showPage('login');return false">Enroll →</a></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- KWAVE -->
+<div class="kwave" style="background:var(--cream-dark)"><svg viewBox="0 0 1440 50" preserveAspectRatio="none" height="50"><path d="M0,0 L0,30 Q720,60 1440,20 L1440,0 Z" fill="var(--cream)"/></svg></div>
+
+<!-- FEES -->
+<section id="fees">
+  <div class="sc">
+    <div class="sh reveal"><div class="sh-num">03</div><div><div class="sh-eye">Investment</div><h2 class="sh-title">Simple, Transparent Fees</h2></div></div>
+    <div class="fees-grid">
+      <div class="fee-card reveal">
+        <div class="fee-level">Level A1</div>
+        <div class="fee-name">A1 Foundation</div>
+        <div class="fee-price">₹3,500</div>
+        <div class="fee-period">for 3 months · Online</div>
+        <ul class="fee-features">
+          <li>48 hours of live online classes</li>
+          <li>Study material (PDF)</li>
+          <li>Audio-visual resources</li>
+          <li>2 mock Goethe A1 tests</li>
+          <li>WhatsApp doubt support</li>
+          <li>Certificate on completion</li>
+        </ul>
+        <a href="#" class="fee-enroll" onclick="showPage('login');return false">Enroll Now</a>
+      </div>
+      <div class="fee-card popular reveal">
+        <div class="fee-pop-badge">Most Popular</div>
+        <div class="fee-level">Level A2</div>
+        <div class="fee-name">A2 Elementary</div>
+        <div class="fee-price">₹4,000</div>
+        <div class="fee-period">for 3 months · Online</div>
+        <ul class="fee-features">
+          <li>52 hours of live online classes</li>
+          <li>Comprehensive study material</li>
+          <li>Vocabulary flashcard sets</li>
+          <li>3 mock Goethe A2 tests</li>
+          <li>Speaking practice sessions</li>
+          <li>Priority WhatsApp support</li>
+          <li>Verified certificate</li>
+        </ul>
+        <a href="#" class="fee-enroll" onclick="showPage('login');return false">Enroll Now</a>
+      </div>
+      <div class="fee-card reveal">
+        <div class="fee-level">Level B1</div>
+        <div class="fee-name">B1 Intermediate</div>
+        <div class="fee-price">₹5,500</div>
+        <div class="fee-period">for 4 months · Online</div>
+        <ul class="fee-features">
+          <li>64 hours of live online classes</li>
+          <li>Advanced study material</li>
+          <li>Writing correction feedback</li>
+          <li>4 full mock Goethe B1 tests</li>
+          <li>1-on-1 speaking sessions</li>
+          <li>Exam strategy coaching</li>
+          <li>Verified certificate</li>
+        </ul>
+        <a href="#" class="fee-enroll" onclick="showPage('login');return false">Enroll Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KWAVE -->
+<div class="kwave" style="background:var(--white)"><svg viewBox="0 0 1440 50" preserveAspectRatio="none" height="50"><path d="M0,50 L0,20 Q720,-10 1440,30 L1440,50 Z" fill="var(--cream-dark)"/></svg></div>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="sc">
+    <div class="sh reveal"><div class="sh-num">04</div><div><div class="sh-eye">Student Stories</div><h2 class="sh-title">What My Students Say</h2></div></div>
+    <div class="testi-grid">
+      <div class="tc reveal"><div class="tc-q">"</div><p class="tc-text">Krishna Ma'am's teaching is phenomenal. Her explanations of German grammar are so clear, I cleared my Goethe A1 on the first attempt! The online classes are well structured and interactive.</p><div class="tc-author"><div class="tc-av">A</div><div><div class="tc-name">Ananya R.</div><div class="tc-role">A1 Passed · Chennai</div><div class="tc-stars">★★★★★</div></div></div></div>
+      <div class="tc reveal"><div class="tc-q">"</div><p class="tc-text">I never thought I'd learn German this easily from home! The online format is perfect and the study materials are excellent. Finished A2 in just 3 months and already enrolled for B1.</p><div class="tc-author"><div class="tc-av" style="background:rgba(26,46,90,0.08);color:var(--indigo)">R</div><div><div class="tc-name">Rahul V.</div><div class="tc-role">A2 Passed · Bangalore</div><div class="tc-stars">★★★★★</div></div></div></div>
+      <div class="tc reveal"><div class="tc-q">"</div><p class="tc-text">The mock tests and personal feedback sessions helped me so much for B1. Krishna Ma'am's patience and dedication is unmatched. Highly recommend for anyone serious about German.</p><div class="tc-author"><div class="tc-av" style="background:rgba(42,96,64,0.08);color:var(--leaf)">P</div><div><div class="tc-name">Priya S.</div><div class="tc-role">B1 Passed · Pondicherry</div><div class="tc-stars">★★★★★</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fi-grid">
+    <div>
+      <div class="f-logo">Krishna <span>Couga</span></div>
+      <p class="f-tag">"Wer eine Sprache lernt, öffnet ein neues Fenster zur Welt."<br>— Who learns a language opens a new window to the world.</p>
+      <div class="f-contact">
+        <div>📞 <strong>90437 70488</strong></div>
+        <div>📍 Lawspet, Pondicherry</div>
+        <div>💻 <strong>Online Classes Only</strong></div>
+        <div>🕐 Mon – Sat · 7 AM – 9 PM</div>
+      </div>
+      <div class="f-social">
+        <a href="#" class="soc">in</a><a href="#" class="soc">fb</a><a href="#" class="soc">yt</a><a href="#" class="soc">ig</a>
+      </div>
+    </div>
+    <div>
+      <div class="fl-title">Quick Links</div>
+      <ul class="fl-list"><li><a href="#about">About</a></li><li><a href="#courses">Courses</a></li><li><a href="#fees">Fee Structure</a></li><li><a href="#" onclick="showPage('login');return false">Student Portal</a></li></ul>
+    </div>
+    <div>
+      <div class="fl-title">Courses</div>
+      <ul class="fl-list"><li><a href="#">German A1</a></li><li><a href="#">German A2</a></li><li><a href="#">German B1</a></li><li><a href="#">Goethe Exam Prep</a></li></ul>
+    </div>
+  </div>
+  <div class="f-bottom">
+    <div class="f-copy">© 2025 Krishna Couga. All rights reserved.</div>
+    <div class="f-kalam">Crafted in the spirit of Kalamkari</div>
+  </div>
+</footer>
+
+</div><!-- end page-landing -->
+
+<!-- ═══════════════════════════════════
+     LOGIN PAGE
+═══════════════════════════════════ -->
+<div class="page" id="page-login">
+  <svg class="login-mandala lm1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <g fill="white"><circle cx="250" cy="250" r="240" fill="none" stroke="white" stroke-width="2"/><circle cx="250" cy="250" r="180" fill="none" stroke="white" stroke-width="1.5"/><circle cx="250" cy="250" r="120" fill="none" stroke="white" stroke-width="1"/>
+    <ellipse cx="250" cy="250" rx="80" ry="25" transform="rotate(0 250 250)"/><ellipse cx="250" cy="250" rx="80" ry="25" transform="rotate(30 250 250)"/><ellipse cx="250" cy="250" rx="80" ry="25" transform="rotate(60 250 250)"/><ellipse cx="250" cy="250" rx="80" ry="25" transform="rotate(90 250 250)"/><ellipse cx="250" cy="250" rx="80" ry="25" transform="rotate(120 250 250)"/><ellipse cx="250" cy="250" rx="80" ry="25" transform="rotate(150 250 250)"/>
+    <circle cx="250" cy="250" r="30"/></g>
+  </svg>
+  <svg class="login-mandala lm2" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <g fill="white"><circle cx="250" cy="250" r="240" fill="none" stroke="white" stroke-width="2"/><circle cx="250" cy="250" r="180" fill="none" stroke="white" stroke-width="1.5"/>
+    <ellipse cx="250" cy="250" rx="80" ry="25" transform="rotate(0 250 250)"/><ellipse cx="250" cy="250" rx="80" ry="25" transform="rotate(45 250 250)"/><ellipse cx="250" cy="250" rx="80" ry="25" transform="rotate(90 250 250)"/><ellipse cx="250" cy="250" rx="80" ry="25" transform="rotate(135 250 250)"/>
+    <circle cx="250" cy="250" r="25"/></g>
+  </svg>
+
+  <div class="login-wrap">
+    <div class="login-info">
+      <a href="#" class="li-back" onclick="showPage('landing');return false">← Back to Website</a>
+      <div class="li-eye">Student Portal</div>
+      <h2 class="li-title">Your <em>Learning</em><br>Dashboard Awaits</h2>
+      <p class="li-body">Sign in to access your courses, track attendance, take tests, and pay fees — all in one beautiful place.</p>
+      <div class="li-perks">
+        <div class="li-perk"><div class="lp-icon">📚</div><div class="lp-text"><strong>Course Materials</strong> — PDFs, audio, exercises</div></div>
+        <div class="li-perk"><div class="lp-icon">📊</div><div class="lp-text"><strong>Progress Tracking</strong> — Real-time CEFR level</div></div>
+        <div class="li-perk"><div class="lp-icon">🧪</div><div class="lp-text"><strong>Online Tests</strong> — Practice Goethe exams</div></div>
+        <div class="li-perk"><div class="lp-icon">📅</div><div class="lp-text"><strong>Attendance</strong> — Monthly records</div></div>
+        <div class="li-perk"><div class="lp-icon">💳</div><div class="lp-text"><strong>Fee Payment</strong> — UPI & online payment</div></div>
+      </div>
+    </div>
+    <div class="login-card">
+      <div class="lc-rainbow"></div>
+      <div class="lc-inner">
+        <div class="lc-tabs">
+          <button class="lc-tab active" id="tl" onclick="switchLoginTab('login')">Sign In</button>
+          <button class="lc-tab" id="tr" onclick="switchLoginTab('register')">Register</button>
+        </div>
+        <!-- LOGIN -->
+        <div id="form-login">
+          <div class="lc-title">Welcome Back</div>
+          <div class="lc-sub">Sign in to your student portal</div>
+          <div class="fg"><label>Student ID or Email</label><div class="fi"><span class="fi-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><input type="text" id="l-id" placeholder="KC2024001 or email"/></div></div>
+          <div class="fg"><label>Password</label><div class="fi"><span class="fi-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><input type="password" id="l-pw" placeholder="Your password"/></div></div>
+          <div class="form-opts"><label class="chk"><input type="checkbox"/> Remember me</label><a href="#" class="fgt">Forgot password?</a></div>
+          <button class="btn-sub" onclick="doLogin()">Access Portal →</button>
+          <div class="form-div">or</div>
+          <button class="btn-google" onclick="doLogin()">
+            <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Continue with Google
+          </button>
+          <div class="switch-link">New student? <a href="#" onclick="switchLoginTab('register');return false">Register here</a></div>
+        </div>
+        <!-- REGISTER -->
+        <div id="form-register">
+          <div class="lc-title">Join the Class</div>
+          <div class="lc-sub">Create your student account</div>
+          <div class="form-row">
+            <div class="fg"><label>First Name</label><div class="fi"><span class="fi-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><input type="text" placeholder="First name"/></div></div>
+            <div class="fg"><label>Last Name</label><div class="fi"><span class="fi-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><input type="text" placeholder="Last name"/></div></div>
+          </div>
+          <div class="fg"><label>Email</label><div class="fi"><span class="fi-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span><input type="email" placeholder="your@email.com"/></div></div>
+          <div class="fg"><label>Phone</label><div class="fi"><span class="fi-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.5 2 2 0 0 1 3.6 1.35h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6.07 6.07l.94-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span><input type="tel" placeholder="+91 9XXXXXXXXX"/></div></div>
+          <div class="fg"><label>Course Level</label><div class="fi"><span class="fi-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/></svg></span><select><option value="">Select level</option><option>A1 — Beginner (₹3,500)</option><option>A2 — Elementary (₹4,000)</option><option>B1 — Intermediate (₹5,500)</option></select></div></div>
+          <div class="fg"><label>Password</label><div class="fi"><span class="fi-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span><input type="password" placeholder="Min. 8 characters"/></div></div>
+          <button class="btn-sub" onclick="doRegister()">Create Account →</button>
+          <div class="switch-link" style="margin-top:0.8rem">Already enrolled? <a href="#" onclick="switchLoginTab('login');return false">Sign in</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- end page-login -->
+
+<!-- ═══════════════════════════════════
+     DASHBOARD PAGE
+═══════════════════════════════════ -->
+<div class="page" id="page-dashboard">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-header">
+      <div class="sb-logo">Krishna <span>Couga</span></div>
+      <div class="sb-tagline">German Language Portal</div>
+    </div>
+    <div class="sb-user">
+      <div class="sb-av">A</div>
+      <div>
+        <div class="sb-uname">Ananya R.</div>
+        <div class="sb-uid">KC2024 · Level A2</div>
+      </div>
+    </div>
+    <nav class="sb-nav">
+      <div class="sb-section">Main</div>
+      <a href="#" class="sb-link active" id="sl-overview" onclick="showView('overview');return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Overview
+      </a>
+      <a href="#" class="sb-link" id="sl-courses" onclick="showView('courses');return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        My Courses
+      </a>
+      <a href="#" class="sb-link" id="sl-tests" onclick="showView('tests');return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Tests & Exams
+      </a>
+      <div class="sb-section">Academics</div>
+      <a href="#" class="sb-link" id="sl-attendance" onclick="showView('attendance');return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Attendance
+      </a>
+      <a href="#" class="sb-link" id="sl-payment" onclick="showView('payment');return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        Fee Payment
+      </a>
+    </nav>
+    <div class="sb-bottom">
+      <button class="sb-logout" onclick="showPage('landing')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign Out
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="dash-main">
+    <!-- Topbar -->
+    <div class="dash-topbar">
+      <div>
+        <div class="dt-title" id="dt-title">Dashboard Overview</div>
+        <div class="dt-date" id="dt-date"></div>
+      </div>
+      <div class="dt-right">
+        <div class="dt-phone">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.5 2 2 0 0 1 3.6 1.35h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6.07 6.07l.94-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          90437 70488
+        </div>
+        <div class="dt-badge">Online Class</div>
+        <div class="sb-av" style="width:34px;height:34px;font-size:0.95rem">A</div>
+      </div>
+    </div>
+
+    <!-- ── OVERVIEW VIEW ── -->
+    <div class="dash-view active" id="view-overview">
+      <div class="ov-welcome">
+        <div class="ow-kalam">
+          <svg width="180" height="180" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="90" cy="90" r="85" fill="none" stroke="white" stroke-width="2"/>
+            <circle cx="90" cy="90" r="65" fill="none" stroke="white" stroke-width="1.5"/>
+            <ellipse cx="90" cy="90" rx="55" ry="20" transform="rotate(0 90 90)" fill="white"/>
+            <ellipse cx="90" cy="90" rx="55" ry="20" transform="rotate(45 90 90)" fill="white"/>
+            <ellipse cx="90" cy="90" rx="55" ry="20" transform="rotate(90 90 90)" fill="white"/>
+            <ellipse cx="90" cy="90" rx="55" ry="20" transform="rotate(135 90 90)" fill="white"/>
+            <circle cx="90" cy="90" r="15" fill="white"/>
+          </svg>
+        </div>
+        <div class="ow-eye">Student Portal · Krishna Couga German Classes</div>
+        <div class="ow-title">Guten Morgen, <em>Ananya!</em> 🌸</div>
+        <div class="ow-sub">You're enrolled in A2 Elementary · 3 months course · Next class: Today at 7:00 PM via Google Meet<br>Contact your trainer: <strong style="color:var(--turmeric-light)">90437 70488</strong> · Lawspet, Pondicherry (Online Only)</div>
+      </div>
+
+      <div class="stat-cards">
+        <div class="stat-card sc-s"><div class="sc-icon bg-s">📚</div><div class="sc-val">A2</div><div class="sc-lbl">Current Level</div><div class="sc-trend">↑ From A1 Complete</div></div>
+        <div class="stat-card sc-i"><div class="sc-icon bg-i">🎯</div><div class="sc-val">68%</div><div class="sc-lbl">Course Progress</div><div class="sc-trend">34 of 52 hrs done</div></div>
+        <div class="stat-card sc-l"><div class="sc-icon bg-l">📅</div><div class="sc-val">88%</div><div class="sc-lbl">Attendance</div><div class="sc-trend">22 of 25 classes</div></div>
+        <div class="stat-card sc-t"><div class="sc-icon bg-t">🧪</div><div class="sc-val">82%</div><div class="sc-lbl">Last Test Score</div><div class="sc-trend">Mock A2 Test 2</div></div>
+      </div>
+
+      <div class="dash-row">
+        <div class="dcard">
+          <div class="dcard-title">Course Progress <span class="dtag">A2 Elementary</span></div>
+          <div class="prog-item"><div class="prog-label"><span class="prog-name">Grammar (Konjugation, Kasus)</span><span class="prog-pct">85%</span></div><div class="prog-bar-bg"><div class="prog-bar" style="width:85%"></div></div></div>
+          <div class="prog-item"><div class="prog-label"><span class="prog-name">Vocabulary (1500+ words)</span><span class="prog-pct">70%</span></div><div class="prog-bar-bg"><div class="prog-bar" style="width:70%"></div></div></div>
+          <div class="prog-item"><div class="prog-label"><span class="prog-name">Speaking & Pronunciation</span><span class="prog-pct">65%</span></div><div class="prog-bar-bg"><div class="prog-bar" style="width:65%"></div></div></div>
+          <div class="prog-item"><div class="prog-label"><span class="prog-name">Reading Comprehension</span><span class="prog-pct">78%</span></div><div class="prog-bar-bg"><div class="prog-bar" style="width:78%"></div></div></div>
+          <div class="prog-item"><div class="prog-label"><span class="prog-name">Writing Skills</span><span class="prog-pct">60%</span></div><div class="prog-bar-bg"><div class="prog-bar" style="width:60%"></div></div></div>
+        </div>
+        <div class="dcard">
+          <div class="dcard-title">This Week's Schedule</div>
+          <div class="sched-item"><div class="si-dot live"></div><div class="si-time">7:00 PM</div><div class="si-info"><div class="si-topic">Modal Verbs (können, müssen)</div><div class="si-sub">Today · Google Meet</div></div><button class="join-btn">Join</button></div>
+          <div class="sched-item"><div class="si-dot upcoming"></div><div class="si-time">7:00 PM</div><div class="si-info"><div class="si-topic">Perfekt Tense</div><div class="si-sub">Wednesday · Google Meet</div></div><span class="si-badge soon">Soon</span></div>
+          <div class="sched-item"><div class="si-dot upcoming"></div><div class="si-time">7:00 PM</div><div class="si-info"><div class="si-topic">Mock Test A2 — Test 3</div><div class="si-sub">Friday · Online</div></div><span class="si-badge soon">Test</span></div>
+          <div class="sched-item"><div class="si-dot done"></div><div class="si-time">7:00 PM</div><div class="si-info"><div class="si-topic">Adjektive & Komparativ</div><div class="si-sub">Monday · Completed</div></div><span class="si-badge done">Done</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── COURSES VIEW ── -->
+    <div class="dash-view" id="view-courses">
+      <div class="course-levels">
+        <!-- A1 -->
+        <div>
+          <div class="cl-header"><div class="clh-left"><div class="clh-eye">Level A1 · Beginner</div><div class="clh-title">German A1 — Foundation Course</div><div class="clh-meta">48 hrs · 3 months · Completed ✓</div></div><div class="clh-badge">Completed</div></div>
+          <div class="cl-body"><div class="cl-modules">
+            <div class="cm"><div class="cm-num done">✓</div><div><div class="cm-topic">Alphabet & Phonetics</div><div class="cm-sub">Pronunciation, Umlauts</div><div class="cm-status done">Completed</div></div></div>
+            <div class="cm"><div class="cm-num done">✓</div><div><div class="cm-topic">Greetings & Introductions</div><div class="cm-sub">Hallo, Wie heißen Sie?</div><div class="cm-status done">Completed</div></div></div>
+            <div class="cm"><div class="cm-num done">✓</div><div><div class="cm-topic">Numbers, Colors & Days</div><div class="cm-sub">Zahlen, Farben, Wochentage</div><div class="cm-status done">Completed</div></div></div>
+            <div class="cm"><div class="cm-num done">✓</div><div><div class="cm-topic">Nominativ & Akkusativ</div><div class="cm-sub">Der/Die/Das, Articles</div><div class="cm-status done">Completed</div></div></div>
+            <div class="cm"><div class="cm-num done">✓</div><div><div class="cm-topic">Present Tense (Präsens)</div><div class="cm-sub">Regular & Irregular verbs</div><div class="cm-status done">Completed</div></div></div>
+            <div class="cm"><div class="cm-num done">✓</div><div><div class="cm-topic">Goethe A1 Mock Test</div><div class="cm-sub">Score: 88/100</div><div class="cm-status done">Passed ★</div></div></div>
+          </div></div>
+        </div>
+        <!-- A2 -->
+        <div>
+          <div class="cl-header" style="background:var(--saffron)"><div class="clh-left"><div class="clh-eye">Level A2 · Elementary — Current</div><div class="clh-title">German A2 — Elementary Course</div><div class="clh-meta">52 hrs · 3 months · In Progress (68%)</div></div><div class="clh-badge" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:white">In Progress</div></div>
+          <div class="cl-body"><div class="cl-modules">
+            <div class="cm"><div class="cm-num done">✓</div><div><div class="cm-topic">Perfekt Tense</div><div class="cm-sub">Haben & Sein + Past Participle</div><div class="cm-status done">Completed</div></div></div>
+            <div class="cm"><div class="cm-num done">✓</div><div><div class="cm-topic">Dativ Case</div><div class="cm-sub">Dem, Der, Prepositions</div><div class="cm-status done">Completed</div></div></div>
+            <div class="cm"><div class="cm-num done">✓</div><div><div class="cm-topic">Konjugation — Mixed Verbs</div><div class="cm-sub">sein, haben, werden</div><div class="cm-status done">Completed</div></div></div>
+            <div class="cm"><div class="cm-num" style="background:rgba(232,98,26,0.12);color:var(--saffron)">→</div><div><div class="cm-topic">Modal Verbs</div><div class="cm-sub">können, müssen, wollen, dürfen</div><div class="cm-status inprog">In Progress</div></div></div>
+            <div class="cm"><div class="cm-num locked">5</div><div><div class="cm-topic">Adjektive & Steigerung</div><div class="cm-sub">Komparativ, Superlativ</div><div class="cm-status locked">Upcoming</div></div></div>
+            <div class="cm"><div class="cm-num locked">6</div><div><div class="cm-topic">Genitive & Reflexive</div><div class="cm-sub">des/der + reflexive verbs</div><div class="cm-status locked">Upcoming</div></div></div>
+            <div class="cm"><div class="cm-num locked">7</div><div><div class="cm-topic">Reading & Writing</div><div class="cm-sub">Comprehension, Letter writing</div><div class="cm-status locked">Upcoming</div></div></div>
+            <div class="cm"><div class="cm-num locked">8</div><div><div class="cm-topic">Goethe A2 Mock Tests ×3</div><div class="cm-sub">Full mock examinations</div><div class="cm-status locked">Upcoming</div></div></div>
+          </div></div>
+        </div>
+        <!-- B1 -->
+        <div>
+          <div class="cl-header" style="background:rgba(26,46,90,0.5)"><div class="clh-left"><div class="clh-eye">Level B1 · Intermediate</div><div class="clh-title">German B1 — Intermediate Course</div><div class="clh-meta">64 hrs · 4 months · Available after A2</div></div><div class="clh-badge" style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.5)">Locked</div></div>
+          <div class="cl-body" style="opacity:0.5;pointer-events:none"><div class="cl-modules">
+            <div class="cm"><div class="cm-num locked">1</div><div><div class="cm-topic">Konjunktiv II</div><div class="cm-sub">würde, könnte, wäre</div><div class="cm-status locked">Locked</div></div></div>
+            <div class="cm"><div class="cm-num locked">2</div><div><div class="cm-topic">Passive Voice</div><div class="cm-sub">Passiv mit werden</div><div class="cm-status locked">Locked</div></div></div>
+            <div class="cm"><div class="cm-num locked">3</div><div><div class="cm-topic">Relativsätze</div><div class="cm-sub">Relative clauses & pronouns</div><div class="cm-status locked">Locked</div></div></div>
+            <div class="cm"><div class="cm-num locked">4</div><div><div class="cm-topic">Goethe B1 Mock Tests ×4</div><div class="cm-sub">Full mock examinations</div><div class="cm-status locked">Locked</div></div></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TESTS VIEW ── -->
+    <div class="dash-view" id="view-tests">
+      <div class="test-grid">
+        <div class="test-card">
+          <div class="tc-head bg-l"><div><div class="tc-hname">A1 Vocabulary Test</div><div class="tc-hlvl">Level A1 · Completed</div></div><div class="tc-hbadge">Score: 92%</div></div>
+          <div class="tc-body"><div class="tc-stats"><div class="tcs-item"><div class="tcs-val">92%</div><div class="tcs-lbl">Score</div></div><div class="tcs-item"><div class="tcs-val">20</div><div class="tcs-lbl">Questions</div></div><div class="tcs-item"><div class="tcs-val">18m</div><div class="tcs-lbl">Time</div></div></div><p class="tc-desc">A1 vocabulary and basic grammar test. Excellent performance! You've mastered A1 foundations.</p><button class="btn-test" onclick="openTest('a1vocab')">Retake Test</button></div>
+        </div>
+        <div class="test-card">
+          <div class="tc-head bg-t"><div><div class="tc-hname">A1 Grammar Mock</div><div class="tc-hlvl">Level A1 · Completed</div></div><div class="tc-hbadge">Score: 88%</div></div>
+          <div class="tc-body"><div class="tc-stats"><div class="tcs-item"><div class="tcs-val">88%</div><div class="tcs-lbl">Score</div></div><div class="tcs-item"><div class="tcs-val">25</div><div class="tcs-lbl">Questions</div></div><div class="tcs-item"><div class="tcs-val">30m</div><div class="tcs-lbl">Time</div></div></div><p class="tc-desc">Full Goethe-style A1 grammar mock test. Great result — ready for real A1 exam!</p><button class="btn-test" onclick="openTest('a1gram')">Retake Test</button></div>
+        </div>
+        <div class="test-card">
+          <div class="tc-head bg-s"><div><div class="tc-hname">A2 Mock Test — 1</div><div class="tc-hlvl">Level A2 · Completed</div></div><div class="tc-hbadge">Score: 82%</div></div>
+          <div class="tc-body"><div class="tc-stats"><div class="tcs-item"><div class="tcs-val">82%</div><div class="tcs-lbl">Score</div></div><div class="tcs-item"><div class="tcs-val">30</div><div class="tcs-lbl">Questions</div></div><div class="tcs-item"><div class="tcs-val">35m</div><div class="tcs-lbl">Time</div></div></div><p class="tc-desc">First A2 mock test covering Perfekt, Dativ, and vocabulary. Good progress on A2 level!</p><button class="btn-test" onclick="openTest('a2mock1')">Retake Test</button></div>
+        </div>
+        <div class="test-card">
+          <div class="tc-head bg-i"><div><div class="tc-hname">A2 Mock Test — 2</div><div class="tc-hlvl">Level A2 · Available Now</div></div><div class="tc-hbadge">Ready</div></div>
+          <div class="tc-body"><div class="tc-stats"><div class="tcs-item"><div class="tcs-val">—</div><div class="tcs-lbl">Score</div></div><div class="tcs-item"><div class="tcs-val">30</div><div class="tcs-lbl">Questions</div></div><div class="tcs-item"><div class="tcs-val">40m</div><div class="tcs-lbl">Time</div></div></div><p class="tc-desc">Second A2 mock test — Modal verbs, Adjektive, and comprehension. 40 minute timed test.</p><button class="btn-test" onclick="openTest('a2mock2')">Start Test →</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PAYMENT VIEW ── -->
+    <div class="dash-view" id="view-payment">
+      <div class="pay-grid">
+        <div>
+          <div class="dcard" style="margin-bottom:1.2rem">
+            <div class="dcard-title">Payment History</div>
+            <table style="width:100%;border-collapse:collapse;">
+              <tr><th style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--earth);padding:0.5rem 0.6rem;text-align:left;border-bottom:2px solid var(--cream-dark)">Date</th><th style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--earth);padding:0.5rem 0.6rem;text-align:left;border-bottom:2px solid var(--cream-dark)">Description</th><th style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--earth);padding:0.5rem 0.6rem;text-align:left;border-bottom:2px solid var(--cream-dark)">Amount</th><th style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--earth);padding:0.5rem 0.6rem;text-align:left;border-bottom:2px solid var(--cream-dark)">Status</th></tr>
+              <tr><td style="font-size:0.78rem;padding:0.65rem 0.6rem;border-bottom:1px solid var(--cream-dark)">01 Jan 2025</td><td style="font-size:0.78rem;padding:0.65rem 0.6rem;border-bottom:1px solid var(--cream-dark)">A1 Foundation Course</td><td style="font-size:0.78rem;padding:0.65rem 0.6rem;border-bottom:1px solid var(--cream-dark);font-weight:700;color:var(--indigo)">₹3,500</td><td style="font-size:0.78rem;padding:0.65rem 0.6rem;border-bottom:1px solid var(--cream-dark)"><span style="background:rgba(42,96,64,0.1);color:var(--leaf);font-size:0.6rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.2rem 0.55rem;border-radius:2px;">Paid</span></td></tr>
+              <tr><td style="font-size:0.78rem;padding:0.65rem 0.6rem;border-bottom:1px solid var(--cream-dark)">01 Apr 2025</td><td style="font-size:0.78rem;padding:0.65rem 0.6rem;border-bottom:1px solid var(--cream-dark)">A2 Elementary Course</td><td style="font-size:0.78rem;padding:0.65rem 0.6rem;border-bottom:1px solid var(--cream-dark);font-weight:700;color:var(--indigo)">₹4,000</td><td style="font-size:0.78rem;padding:0.65rem 0.6rem;border-bottom:1px solid var(--cream-dark)"><span style="background:rgba(42,96,64,0.1);color:var(--leaf);font-size:0.6rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.2rem 0.55rem;border-radius:2px;">Paid</span></td></tr>
+              <tr><td style="font-size:0.78rem;padding:0.65rem 0.6rem">01 Jul 2025</td><td style="font-size:0.78rem;padding:0.65rem 0.6rem">B1 Intermediate Course</td><td style="font-size:0.78rem;padding:0.65rem 0.6rem;font-weight:700;color:var(--saffron)">₹5,500</td><td style="font-size:0.78rem;padding:0.65rem 0.6rem"><span style="background:rgba(212,160,23,0.12);color:var(--warning);font-size:0.6rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.2rem 0.55rem;border-radius:2px;">Due Soon</span></td></tr>
+            </table>
+          </div>
+          <div class="pay-plans">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--indigo);margin-bottom:0.8rem">Select Course to Pay</div>
+            <div class="pay-plan selected" onclick="selectPlan(this,'A1 Foundation',3500)"><div class="pp-left"><div class="pp-name">A1 Foundation</div><div class="pp-sub">3 months · 48 hrs online</div></div><div class="pp-right"><div class="pp-price">₹3,500</div><div class="pp-period">one-time</div></div></div>
+            <div class="pay-plan" onclick="selectPlan(this,'A2 Elementary',4000)"><div class="pp-left"><div class="pp-name">A2 Elementary</div><div class="pp-sub">3 months · 52 hrs online</div></div><div class="pp-right"><div class="pp-price">₹4,000</div><div class="pp-period">one-time</div></div></div>
+            <div class="pay-plan" onclick="selectPlan(this,'B1 Intermediate',5500)"><div class="pp-left"><div class="pp-name">B1 Intermediate</div><div class="pp-sub">4 months · 64 hrs online</div></div><div class="pp-right"><div class="pp-price">₹5,500</div><div class="pp-period">one-time</div></div></div>
+          </div>
+        </div>
+        <div>
+          <div class="pay-card">
+            <div class="pay-title">Complete Payment</div>
+            <div class="pay-summary">
+              <div class="ps-row"><span class="ps-label">Course</span><span class="ps-val" id="pay-course-name">A1 Foundation</span></div>
+              <div class="ps-row"><span class="ps-label">Duration</span><span class="ps-val">3 months</span></div>
+              <div class="ps-row"><span class="ps-label">Mode</span><span class="ps-val">Online Only</span></div>
+              <div class="ps-row total"><span class="ps-label">Total</span><span class="ps-val" id="pay-total">₹3,500</span></div>
+            </div>
+            <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--indigo);margin-bottom:0.6rem">Payment Method</div>
+            <div class="pay-methods">
+              <button class="pm-btn active" id="pm-upi" onclick="selectPayMethod('upi')">📱 UPI</button>
+              <button class="pm-btn" id="pm-net" onclick="selectPayMethod('net')">🏦 Net Banking</button>
+              <button class="pm-btn" id="pm-card" onclick="selectPayMethod('card')">💳 Card</button>
+              <button class="pm-btn" id="pm-cash" onclick="selectPayMethod('cash')">📞 WhatsApp Pay</button>
+            </div>
+            <div class="pay-upi" id="upi-detail">
+              <div class="pay-upi-label">UPI ID — Scan or Copy</div>
+              <div class="pay-upi-id">krishnacouga@upi</div>
+              <div class="pay-upi-sub">Or call 90437 70488 for WhatsApp Pay / Cash transfer</div>
+            </div>
+            <div class="pay-note">After payment, <strong>send screenshot to WhatsApp 90437 70488</strong> for instant confirmation. Your dashboard will be updated within 2 hours.</div>
+            <button class="btn-pay" onclick="doPay()">Pay Now →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ATTENDANCE VIEW ── -->
+    <div class="dash-view" id="view-attendance">
+      <div class="att-grid">
+        <div class="att-calendar">
+          <div class="dcard-title">Attendance Calendar — <span id="cal-month-title">April 2025</span></div>
+          <div class="cal-nav">
+            <button class="cal-btn" onclick="changeMonth(-1)">‹</button>
+            <span class="cal-month" id="cal-month-name">April 2025</span>
+            <button class="cal-btn" onclick="changeMonth(1)">›</button>
+          </div>
+          <div class="cal-grid-header">
+            <div class="cal-day-name">Sun</div><div class="cal-day-name">Mon</div><div class="cal-day-name">Tue</div><div class="cal-day-name">Wed</div><div class="cal-day-name">Thu</div><div class="cal-day-name">Fri</div><div class="cal-day-name">Sat</div>
+          </div>
+          <div class="cal-grid" id="cal-grid"></div>
+          <div class="att-legend">
+            <div class="al-item"><div class="al-dot p"></div>Present</div>
+            <div class="al-item"><div class="al-dot a"></div>Absent</div>
+            <div class="al-item"><div class="al-dot t"></div>Today</div>
+            <div class="al-item"><div class="al-dot h"></div>Holiday</div>
+          </div>
+        </div>
+        <div class="att-stats">
+          <div class="dcard-title">Attendance Summary</div>
+          <div class="att-ring">
+            <svg width="130" height="130" viewBox="0 0 130 130">
+              <circle cx="65" cy="65" r="54" fill="none" stroke="var(--cream-dark)" stroke-width="10"/>
+              <circle cx="65" cy="65" r="54" fill="none" stroke="var(--leaf)" stroke-width="10" stroke-dasharray="339.3" stroke-dashoffset="40.7" stroke-linecap="round"/>
+            </svg>
+            <div class="att-ring-center"><div class="ar-pct">88%</div><div class="ar-lbl">Attendance</div></div>
+          </div>
+          <div class="att-breakdown">
+            <div class="ab-row"><div class="ab-label"><div class="ab-dot" style="background:var(--leaf)"></div>Classes Attended</div><div class="ab-val">22</div></div>
+            <div class="ab-row"><div class="ab-label"><div class="ab-dot" style="background:var(--danger)"></div>Absent</div><div class="ab-val">3</div></div>
+            <div class="ab-row"><div class="ab-label"><div class="ab-dot" style="background:var(--turmeric)"></div>Holidays</div><div class="ab-val">2</div></div>
+            <div class="ab-row"><div class="ab-label"><div class="ab-dot" style="background:rgba(26,46,90,0.2)"></div>Total Classes</div><div class="ab-val">27</div></div>
+            <div style="height:1px;background:var(--cream-dark);margin:0.5rem 0"></div>
+            <div class="ab-row"><div class="ab-label" style="font-weight:700;font-size:0.8rem;color:var(--indigo)">Minimum Required</div><div class="ab-val" style="color:var(--saffron)">75%</div></div>
+            <div class="ab-row"><div class="ab-label" style="font-weight:700;font-size:0.8rem;color:var(--leaf)">Your Status</div><div class="ab-val" style="color:var(--leaf)">✓ Good</div></div>
+          </div>
+        </div>
+        <div class="att-table">
+          <div class="dcard-title">Recent Class Log</div>
+          <table class="att-tbl">
+            <thead><tr><th>Date</th><th>Topic Covered</th><th>Duration</th><th>Status</th><th>Remark</th></tr></thead>
+            <tbody>
+              <tr><td>Apr 01</td><td>Modal Verbs — können, müssen</td><td>1.5 hrs</td><td><span class="att-badge p">Present</span></td><td style="font-size:0.72rem;color:var(--leaf)">Active participation</td></tr>
+              <tr><td>Mar 28</td><td>Dativ Prepositions</td><td>1.5 hrs</td><td><span class="att-badge p">Present</span></td><td style="font-size:0.72rem;color:var(--earth)">Good</td></tr>
+              <tr><td>Mar 26</td><td>Perfekt with sein verbs</td><td>1.5 hrs</td><td><span class="att-badge a">Absent</span></td><td style="font-size:0.72rem;color:var(--danger)">Informed prior</td></tr>
+              <tr><td>Mar 24</td><td>Adjektive — Komparativ</td><td>1.5 hrs</td><td><span class="att-badge p">Present</span></td><td style="font-size:0.72rem;color:var(--earth)">Good</td></tr>
+              <tr><td>Mar 21</td><td>A2 Mock Test #1</td><td>1 hr</td><td><span class="att-badge p">Present</span></td><td style="font-size:0.72rem;color:var(--leaf)">Score: 82%</td></tr>
+              <tr><td>Mar 19</td><td>Genitivus</td><td>1.5 hrs</td><td><span class="att-badge p">Present</span></td><td style="font-size:0.72rem;color:var(--earth)">Good</td></tr>
+              <tr><td>Mar 17</td><td>Holi Holiday</td><td>—</td><td><span class="att-badge h">Holiday</span></td><td style="font-size:0.72rem;color:var(--warning)">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end dash-main -->
+</div><!-- end page-dashboard -->
+
+<!-- TEST MODAL -->
+<div class="test-modal" id="test-modal">
+  <div class="tm-box">
+    <div class="tm-top">
+      <div class="tm-title" id="tm-title">A2 German Test</div>
+      <div class="tm-timer" id="tm-timer">⏱ 40:00</div>
+      <button class="tm-close" onclick="closeTest()">✕</button>
+    </div>
+    <div class="tm-body">
+      <div class="tm-progress">
+        <span class="tm-prog-lbl" id="tm-prog-lbl">Question 1 of 10</span>
+        <div class="tm-prog-bar"><div class="tm-prog-fill" id="tm-prog-fill" style="width:10%"></div></div>
+        <span class="tm-prog-lbl" id="tm-score-lbl">Score: 0</span>
+      </div>
+      <div id="tm-questions"></div>
+      <div class="tm-footer">
+        <button class="tm-skip" onclick="nextQ()">Skip →</button>
+        <button class="btn-next" onclick="nextQ()">Next Question →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><div class="t-title" id="t-title"></div><div class="t-body" id="t-body"></div></div>
+
+<script>
+// ── Cursor ──
+const cur=document.getElementById('cur'),trail=document.getElementById('trail');
+let mx=0,my=0,tx=0,ty=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.transform=`translate(${mx-6}px,${my-6}px)`;});
+(function tick(){tx+=(mx-tx)*0.12;ty+=(my-ty)*0.12;trail.style.transform=`translate(${tx-16}px,${ty-16}px)`;requestAnimationFrame(tick);})();
+
+// ── Page navigation ──
+function showPage(p){
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+  if(p==='landing'){document.getElementById('page-landing').classList.add('active');window.scrollTo(0,0);}
+  else if(p==='login'){document.getElementById('page-login').classList.add('active');}
+  else if(p==='dashboard'){document.getElementById('page-dashboard').classList.add('active');initDashboard();}
+}
+
+// ── Nav scroll ──
+window.addEventListener('scroll',()=>document.getElementById('navbar')?.classList.toggle('scrolled',window.scrollY>50));
+
+// ── Reveal ──
+const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');}),{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+// ── Count-up ──
+function countUp(el,to,suf){let c=0;const s=setInterval(()=>{c=Math.min(c+Math.ceil(to/60),to);el.textContent=c+suf;if(c>=to)clearInterval(s);},25);}
+setTimeout(()=>{const c1=document.getElementById('cnt1'),c2=document.getElementById('cnt2');if(c1)countUp(c1,500,'+');if(c2)countUp(c2,98,'%');},800);
+
+// ── Login tab ──
+function switchLoginTab(t){
+  document.getElementById('tl').classList.toggle('active',t==='login');
+  document.getElementById('tr').classList.toggle('active',t==='register');
+  document.getElementById('form-login').style.display=t==='login'?'block':'none';
+  document.getElementById('form-register').style.display=t==='register'?'block':'none';
+}
+
+// ── Auth ──
+function doLogin(){
+  const id=document.getElementById('l-id')?.value.trim();
+  const pw=document.getElementById('l-pw')?.value.trim();
+  if(!id||!pw){toast('⚠️ Missing Fields','Please enter your ID and password.',false);return;}
+  toast('✅ Login Successful','Willkommen! Loading your dashboard…');
+  setTimeout(()=>showPage('dashboard'),1200);
+}
+function doRegister(){
+  toast('🎉 Registered Successfully','Check WhatsApp 90437 70488 for confirmation!');
+  setTimeout(()=>switchLoginTab('login'),2000);
+}
+function doGoogle(){
+  toast('🔗 Redirecting…','Connecting to Google Sign-In');
+  setTimeout(()=>showPage('dashboard'),1200);
+}
+
+// ── Dashboard ──
+function initDashboard(){
+  const now=new Date();
+  const el=document.getElementById('dt-date');
+  if(el)el.textContent=now.toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  renderCalendar(2025,3);
+  animateBars();
+}
+
+function showView(v){
+  document.querySelectorAll('.dash-view').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.sb-link').forEach(el=>el.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+  document.getElementById('sl-'+v).classList.add('active');
+  const titles={overview:'Dashboard Overview',courses:'My German Courses',tests:'Tests & Examinations',attendance:'Attendance Record',payment:'Fee Payment'};
+  document.getElementById('dt-title').textContent=titles[v]||v;
+  if(v==='attendance')renderCalendar(2025,3);
+  if(v==='overview')animateBars();
+}
+
+function animateBars(){
+  setTimeout(()=>document.querySelectorAll('.prog-bar').forEach(b=>b.style.width=b.style.width),100);
+}
+
+// ── Calendar ──
+let calY=2025,calM=3;
+const classData={
+  '2025-3':{1:'p',3:'p',5:'p',7:'p',8:'h',10:'p',12:'p',14:'p',17:'h',19:'p',21:'p',24:'p',26:'a',28:'p',31:'a'}
+};
+function renderCalendar(y,m){
+  calY=y;calM=m;
+  const mn=document.getElementById('cal-month-name'),mt=document.getElementById('cal-month-title');
+  const mnames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const mfull=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  if(mn)mn.textContent=mfull[m]+' '+y;
+  if(mt)mt.textContent=mfull[m]+' '+y;
+  const grid=document.getElementById('cal-grid');
+  if(!grid)return;
+  grid.innerHTML='';
+  const first=new Date(y,m,1).getDay();
+  const days=new Date(y,m+1,0).getDate();
+  const today=new Date();
+  const data=classData[y+'-'+m]||{};
+  for(let i=0;i<first;i++){const d=document.createElement('div');d.className='cal-day empty';grid.appendChild(d);}
+  for(let d=1;d<=days;d++){
+    const el=document.createElement('div');
+    el.textContent=d;
+    const isToday=today.getFullYear()===y&&today.getMonth()===m&&today.getDate()===d;
+    const isFuture=new Date(y,m,d)>today;
+    if(isToday)el.className='cal-day today';
+    else if(data[d]==='p')el.className='cal-day present';
+    else if(data[d]==='a')el.className='cal-day absent';
+    else if(data[d]==='h')el.className='cal-day holiday';
+    else if(isFuture)el.className='cal-day future';
+    else el.className='cal-day';
+    grid.appendChild(el);
+  }
+}
+function changeMonth(d){
+  calM+=d;if(calM<0){calM=11;calY--;}if(calM>11){calM=0;calY++;}
+  renderCalendar(calY,calM);
+}
+
+// ── Payment ──
+function selectPlan(el,name,amount){
+  document.querySelectorAll('.pay-plan').forEach(p=>p.classList.remove('selected'));
+  el.classList.add('selected');
+  const cn=document.getElementById('pay-course-name'),pt=document.getElementById('pay-total');
+  if(cn)cn.textContent=name;
+  if(pt)pt.textContent='₹'+amount.toLocaleString('en-IN');
+}
+function selectPayMethod(m){
+  document.querySelectorAll('.pm-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('pm-'+m).classList.add('active');
+  const ud=document.getElementById('upi-detail');
+  if(ud){
+    if(m==='upi')ud.innerHTML='<div class="pay-upi-label">UPI ID — Copy & Pay</div><div class="pay-upi-id">krishnacouga@upi</div><div class="pay-upi-sub">Or call 90437 70488 for help</div>';
+    else if(m==='net')ud.innerHTML='<div class="pay-upi-label">Net Banking</div><div class="pay-upi-id">Contact: 90437 70488</div><div class="pay-upi-sub">WhatsApp for bank transfer details</div>';
+    else if(m==='card')ud.innerHTML='<div class="pay-upi-label">Card Payment</div><div class="pay-upi-id">Via Razorpay Link</div><div class="pay-upi-sub">Link will be sent to your WhatsApp</div>';
+    else ud.innerHTML='<div class="pay-upi-label">WhatsApp Pay</div><div class="pay-upi-id">90437 70488</div><div class="pay-upi-sub">Send payment directly via WhatsApp Pay or GPay</div>';
+  }
+}
+function doPay(){toast('💳 Payment Initiated','Please complete via UPI. Send screenshot to 90437 70488.');}
+
+// ── Tests ──
+const questions={
+  a2mock2:[
+    {q:"Was ist die richtige Form? Ich ___ heute nicht arbeiten.",opts:["muss","müsst","müssen","musst"],ans:0},
+    {q:"Wähle das richtige Wort: Das Buch liegt ___ dem Tisch.",opts:["auf","in","an","bei"],ans:0},
+    {q:"Ergänze den Satz: Sie ___ Deutsch sehr gut sprechen.",opts:["kann","kannst","können","könnt"],ans:0},
+    {q:"Was bedeutet 'Geburtstag'?",opts:["Birthday","Holiday","Weekday","Weekend"],ans:0},
+    {q:"Welches Adjektiv passt? Das ist ein ___ Haus. (bigger)",opts:["größeres","groß","größte","am größten"],ans:0},
+    {q:"Der Zug ___ um 8 Uhr ab. (Perfekt)",opts:["ist abgefahren","hat abgefahren","fuhr ab","fährt ab"],ans:0},
+    {q:"Wie sagt man auf Deutsch: 'I would like to eat something.'",opts:["Ich möchte etwas essen.","Ich will essen.","Ich esse gerne.","Ich habe Hunger."],ans:0},
+    {q:"Was passt? Der Student ___ jeden Tag lernen.",opts:["muss","musst","müssen","müsst"],ans:0},
+    {q:"Übersetze: 'Can you help me please?'",opts:["Können Sie mir bitte helfen?","Helfen Sie mich.","Ich brauche Hilfe.","Bitte hilf."],ans:0},
+    {q:"Welches Verb gehört nicht in diese Gruppe?",opts:["schwimmen","laufen","schreiben","rennen"],ans:2},
+  ],
+  a1vocab:[
+    {q:"Was bedeutet 'Guten Morgen'?",opts:["Good Morning","Good Night","Good Evening","Good Afternoon"],ans:0},
+    {q:"Wie heißt 'apple' auf Deutsch?",opts:["der Apfel","die Birne","die Orange","die Traube"],ans:0},
+    {q:"Was ist die richtige Zahl? 'fünfzehn'",opts:["15","50","5","55"],ans:0},
+    {q:"Welche Farbe ist 'blau'?",opts:["Blue","Red","Green","Yellow"],ans:0},
+    {q:"Was bedeutet 'Danke schön'?",opts:["Thank you very much","Please","Sorry","Hello"],ans:0},
+  ],
+  a1gram:[
+    {q:"Der richtige Artikel: ___ Buch ist neu.",opts:["Das","Der","Die","Den"],ans:0},
+    {q:"Konjugation: Ich ___ Müller. (heißen)",opts:["heiße","heißt","heißen","heißt"],ans:0},
+    {q:"Welcher Satz ist richtig?",opts:["Ich bin 25 Jahre alt.","Ich habe 25 Jahre alt.","Ich bin 25 Jahren.","Ich habe 25 alt."],ans:0},
+    {q:"Was ist der Plural von 'das Kind'?",opts:["die Kinder","die Kinds","das Kinder","der Kinder"],ans:0},
+    {q:"Ergänze: Woher ___ du? (kommen)",opts:["kommst","komme","kommen","kommt"],ans:0},
+  ],
+  a2mock1:[
+    {q:"Perfekt: Er ___ gestern ins Kino ___. (gehen)",opts:["ist gegangen","hat gegangen","ist gehen","hat gehen"],ans:0},
+    {q:"Mit Dativ: Ich gehe mit ___ Freund ins Kino.",opts:["meinem","meinen","meiner","mein"],ans:0},
+    {q:"Was bedeutet 'Kühlschrank'?",opts:["Refrigerator","Washing machine","Dishwasher","Oven"],ans:0},
+    {q:"Richtige Form: Das Essen schmeckt ___. (gut, Superlativ)",opts:["am besten","besser","am gutem","gut"],ans:0},
+    {q:"Übersetze: 'I have already eaten.'",opts:["Ich habe schon gegessen.","Ich esse schon.","Ich habe gegessen schon.","Schon ich gegessen habe."],ans:0},
+  ]
+};
+let curTest=[],curQ=0,score=0,chosen=null,timerInt;
+function openTest(id){
+  curTest=questions[id]||questions.a2mock2;
+  curQ=0;score=0;chosen=null;
+  document.getElementById('tm-title').textContent=id.includes('a1')?'A1 German Test':'A2 German Test';
+  document.getElementById('test-modal').classList.add('open');
+  renderQ();
+  startTimer(40*60);
+}
+function closeTest(){
+  document.getElementById('test-modal').classList.remove('open');
+  clearInterval(timerInt);
+}
+function renderQ(){
+  const q=curTest[curQ];
+  if(!q)return showResult();
+  chosen=null;
+  const pct=Math.round(((curQ+1)/curTest.length)*100);
+  document.getElementById('tm-prog-lbl').textContent=`Question ${curQ+1} of ${curTest.length}`;
+  document.getElementById('tm-prog-fill').style.width=pct+'%';
+  document.getElementById('tm-score-lbl').textContent=`Score: ${score}`;
+  document.getElementById('tm-questions').innerHTML=`
+    <div class="question-block">
+      <div class="q-num">Question ${curQ+1}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="q-options">
+        ${q.opts.map((o,i)=>`<div class="q-opt" id="qo${i}" onclick="selectOpt(${i},${q.ans})"><span class="q-opt-letter">${'ABCD'[i]}</span>${o}</div>`).join('')}
+      </div>
+    </div>`;
+}
+function selectOpt(i,ans){
+  if(chosen!==null)return;
+  chosen=i;
+  document.querySelectorAll('.q-opt').forEach((el,idx)=>{
+    if(idx===ans)el.classList.add('correct');
+    else if(idx===i&&i!==ans)el.classList.add('wrong');
+  });
+  if(i===ans)score++;
+  document.getElementById('tm-score-lbl').textContent=`Score: ${score}`;
+}
+function nextQ(){curQ++;if(curQ>=curTest.length)showResult();else renderQ();}
+function showResult(){
+  clearInterval(timerInt);
+  const pct=Math.round((score/curTest.length)*100);
+  document.getElementById('tm-questions').innerHTML=`
+    <div style="text-align:center;padding:2rem">
+      <div style="font-size:3rem;margin-bottom:0.5rem">${pct>=80?'🎉':pct>=60?'👍':'💪'}</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:700;color:var(--indigo)">${pct}%</div>
+      <div style="font-size:0.85rem;color:var(--earth);margin:0.4rem 0">You scored ${score} out of ${curTest.length}</div>
+      <div style="font-size:0.8rem;color:${pct>=75?'var(--leaf)':'var(--danger)'};font-weight:700;margin:0.6rem 0">${pct>=75?'✓ Excellent! Goethe exam ready!':'Keep practicing — you can do it!'}</div>
+      <button onclick="closeTest()" style="margin-top:1rem;padding:0.7rem 1.5rem;background:var(--saffron);color:var(--white);border:none;font-family:Josefin Sans,sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;border-radius:2px;cursor:none;">Close</button>
+    </div>`;
+  document.querySelector('.tm-footer').style.display='none';
+}
+function startTimer(sec){
+  clearInterval(timerInt);
+  timerInt=setInterval(()=>{
+    sec--;
+    if(sec<=0){clearInterval(timerInt);showResult();return;}
+    const m=Math.floor(sec/60),s=sec%60;
+    const el=document.getElementById('tm-timer');
+    if(el)el.textContent=`⏱ ${m}:${s<10?'0':''}${s}`;
+  },1000);
+}
+
+// ── Toast ──
+function toast(title,body,ok=true){
+  const el=document.getElementById('toast');
+  document.getElementById('t-title').textContent=title;
+  document.getElementById('t-body').textContent=body;
+  el.style.borderLeftColor=ok?'var(--saffron)':'var(--lotus)';
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),4000);
+}
+
+// ── Init ──
+const now=new Date();
+const el=document.getElementById('dt-date');
+if(el)el.textContent=now.toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+renderCalendar(2025,3);
+</script>
+</body>
+</html>

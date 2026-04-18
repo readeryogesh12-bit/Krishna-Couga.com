@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Krishna Couga — German Language Trainer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --saffron:#E8621A;--saffron-light:#F5894A;--saffron-pale:#FDE8D8;
+  --indigo:#1A2E5A;--indigo-mid:#2A4080;--indigo-light:#4A6AAA;
+  --turmeric:#D4A017;--turmeric-light:#F0C840;
+  --cream:#FBF5E6;--cream-dark:#F2E8D0;
+  --earth:#7A4A1E;--leaf:#2A6040;--leaf-light:#3D8A5A;
+  --ink:#1A0A00;--lotus:#C0395A;--white:#FFFDF7;
+  --success:#2A7A4A;--warning:#C4800A;--danger:#B02A2A;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Josefin Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;cursor:none;}
+.cursor{width:12px;height:12px;background:var(--saffron);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:multiply;transition:transform 0.1s;}
+.cursor-trail{width:32px;height:32px;border:1.5px solid var(--saffron);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;opacity:0.45;transition:all 0.28s ease;}
+.page{display:none;min-height:100vh;}
+.page.active{display:block;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 4rem;background:rgba(251,245,230,0.94);backdrop-filter:blur(16px);border-bottom:1px solid rgba(232,98,26,0.12);transition:all 0.3s;}
+nav.scrolled{padding:0.75rem 4rem;box-shadow:0 4px 24px rgba(26,10,0,0.08);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:700;color:#000;text-decoration:none;}
+.nav-logo span{color:var(--saffron);}
+.nav-links{display:flex;gap:2.2rem;align-items:center;}
+.nav-links a{font-size:0.72rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#000;text-decoration:none;transition:color 0.2s;cursor:none;}
+.nav-links a:hover{color:var(--saffron);}
+.nav-cta{background:var(--saffron);color:var(--white)!important;padding:0.5rem 1.3rem;border-radius:2px;transition:background 0.2s!important;}
+.nav-cta:hover{background:var(--indigo)!important;}
+
+/* HERO */
+#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding-top:78px;position:relative;overflow:hidden;}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:4rem 3rem 4rem 4.5rem;position:relative;z-index:2;}
+.hero-eyebrow{display:flex;align-items:center;gap:0.8rem;margin-bottom:1.6rem;}
+.eyebrow-line{width:36px;height:2px;background:var(--saffron);}
+.eyebrow-text{font-size:0.68rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--saffron);}
+.hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,5.5vw,5.5rem);font-weight:300;color:var(--indigo);line-height:0.95;}
+.hero-name strong{font-weight:700;display:block;color:var(--saffron);}
+.hero-band{display:inline-flex;align-items:center;gap:0.8rem;background:var(--indigo);color:var(--white);padding:0.45rem 1.1rem;margin:1rem 0 1.8rem;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;}
+.hero-band .dot{width:5px;height:5px;background:var(--turmeric);border-radius:50%;}
+.hero-desc{font-family:'Cormorant Garamond',serif;font-size:1.12rem;font-style:italic;color:var(--earth);line-height:1.8;max-width:400px;margin-bottom:2rem;}
+.hero-contact{display:flex;align-items:center;gap:0.6rem;margin-bottom:2.2rem;}
+.hero-contact-item{display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;font-weight:600;color:var(--indigo);padding:0.4rem 0.9rem;background:rgba(26,46,90,0.07);border-radius:2px;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn-primary{background:var(--saffron);color:var(--white);padding:0.85rem 1.8rem;font-family:'Josefin Sans',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;border:none;border-radius:2px;cursor:none;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;transition:all 0.25s;}
+.btn-primary:hover{background:var(--indigo);transform:translateY(-1px);box-shadow:0 8px 24px rgba(232,98,26,0.3);}
+.btn-outline{border:2px solid var(--indigo);color:var(--indigo);padding:0.83rem 1.8rem;font-family:'Josefin Sans',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;background:transparent;border-radius:2px;cursor:none;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;transition:all 0.25s;}
+.btn-outline:hover{background:var(--indigo);color:var(--white);}
+.hero-right{position:relative;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;background:linear-gradient(155deg,var(--indigo) 0%,#2A4080 60%,#3A2060 100%);}
+.hero-right::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 25% 25%,rgba(232,98,26,0.18),transparent 55%),radial-gradient(ellipse at 80% 75%,rgba(212,160,23,0.12),transparent 55%);}
+.portrait-wrap{position:relative;width:68%;max-width:360px;z-index:2;}
+.portrait-box{width:100%;aspect-ratio:3/4;border:3px solid rgba(232,98,26,0.5);position:relative;overflow:hidden;}
+.portrait-badge{position:absolute;bottom:0;right:-18px;background:var(--turmeric);padding:0.8rem 1rem;z-index:4;text-align:center;}
+.pb-num{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;color:var(--indigo);line-height:1;}
+.pb-lbl{font-size:0.55rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--indigo);}
+.floating-word{position:absolute;font-family:'Cormorant Garamond',serif;font-style:italic;color:rgba(255,255,255,0.15);pointer-events:none;user-select:none;}
+.fw1{font-size:4.5rem;top:6%;left:4%;animation:floatW 5s ease-in-out infinite;}
+.fw2{font-size:2.8rem;bottom:22%;right:4%;animation:floatW 6s 1.5s ease-in-out infinite;}
+.fw3{font-size:1.8rem;top:42%;right:6%;animation:floatW 4s 3s ease-in-out infinite;}
+.hero-stats{position:absolute;bottom:0;left:0;right:50%;display:flex;border-top:1px solid rgba(26,46,90,0.1);z-index:3;}
+.hero-stat{flex:1;padding:1rem 1.3rem;border-right:1px solid rgba(26,46,90,0.1);background:rgba(251,245,230,0.88);backdrop-filter:blur(8px);}
+.hero-stat:last-child{border-right:none;}
+.hs-num{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:700;color:var(--saffron);line-height:1;}
+.hs-lbl{font-size:0.62rem;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--indigo);margin-top:2px;}
+
+/* SECTIONS */
+.sc{max-width:1160px;margin:0 auto;padding:0 3.5rem;}
+.sh{display:flex;align-items:flex-end;gap:1.8rem;margin-bottom:3.5rem;}
+.sh-num{font-family:'Cormorant Garamond',serif;font-size:4.5rem;font-weight:700;color:rgba(232,98,26,0.1);line-height:1;user-select:none;}
+.sh-eye{font-size:0.65rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--saffron);margin-bottom:0.25rem;}
+.sh-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3.5vw,3rem);font-weight:600;color:var(--indigo);line-height:1.1;}
+
+/* ABOUT */
+#about{padding:6rem 0;background:var(--white);}
+.about-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:4rem;align-items:start;}
+.about-img{position:relative;width:100%;aspect-ratio:4/5;background:var(--cream-dark);overflow:hidden;}
+.about-img::before{content:'';position:absolute;top:-12px;left:-12px;right:12px;bottom:12px;border:2px solid var(--saffron);z-index:0;}
+.about-quote{position:absolute;bottom:-18px;right:-18px;background:var(--indigo);color:var(--white);padding:1.3rem;max-width:190px;z-index:2;}
+.aq-t{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.9rem;line-height:1.5;}
+.aq-s{font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--turmeric);margin-top:0.4rem;}
+.about-lead{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--indigo);line-height:1.65;margin-bottom:1.3rem;}
+.about-body{font-size:0.85rem;color:#4A3820;line-height:1.9;margin-bottom:1.8rem;}
+.about-info{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1.8rem;}
+.ai-item{background:var(--cream);padding:0.8rem 1rem;border-left:3px solid var(--saffron);}
+.ai-label{font-size:0.6rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--saffron);margin-bottom:0.2rem;}
+.ai-val{font-size:0.82rem;font-weight:600;color:var(--indigo);}
+.about-tags{display:flex;flex-wrap:wrap;gap:0.5rem;}
+.tag{padding:0.35rem 0.8rem;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;border-radius:2px;}
+.tag-s{background:var(--saffron-pale);border:1px solid rgba(232,98,26,0.2);color:var(--saffron);}
+.tag-i{background:rgba(26,46,90,0.06);border:1px solid rgba(26,46,90,0.15);color:var(--indigo);}
+
+/* COURSES */
+#courses{padding:5.5rem 0;background:var(--cream);}
+.courses-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;}
+.cc{background:var(--white);border:1px solid rgba(26,46,90,0.07);position:relative;overflow:hidden;transition:transform 0.3s,box-shadow 0.3s;cursor:none;}
+.cc:hover{transform:translateY(-5px);box-shadow:0 18px 48px rgba(26,10,0,0.1);}
+.cc-top{padding:1.6rem 1.6rem 1.1rem;}
+.cc-icon{width:44px;height:44px;background:var(--saffron-pale);border-radius:2px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1.3rem;}
+.cc-lvl{font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--saffron);margin-bottom:0.35rem;}
+.cc-name{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;color:var(--indigo);line-height:1.2;margin-bottom:0.5rem;}
+.cc-desc{font-size:0.8rem;color:#6A5040;line-height:1.7;}
+.cc-bot{padding:1.1rem 1.6rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(26,46,90,0.06);}
+.cc-meta{font-size:0.68rem;font-weight:600;color:var(--earth);}
+.cc-meta span{color:var(--saffron);}
+.cc-btn{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--indigo);text-decoration:none;display:flex;align-items:center;gap:0.3rem;transition:color 0.2s;cursor:none;}
+.cc-btn:hover{color:var(--saffron);}
+.cc.feat{background:var(--indigo);}
+.cc.feat .cc-name{color:var(--white);}
+.cc.feat .cc-desc{color:rgba(255,255,255,0.55);}
+.cc.feat .cc-meta{color:rgba(255,255,255,0.45);}
+.cc.feat .cc-btn{color:var(--turmeric-light);}
+.cc.feat .cc-bot{border-top-color:rgba(255,255,255,0.08);}
+.cc.feat .cc-icon{background:rgba(232,98,26,0.2);}
+
+/* FEES */
+#fees{padding:5.5rem 0;background:var(--cream-dark);}
+.fees-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;}
+.fee-card{background:var(--white);padding:2rem;position:relative;border-bottom:3px solid transparent;transition:all 0.3s;}
+.fee-card:hover{border-bottom-color:var(--saffron);transform:translateY(-4px);box-shadow:0 16px 40px rgba(26,10,0,0.1);}
+.fee-card.popular{background:var(--indigo);border-bottom-color:var(--turmeric);}
+.fee-pop-badge{position:absolute;top:-1px;right:20px;background:var(--turmeric);color:var(--indigo);font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.7rem;}
+.fee-level{font-size:0.65rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--saffron);margin-bottom:0.5rem;}
+.fee-card.popular .fee-level{color:var(--turmeric-light);}
+.fee-name{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--indigo);margin-bottom:0.5rem;}
+.fee-card.popular .fee-name{color:var(--white);}
+.fee-price{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:700;color:var(--saffron);line-height:1;margin-bottom:0.2rem;}
+.fee-card.popular .fee-price{color:var(--turmeric-light);}
+.fee-period{font-size:0.72rem;color:var(--earth);margin-bottom:1.5rem;}
+.fee-card.popular .fee-period{color:rgba(255,255,255,0.5);}
+.fee-features{list-style:none;display:flex;flex-direction:column;gap:0.55rem;margin-bottom:1.8rem;}
+.fee-features li{font-size:0.8rem;color:#4A3820;display:flex;align-items:center;gap:0.5rem;}
+.fee-card.popular .fee-features li{color:rgba(255,255,255,0.7);}
+.fee-features li::before{content:'✦';color:var(--saffron);font-size:0.6rem;}
+.fee-card.popular .fee-features li::before{color:var(--turmeric-light);}
+.fee-enroll{display:block;width:100%;padding:0.8rem;text-align:center;background:var(--saffron);color:var(--white);font-family:'Josefin Sans',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;border:none;border-radius:2px;cursor:none;transition:all 0.2s;text-decoration:none;}
+.fee-enroll:hover{background:var(--indigo);transform:translateY(-1px);}
+.fee-card.popular .fee-enroll{background:var(--turmeric);color:var(--indigo);}
+
+/* TESTIMONIALS */
+#testimonials{padding:5.5rem 0;background:var(--white);}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem;}
+.tc{background:var(--cream);padding:1.8rem;border-bottom:3px solid transparent;transition:all 0.3s;}
+.tc:hover{border-bottom-color:var(--saffron);transform:translateY(-4px);}
+.tc-q{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:700;color:var(--saffron-pale);line-height:0.5;margin-bottom:0.5rem;}
+.tc-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--indigo);line-height:1.7;margin-bottom:1.3rem;}
+.tc-author{display:flex;align-items:center;gap:0.7rem;}
+.tc-av{width:38px;height:38px;border-radius:50%;background:var(--saffron-pale);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--saffron);}
+.tc-name{font-size:0.78rem;font-weight:700;color:var(--ink);}
+.tc-role{font-size:0.65rem;color:var(--earth);}
+.tc-stars{color:var(--turmeric);font-size:0.7rem;margin-top:1px;}
+
+/* LOGIN PAGE */
+#page-login{min-height:100vh;background:var(--indigo);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+#page-login::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 10% 30%,rgba(232,98,26,0.15),transparent 60%),radial-gradient(ellipse 60% 70% at 90% 70%,rgba(212,160,23,0.1),transparent 55%);pointer-events:none;}
+.login-wrap{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;max-width:960px;width:100%;margin:0 auto;padding:2rem;}
+.login-info{padding:3rem 2.5rem;display:flex;flex-direction:column;justify-content:center;}
+.li-back{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);text-decoration:none;margin-bottom:2.5rem;cursor:none;transition:color 0.2s;}
+.li-back:hover{color:var(--saffron);}
+.li-eye{font-size:0.65rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--turmeric-light);margin-bottom:0.6rem;}
+.li-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:600;color:var(--white);line-height:1.15;margin-bottom:1.2rem;}
+.li-title em{font-style:italic;color:var(--saffron-light);}
+.li-body{font-size:0.83rem;color:rgba(255,255,255,0.55);line-height:1.8;margin-bottom:2rem;}
+.li-perks{display:flex;flex-direction:column;gap:0.75rem;}
+.li-perk{display:flex;align-items:center;gap:0.9rem;}
+.lp-icon{width:34px;height:34px;flex-shrink:0;background:rgba(232,98,26,0.18);border:1px solid rgba(232,98,26,0.3);display:flex;align-items:center;justify-content:center;font-size:0.85rem;border-radius:2px;}
+.lp-text{font-size:0.78rem;color:rgba(255,255,255,0.7);}
+.lp-text strong{color:var(--white);}
+.login-card{background:var(--white);position:relative;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,0.3);}
+.lc-rainbow{height:6px;background:linear-gradient(90deg,var(--saffron),var(--turmeric),var(--leaf),var(--indigo-light),var(--lotus));}
+.lc-inner{padding:2.2rem 2.5rem 2.8rem;}
+.lc-tabs{display:flex;border-bottom:2px solid var(--cream-dark);margin-bottom:1.8rem;}
+.lc-tab{flex:1;padding:0.65rem;background:none;border:none;font-family:'Josefin Sans',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(26,46,90,0.35);cursor:pointer;position:relative;transition:color 0.2s;}
+.lc-tab::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;background:var(--saffron);transform:scaleX(0);transition:transform 0.3s;}
+.lc-tab.active{color:var(--saffron);}
+.lc-tab.active::after{transform:scaleX(1);}
+.lc-title{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:600;color:var(--indigo);margin-bottom:0.2rem;}
+.lc-sub{font-size:0.75rem;color:var(--earth);margin-bottom:1.4rem;}
+.fg{margin-bottom:1.1rem;}
+.fg label{display:block;font-size:0.62rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--indigo);margin-bottom:0.38rem;}
+.fi{position:relative;}
+.fi-ico{position:absolute;left:0.9rem;top:50%;transform:translateY(-50%);color:rgba(26,46,90,0.3);pointer-events:none;}
+.fi input,.fi select{width:100%;padding:0.72rem 0.9rem 0.72rem 2.4rem;border:1.5px solid rgba(26,46,90,0.14);background:var(--cream);font-family:'Josefin Sans',sans-serif;font-size:0.8rem;color:var(--ink);border-radius:2px;outline:none;transition:all 0.2s;}
+.fi input:focus,.fi select:focus{border-color:var(--saffron);background:var(--white);box-shadow:0 0 0 3px rgba(232,98,26,0.08);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;}
+.btn-sub{width:100%;padding:0.85rem;background:var(--saffron);color:var(--white);font-family:'Josefin Sans',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;transition:all 0.2s;margin-bottom:0.8rem;}
+.btn-sub:hover{background:var(--indigo);}
+.form-div{text-align:center;font-size:0.7rem;color:rgba(26,46,90,0.3);margin:0.6rem 0;position:relative;}
+.form-div::before,.form-div::after{content:'';position:absolute;top:50%;width:42%;height:1px;background:rgba(26,46,90,0.1);}
+.form-div::before{left:0;}
+.form-div::after{right:0;}
+.switch-link{text-align:center;font-size:0.75rem;color:var(--earth);}
+.switch-link a{color:var(--saffron);font-weight:700;text-decoration:none;}
+.err-msg{color:var(--danger);font-size:0.72rem;font-weight:600;margin-top:0.4rem;display:none;}
+.form-opts{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;font-size:0.72rem;}
+.chk{display:flex;align-items:center;gap:0.4rem;color:var(--earth);cursor:pointer;}
+.fgt{color:var(--saffron);text-decoration:none;font-size:0.7rem;}
+#form-register{display:none;}
+
+/* DASHBOARD */
+#page-dashboard{display:none;min-height:100vh;background:var(--cream);flex-direction:row;}
+#page-dashboard.active{display:flex;}
+.sidebar{width:260px;min-height:100vh;background:var(--indigo);display:flex;flex-direction:column;flex-shrink:0;position:fixed;left:0;top:0;bottom:0;z-index:100;}
+.sb-header{padding:1.8rem 1.5rem 1rem;}
+.sb-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--white);}
+.sb-logo span{color:var(--saffron);}
+.sb-tagline{font-size:0.6rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-top:0.2rem;}
+.sb-user{padding:0.8rem 1.5rem;background:rgba(255,255,255,0.05);margin:0 0.8rem;border-radius:4px;display:flex;align-items:center;gap:0.8rem;margin-bottom:1rem;}
+.sb-av{width:36px;height:36px;border-radius:50%;background:var(--saffron);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--white);flex-shrink:0;}
+.sb-uname{font-size:0.8rem;font-weight:700;color:var(--white);}
+.sb-uid{font-size:0.62rem;color:rgba(255,255,255,0.4);}
+.sb-nav{padding:0 0.8rem;flex:1;}
+.sb-section{font-size:0.58rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.25);padding:0.8rem 0.7rem 0.4rem;}
+.sb-link{display:flex;align-items:center;gap:0.7rem;padding:0.65rem 0.7rem;border-radius:4px;font-size:0.72rem;font-weight:600;letter-spacing:0.04em;color:rgba(255,255,255,0.5);text-decoration:none;transition:all 0.2s;cursor:none;margin-bottom:0.1rem;}
+.sb-link svg{width:16px;height:16px;flex-shrink:0;}
+.sb-link:hover,.sb-link.active{background:rgba(255,255,255,0.1);color:var(--white);}
+.sb-link.active{background:rgba(232,98,26,0.2);color:var(--saffron-light);}
+.sb-bottom{padding:1rem;}
+.sb-logout{width:100%;padding:0.65rem;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);font-family:'Josefin Sans',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;transition:all 0.2s;}
+.sb-logout:hover{background:rgba(232,98,26,0.15);color:var(--saffron-light);}
+.dash-main{margin-left:260px;flex:1;min-height:100vh;display:flex;flex-direction:column;}
+.dash-topbar{padding:1rem 2rem;background:var(--white);border-bottom:1px solid rgba(26,46,90,0.06);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+.dt-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--indigo);}
+.dt-date{font-size:0.72rem;color:var(--earth);}
+.dash-content{padding:2rem;flex:1;}
+.dash-view{display:none;}
+.dash-view.active{display:block;}
+
+/* STAT CARDS */
+.stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem;}
+.sc-card{background:var(--white);padding:1.2rem;border-left:3px solid var(--saffron);border-radius:2px;}
+.sc-val{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--saffron);line-height:1;}
+.sc-label{font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--indigo);margin-top:4px;}
+.sc-sub{font-size:0.7rem;color:var(--earth);margin-top:2px;}
+.dash-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.5rem;}
+.dcard{background:var(--white);padding:1.5rem;border-radius:2px;}
+.dcard-title{font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--indigo);margin-bottom:1rem;}
+
+/* AI TUTOR CHAT */
+#ai-tutor-section{background:var(--white);border-radius:2px;padding:1.5rem;margin-top:1.2rem;}
+.chat-header{display:flex;align-items:center;gap:0.8rem;margin-bottom:1rem;padding-bottom:0.8rem;border-bottom:1px solid var(--cream-dark);}
+.chat-av{width:38px;height:38px;background:linear-gradient(135deg,var(--saffron),var(--indigo));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;color:white;flex-shrink:0;}
+.chat-info .chat-name{font-size:0.78rem;font-weight:700;color:var(--indigo);}
+.chat-info .chat-status{font-size:0.62rem;color:var(--leaf);display:flex;align-items:center;gap:4px;}
+.chat-status::before{content:'';width:6px;height:6px;background:var(--leaf);border-radius:50%;display:inline-block;}
+.chat-msgs{height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:0.8rem;margin-bottom:1rem;padding-right:4px;}
+.msg{max-width:80%;font-size:0.82rem;line-height:1.6;padding:0.7rem 1rem;border-radius:12px;}
+.msg.user{background:var(--indigo);color:var(--white);align-self:flex-end;border-bottom-right-radius:4px;}
+.msg.bot{background:var(--cream);color:var(--ink);align-self:flex-start;border-bottom-left-radius:4px;}
+.msg.typing{background:var(--cream);color:var(--earth);align-self:flex-start;font-style:italic;border-bottom-left-radius:4px;}
+.chat-input-row{display:flex;gap:0.5rem;}
+.chat-input{flex:1;padding:0.7rem 1rem;border:1.5px solid rgba(26,46,90,0.14);background:var(--cream);font-family:'Josefin Sans',sans-serif;font-size:0.8rem;color:var(--ink);border-radius:24px;outline:none;transition:all 0.2s;}
+.chat-input:focus{border-color:var(--saffron);background:var(--white);}
+.chat-send{padding:0.7rem 1.2rem;background:var(--saffron);color:var(--white);border:none;border-radius:24px;cursor:pointer;font-family:'Josefin Sans',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.2s;white-space:nowrap;}
+.chat-send:hover{background:var(--indigo);}
+.chat-send:disabled{opacity:0.5;cursor:not-allowed;}
+
+/* TEST MODAL */
+.test-modal{position:fixed;inset:0;background:rgba(26,10,0,0.6);backdrop-filter:blur(6px);z-index:500;display:none;align-items:center;justify-content:center;}
+.test-modal.open{display:flex;}
+.test-modal-box{background:var(--white);width:700px;max-width:95vw;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 40px 80px rgba(0,0,0,0.3);}
+.tm-header{padding:1.3rem 1.8rem;background:var(--indigo);display:flex;align-items:center;justify-content:space-between;}
+.tm-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--white);}
+.tm-meta{display:flex;align-items:center;gap:1.5rem;}
+.tm-timer{font-size:0.72rem;font-weight:700;color:var(--turmeric-light);}
+.tm-score-lbl{font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.6);}
+.tm-prog{background:rgba(255,255,255,0.1);height:3px;position:relative;}
+.tm-prog-fill{height:100%;background:var(--saffron);transition:width 0.4s ease;}
+.tm-prog-lbl{padding:0.4rem 1.8rem;font-size:0.62rem;color:rgba(26,46,90,0.5);border-bottom:1px solid var(--cream-dark);}
+.tm-questions{padding:1.5rem 1.8rem;flex:1;overflow-y:auto;}
+.question-block{}
+.q-num{font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--saffron);margin-bottom:0.6rem;}
+.q-text{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--indigo);line-height:1.4;margin-bottom:1.5rem;}
+.q-options{display:grid;grid-template-columns:1fr 1fr;gap:0.7rem;}
+.q-opt{padding:0.75rem 1rem;border:1.5px solid rgba(26,46,90,0.1);border-radius:4px;cursor:pointer;display:flex;align-items:center;gap:0.7rem;transition:all 0.2s;font-size:0.82rem;color:var(--ink);}
+.q-opt:hover{border-color:var(--saffron);background:var(--saffron-pale);}
+.q-opt.correct{background:rgba(42,96,64,0.1);border-color:var(--leaf);color:var(--leaf);}
+.q-opt.wrong{background:rgba(176,42,42,0.08);border-color:var(--danger);color:var(--danger);}
+.q-opt-letter{width:22px;height:22px;background:var(--cream-dark);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700;flex-shrink:0;}
+.tm-footer{padding:1rem 1.8rem;border-top:1px solid var(--cream-dark);display:flex;justify-content:flex-end;gap:0.8rem;}
+.btn-tmclose{padding:0.6rem 1.2rem;background:transparent;border:1.5px solid rgba(26,46,90,0.2);color:var(--indigo);font-family:'Josefin Sans',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;border-radius:2px;cursor:pointer;}
+.btn-tmnext{padding:0.6rem 1.5rem;background:var(--saffron);color:var(--white);font-family:'Josefin Sans',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;}
+
+/* TESTS */
+.test-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.test-card{background:var(--white);overflow:hidden;}
+.tc-head{padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;}
+.bg-s{background:var(--saffron);}
+.bg-t{background:var(--turmeric);}
+.bg-l{background:var(--leaf);}
+.bg-i{background:var(--indigo);}
+.tc-hname{font-size:0.8rem;font-weight:700;color:var(--white);}
+.tc-hlvl{font-size:0.62rem;color:rgba(255,255,255,0.7);}
+.tc-hbadge{background:rgba(255,255,255,0.2);color:var(--white);font-size:0.62rem;font-weight:700;padding:0.25rem 0.6rem;border-radius:2px;}
+.tc-body{padding:1.2rem;}
+.tc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-bottom:0.8rem;}
+.tcs-item{text-align:center;}
+.tcs-val{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--indigo);}
+.tcs-lbl{font-size:0.58rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--earth);}
+.tc-desc{font-size:0.78rem;color:#4A3820;line-height:1.6;margin-bottom:0.8rem;}
+.btn-test{padding:0.55rem 1rem;background:var(--saffron);color:var(--white);font-family:'Josefin Sans',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;}
+
+/* ATTENDANCE */
+.att-grid{display:grid;grid-template-columns:1fr 2fr;gap:1.2rem;}
+.calendar{background:var(--white);padding:1.2rem;}
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
+.cal-month{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--indigo);}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;}
+.cal-day-hd{font-size:0.58rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:var(--earth);padding:0.3rem 0;}
+.cal-day{font-size:0.7rem;padding:0.3rem;border-radius:2px;cursor:default;}
+.cal-day.present{background:rgba(42,96,64,0.12);color:var(--leaf);font-weight:700;}
+.cal-day.absent{background:rgba(176,42,42,0.08);color:var(--danger);font-weight:700;}
+.cal-day.today{background:var(--saffron);color:var(--white);font-weight:700;}
+
+/* PAYMENT */
+.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
+.pay-card{background:var(--white);padding:1.5rem;}
+.pay-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--indigo);margin-bottom:1.2rem;}
+.pay-summary{background:var(--cream);padding:1rem;margin-bottom:1.2rem;}
+.ps-row{display:flex;justify-content:space-between;font-size:0.78rem;padding:0.35rem 0;border-bottom:1px solid var(--cream-dark);}
+.ps-row:last-child{border-bottom:none;}
+.ps-label{color:var(--earth);}
+.ps-val{font-weight:700;color:var(--indigo);}
+.ps-row.total .ps-val{color:var(--saffron);font-size:1rem;}
+.pay-methods{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:1rem;}
+.pm-btn{padding:0.5rem;background:var(--cream);border:1.5px solid rgba(26,46,90,0.1);font-family:'Josefin Sans',sans-serif;font-size:0.68rem;font-weight:700;color:var(--indigo);border-radius:2px;cursor:pointer;transition:all 0.2s;}
+.pm-btn.active{background:var(--saffron-pale);border-color:var(--saffron);color:var(--saffron);}
+.pay-upi{background:var(--cream-dark);padding:1rem;text-align:center;margin-bottom:1rem;}
+.pay-upi-label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--earth);margin-bottom:0.4rem;}
+.pay-upi-id{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--indigo);margin-bottom:0.3rem;}
+.pay-upi-sub{font-size:0.7rem;color:var(--earth);}
+.pay-note{font-size:0.72rem;color:var(--earth);line-height:1.6;margin-bottom:1rem;}
+.btn-pay{width:100%;padding:0.85rem;background:var(--saffron);color:var(--white);font-family:'Josefin Sans',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;transition:all 0.2s;}
+.btn-pay:hover{background:var(--indigo);}
+.pay-plan{display:flex;align-items:center;justify-content:space-between;padding:0.8rem 1rem;border:1.5px solid rgba(26,46,90,0.1);margin-bottom:0.5rem;cursor:pointer;transition:all 0.2s;}
+.pay-plan:hover,.pay-plan.selected{border-color:var(--saffron);background:var(--saffron-pale);}
+.pp-name{font-size:0.82rem;font-weight:700;color:var(--indigo);}
+.pp-sub{font-size:0.65rem;color:var(--earth);}
+.pp-price{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--saffron);}
+.pp-period{font-size:0.6rem;color:var(--earth);}
+.pay-plans{margin-top:1rem;}
+
+/* FOOTER */
+footer{background:var(--indigo);padding:3.5rem 0 0;}
+.fi-grid{max-width:1160px;margin:0 auto;padding:0 3.5rem 2.5rem;display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;border-bottom:1px solid rgba(255,255,255,0.07);}
+.f-logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--white);margin-bottom:0.8rem;}
+.f-logo span{color:var(--saffron);}
+.f-tag{font-size:0.78rem;color:rgba(255,255,255,0.4);line-height:1.7;margin-bottom:1.2rem;font-style:italic;}
+.f-contact{display:flex;flex-direction:column;gap:0.4rem;font-size:0.75rem;color:rgba(255,255,255,0.5);margin-bottom:1.2rem;}
+.f-social{display:flex;gap:0.5rem;}
+.soc{width:34px;height:34px;border:1px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);text-decoration:none;font-size:0.68rem;font-weight:700;transition:all 0.2s;}
+.soc:hover{background:var(--saffron);border-color:var(--saffron);color:var(--white);}
+.fl-title{font-size:0.65rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--white);margin-bottom:1rem;}
+.fl-list{list-style:none;display:flex;flex-direction:column;gap:0.5rem;}
+.fl-list li a{font-size:0.78rem;color:rgba(255,255,255,0.45);text-decoration:none;transition:color 0.2s;cursor:none;}
+.fl-list li a:hover{color:var(--saffron);}
+.f-bottom{max-width:1160px;margin:0 auto;padding:1.3rem 3.5rem 0;border-top:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;}
+.f-copy{font-size:0.7rem;color:rgba(255,255,255,0.25);}
+.f-kalam{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.8rem;color:rgba(232,98,26,0.4);}
+
+/* TOAST */
+.toast{position:fixed;bottom:1.8rem;right:1.8rem;background:var(--indigo);color:var(--white);padding:0.9rem 1.3rem;border-left:4px solid var(--saffron);font-size:0.82rem;box-shadow:0 10px 32px rgba(0,0,0,0.2);z-index:9990;transform:translateX(130%);transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);max-width:300px;}
+.toast.show{transform:translateX(0);}
+.t-title{font-weight:700;margin-bottom:2px;}
+.t-body{font-size:0.75rem;color:rgba(255,255,255,0.65);}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes riseUp{from{opacity:0;transform:translateY(55px)}to{opacity:1;transform:translateY(0)}}
+@keyframes floatW{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-12px) rotate(-4deg)}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.65s ease,transform 0.65s ease;}
+.reveal.vis{opacity:1;transform:translateY(0);}
+.kwave{width:100%;overflow:hidden;line-height:0;}
+.kwave svg{display:block;width:100%;}
+
+/* PROGRESS BARS */
+.prog-bar{background:var(--cream-dark);height:8px;border-radius:4px;overflow:hidden;margin-top:4px;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--saffron),var(--turmeric));border-radius:4px;}
+.cl-module{padding:0.8rem 1rem;border-left:3px solid var(--saffron-pale);margin-bottom:0.6rem;display:flex;align-items:center;justify-content:space-between;}
+.cl-module.done{border-left-color:var(--leaf);}
+.cl-module-name{font-size:0.8rem;font-weight:600;color:var(--indigo);}
+.cl-module-meta{font-size:0.65rem;color:var(--earth);}
+.cl-module-badge{font-size:0.6rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.2rem 0.55rem;border-radius:2px;}
+.badge-done{background:rgba(42,96,64,0.1);color:var(--leaf);}
+.badge-prog{background:rgba(232,98,26,0.1);color:var(--saffron);}
+.badge-lock{background:rgba(26,46,90,0.07);color:var(--indigo);}
+
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem;}
+  .nav-links{display:none;}
+  #hero{grid-template-columns:1fr;}
+  .hero-right{display:none;}
+  .hero-stats{position:static;}
+  .about-grid,.courses-grid,.fees-grid,.testi-grid{grid-template-columns:1fr;}
+  .sc{padding:0 1.5rem;}
+  .login-wrap{grid-template-columns:1fr;padding:1.5rem;}
+  .login-info{display:none;}
+  .sidebar{width:220px;}
+  .fi-grid,.f-bottom{padding-left:1.5rem;padding-right:1.5rem;}
+  .stat-cards,.dash-row,.pay-grid,.att-grid,.test-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="cursor" id="cur"></div>
+<div class="cursor-trail" id="trail"></div>
+<div class="toast" id="toast"><div class="t-title" id="t-title"></div><div class="t-body" id="t-body"></div></div>
+
+<!-- TEST MODAL -->
+<div class="test-modal" id="test-modal">
+  <div class="test-modal-box">
+    <div class="tm-header">
+      <div class="tm-title" id="tm-title">A2 German Test</div>
+      <div class="tm-meta"><span class="tm-score-lbl" id="tm-score-lbl">Score: 0</span><span class="tm-timer" id="tm-timer">⏱ 40:00</span></div>
+    </div>
+    <div class="tm-prog"><div class="tm-prog-fill" id="tm-prog-fill" style="width:0%"></div></div>
+    <div class="tm-prog-lbl" id="tm-prog-lbl">Question 1 of 5</div>
+    <div class="tm-questions" id="tm-questions"></div>
+    <div class="tm-footer"><button class="btn-tmclose" onclick="closeTest()">Close</button><button class="btn-tmnext" onclick="nextQ()">Next →</button></div>
+  </div>
+</div>
+
+<!-- ═══ LANDING PAGE ═══ -->
+<div class="page active" id="page-landing">
+<nav id="navbar">
+  <a href="#" class="nav-logo">Krishna <span>Couga</span></a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#courses">Courses</a>
+    <a href="#fees">Fees</a>
+    <a href="#testimonials">Reviews</a>
+    <a href="#" class="nav-cta" onclick="showPage('login');return false">Student Login</a>
+  </div>
+</nav>
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-text">Certified German Language Trainer</span></div>
+    <h1 class="hero-name">Krishna<strong>Couga</strong></h1>
+    <div class="hero-band"><div class="dot"></div>Deutsch · A1 to B1 · Online Classes<div class="dot"></div></div>
+    <p class="hero-desc">"Die Sprache ist das Kleid der Gedanken" — Language is the dress of thought. Wear it beautifully.</p>
+    <div class="hero-contact">
+      <div class="hero-contact-item">📞 90437 70488</div>
+      <div class="hero-contact-item">📍 Lawspet, Pondicherry</div>
+    </div>
+    <div class="hero-btns">
+      <a href="#courses" class="btn-primary">Explore Courses →</a>
+      <a href="#" class="btn-outline" onclick="showPage('login');return false">Student Login</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="floating-word fw1">Deutsch</div>
+    <div class="floating-word fw2">Lernen</div>
+    <div class="floating-word fw3">Sprechen</div>
+    <div class="portrait-wrap">
+      <div class="portrait-box">
+        <svg width="100%" height="100%" viewBox="0 0 320 430" xmlns="http://www.w3.org/2000/svg">
+          <rect width="320" height="430" fill="url(#bg1)"/>
+          <defs><radialGradient id="bg1" cx="50%" cy="30%" r="60%"><stop offset="0%" stop-color="#2A4080"/><stop offset="100%" stop-color="#1A2E5A"/></radialGradient></defs>
+          <circle cx="160" cy="160" r="130" fill="none" stroke="rgba(232,98,26,0.15)" stroke-width="1"/>
+          <path d="M60,430 Q60,330 160,310 Q260,330 260,430" fill="#2A4080"/>
+          <rect x="108" y="238" width="104" height="130" rx="4" fill="#C4702A"/>
+          <line x1="160" y1="238" x2="160" y2="368" stroke="rgba(212,160,23,0.5)" stroke-width="1.5"/>
+          <rect x="78" y="243" width="32" height="85" rx="10" fill="#C4702A"/>
+          <rect x="210" y="243" width="32" height="85" rx="10" fill="#C4702A"/>
+          <ellipse cx="94" cy="310" rx="10" ry="4" fill="none" stroke="#D4A017" stroke-width="2"/>
+          <ellipse cx="226" cy="310" rx="10" ry="4" fill="none" stroke="#D4A017" stroke-width="2"/>
+          <ellipse cx="160" cy="188" rx="54" ry="62" fill="#C4702A"/>
+          <path d="M106,180 Q104,132 122,115 Q142,100 160,98 Q178,100 198,115 Q216,132 214,180 Q202,158 182,150 Q160,144 138,150 Q118,158 106,180 Z" fill="#1A0A00"/>
+          <ellipse cx="160" cy="98" rx="22" ry="15" fill="#1A0A00"/>
+          <circle cx="160" cy="88" r="5" fill="#D4A017"/>
+          <path d="M132,178 Q146,167 162,178 Q146,189 132,178 Z" fill="#1A0A00"/>
+          <path d="M162,178 Q176,167 190,178 Q176,189 162,178 Z" fill="#1A0A00"/>
+          <circle cx="147" cy="178" r="5" fill="#1A0A00"/>
+          <circle cx="175" cy="178" r="5" fill="#1A0A00"/>
+          <circle cx="148" cy="176" r="2" fill="white"/>
+          <circle cx="176" cy="176" r="2" fill="white"/>
+          <path d="M128,165 Q146,157 162,163" stroke="#2A0A00" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M160,163 Q176,157 194,165" stroke="#2A0A00" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M143,208 Q160,218 177,208" stroke="#7A2A10" stroke-width="2.5" fill="rgba(180,60,30,0.3)" stroke-linecap="round"/>
+          <circle cx="160" cy="160" r="6" fill="#E8621A"/>
+          <circle cx="160" cy="160" r="3" fill="#D4A017"/>
+          <circle cx="106" cy="196" r="9" fill="#D4A017" opacity="0.85"/>
+          <ellipse cx="106" cy="210" rx="4" ry="7" fill="#D4A017" opacity="0.7"/>
+          <circle cx="214" cy="196" r="9" fill="#D4A017" opacity="0.85"/>
+          <ellipse cx="214" cy="210" rx="4" ry="7" fill="#D4A017" opacity="0.7"/>
+          <path d="M128,248 Q160,264 192,248" stroke="#D4A017" stroke-width="2.5" fill="none"/>
+          <circle cx="160" cy="262" r="5" fill="#D4A017"/>
+          <rect x="0" y="403" width="320" height="27" fill="#E8621A" opacity="0.85"/>
+          <text x="160" y="422" text-anchor="middle" font-family="Josefin Sans,sans-serif" font-size="8" font-weight="700" fill="white" letter-spacing="3">GERMAN TRAINER</text>
+        </svg>
+      </div>
+      <div class="portrait-badge"><div class="pb-num">8+</div><div class="pb-lbl">Years<br>Teaching</div></div>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hs-num" id="cnt1">500+</div><div class="hs-lbl">Students</div></div>
+    <div class="hero-stat"><div class="hs-num">A1–B1</div><div class="hs-lbl">CEFR Levels</div></div>
+    <div class="hero-stat"><div class="hs-num">96%</div><div class="hs-lbl">Pass Rate</div></div>
+  </div>
+</section>
+
+<div class="kwave" style="background:var(--white)"><svg viewBox="0 0 1440 50" preserveAspectRatio="none" height="50"><path d="M0,50 L0,30 Q360,5 720,30 Q1080,55 1440,30 L1440,50 Z" fill="#FBF5E6"/></svg></div>
+
+<section id="about" style="padding:6rem 0;background:var(--white);">
+  <div class="sc">
+    <div class="sh reveal"><div class="sh-num">01</div><div><div class="sh-eye">Who I Am</div><h2 class="sh-title">About Krishna Couga</h2></div></div>
+    <div class="about-grid">
+      <div style="position:relative" class="reveal">
+        <div class="about-img">
+          <svg width="100%" height="100%" viewBox="0 0 280 350" xmlns="http://www.w3.org/2000/svg">
+            <rect width="280" height="350" fill="#F2E8D0"/>
+            <rect x="0" y="0" width="280" height="350" fill="none" stroke="#E8621A" stroke-width="6" stroke-dasharray="18,9"/>
+            <line x1="140" y1="335" x2="140" y2="185" stroke="#7A4A1E" stroke-width="4"/>
+            <line x1="140" y1="270" x2="75" y2="210" stroke="#7A4A1E" stroke-width="3"/>
+            <line x1="140" y1="250" x2="205" y2="195" stroke="#7A4A1E" stroke-width="3"/>
+            <circle cx="75" cy="210" r="14" fill="#E8621A" opacity="0.85"/><circle cx="75" cy="210" r="7" fill="#D4A017"/>
+            <circle cx="205" cy="195" r="14" fill="#C0395A" opacity="0.85"/><circle cx="205" cy="195" r="7" fill="#D4A017"/>
+            <circle cx="140" cy="158" r="16" fill="#1A2E5A" opacity="0.85"/><circle cx="140" cy="158" r="8" fill="#D4A017"/>
+            <rect x="0" y="335" width="280" height="5" fill="#1A0A00"/>
+            <rect x="0" y="340" width="280" height="5" fill="#E8621A"/>
+            <rect x="0" y="345" width="280" height="5" fill="#D4A017"/>
+            <text x="140" y="22" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="17" font-weight="700" fill="#1A2E5A">Krishna Couga</text>
+            <text x="140" y="44" text-anchor="middle" font-family="Josefin Sans,sans-serif" font-size="8" font-weight="700" fill="#E8621A" letter-spacing="3">GERMAN TRAINER</text>
+            <text x="140" y="98" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="26" font-style="italic" fill="#E8621A" opacity="0.5">Deutsch</text>
+            <text x="140" y="130" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="18" font-style="italic" fill="#1A2E5A" opacity="0.4">Lernen · Sprechen · Leben</text>
+          </svg>
+        </div>
+        <div class="about-quote"><div class="aq-t">"Language opens doors that no key can unlock."</div><div class="aq-s">— Krishna Couga</div></div>
+      </div>
+      <div class="reveal">
+        <p class="about-lead">Passionate about making German accessible and enjoyable for every learner, from complete beginners to exam candidates.</p>
+        <p class="about-body">With 8+ years of experience teaching German from A1 to B1, I specialize in Goethe-Institut exam preparation. My methodology combines structured grammar, immersive vocabulary building, and real-world conversation practice — all delivered online with personalized attention.</p>
+        <div class="about-info">
+          <div class="ai-item"><div class="ai-label">Qualification</div><div class="ai-val">M.A. German, Certified Trainer</div></div>
+          <div class="ai-item"><div class="ai-label">Experience</div><div class="ai-val">8+ Years Teaching</div></div>
+          <div class="ai-item"><div class="ai-label">Students Trained</div><div class="ai-val">500+ Across India</div></div>
+          <div class="ai-item"><div class="ai-label">Mode</div><div class="ai-val">Online Only (Zoom/Meet)</div></div>
+          <div class="ai-item"><div class="ai-label">Location</div><div class="ai-val">Lawspet, Pondicherry</div></div>
+          <div class="ai-item"><div class="ai-label">Pass Rate</div><div class="ai-val">96% Goethe Exam</div></div>
+        </div>
+        <div class="about-tags">
+          <span class="tag tag-s">Goethe A1</span><span class="tag tag-s">Goethe A2</span><span class="tag tag-s">Goethe B1</span>
+          <span class="tag tag-i">Grammar Expert</span><span class="tag tag-i">Spoken German</span><span class="tag tag-i">Exam Prep</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="courses" style="padding:5.5rem 0;background:var(--cream);">
+  <div class="sc">
+    <div class="sh reveal"><div class="sh-num">02</div><div><div class="sh-eye">What I Offer</div><h2 class="sh-title">German Courses</h2></div></div>
+    <div class="courses-grid">
+      <div class="cc reveal">
+        <div class="cc-top"><div class="cc-icon">🇩🇪</div><div class="cc-lvl">Beginner</div><div class="cc-name">German A1 — Foundation</div><div class="cc-desc">Start your German journey. Learn alphabets, greetings, numbers, basic sentences, and everyday vocabulary. Perfect for absolute beginners.</div></div>
+        <div class="cc-bot"><div class="cc-meta"><span>3 months</span> · 48 hrs online</div><a href="#" class="cc-btn" onclick="showPage('login');return false">Enroll Now →</a></div>
+      </div>
+      <div class="cc feat reveal">
+        <div class="cc-top"><div class="cc-icon">⭐</div><div class="cc-lvl">Most Popular</div><div class="cc-name">German A2 — Elementary</div><div class="cc-desc">Expand your skills with past tense, dative case, adjectives, and conversational German. Ideal for those who completed A1.</div></div>
+        <div class="cc-bot"><div class="cc-meta"><span>3 months</span> · 52 hrs online</div><a href="#" class="cc-btn" onclick="showPage('login');return false">Enroll Now →</a></div>
+      </div>
+      <div class="cc reveal">
+        <div class="cc-top"><div class="cc-icon">🎓</div><div class="cc-lvl">Intermediate</div><div class="cc-name">German B1 — Intermediate</div><div class="cc-desc">Achieve B1 fluency with complex grammar, reading comprehension, writing skills, and full Goethe B1 exam preparation.</div></div>
+        <div class="cc-bot"><div class="cc-meta"><span>4 months</span> · 64 hrs online</div><a href="#" class="cc-btn" onclick="showPage('login');return false">Enroll Now →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="kwave" style="background:var(--cream-dark)"><svg viewBox="0 0 1440 50" preserveAspectRatio="none" height="50"><path d="M0,50 L0,30 Q360,55 720,20 Q1080,-10 1440,30 L1440,50 Z" fill="var(--cream)"/></svg></div>
+
+<section id="fees" style="padding:5.5rem 0;background:var(--cream-dark);">
+  <div class="sc">
+    <div class="sh reveal"><div class="sh-num">03</div><div><div class="sh-eye">Investment</div><h2 class="sh-title">Fee Structure</h2></div></div>
+    <div class="fees-grid">
+      <div class="fee-card reveal">
+        <div class="fee-level">A1 Level</div>
+        <div class="fee-name">Foundation</div>
+        <div class="fee-price">₹3,500</div>
+        <div class="fee-period">one-time · 3 months</div>
+        <ul class="fee-features"><li>48 hours of live online classes</li><li>Study materials & PDFs</li><li>Weekly assignments</li><li>Doubt clearing sessions</li><li>A1 exam guidance</li></ul>
+        <a href="#" class="fee-enroll" onclick="showPage('login');return false">Enroll Now</a>
+      </div>
+      <div class="fee-card popular reveal">
+        <div class="fee-pop-badge">Most Popular</div>
+        <div class="fee-level">A2 Level</div>
+        <div class="fee-name">Elementary</div>
+        <div class="fee-price">₹4,000</div>
+        <div class="fee-period">one-time · 3 months</div>
+        <ul class="fee-features"><li>52 hours of live online classes</li><li>Comprehensive study kit</li><li>Monthly mock tests</li><li>Personal feedback sessions</li><li>Goethe A2 preparation</li><li>Verified certificate</li></ul>
+        <a href="#" class="fee-enroll" onclick="showPage('login');return false">Enroll Now</a>
+      </div>
+      <div class="fee-card reveal">
+        <div class="fee-level">B1 Level</div>
+        <div class="fee-name">Intermediate</div>
+        <div class="fee-price">₹5,500</div>
+        <div class="fee-period">one-time · 4 months</div>
+        <ul class="fee-features"><li>64 hours of live online classes</li><li>Advanced study materials</li><li>Full mock exams</li><li>Speaking & writing practice</li><li>Goethe B1 preparation</li><li>Verified certificate</li></ul>
+        <a href="#" class="fee-enroll" onclick="showPage('login');return false">Enroll Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="kwave" style="background:var(--white)"><svg viewBox="0 0 1440 50" preserveAspectRatio="none" height="50"><path d="M0,50 L0,20 Q720,-10 1440,30 L1440,50 Z" fill="var(--cream-dark)"/></svg></div>
+
+<section id="testimonials" style="padding:5.5rem 0;background:var(--white);">
+  <div class="sc">
+    <div class="sh reveal"><div class="sh-num">04</div><div><div class="sh-eye">Student Stories</div><h2 class="sh-title">What My Students Say</h2></div></div>
+    <div class="testi-grid">
+      <div class="tc reveal"><div class="tc-q">"</div><p class="tc-text">Krishna Ma'am's teaching is phenomenal. Her explanations of German grammar are so clear, I cleared my Goethe A1 on the first attempt! The online classes are well structured and interactive.</p><div class="tc-author"><div class="tc-av">A</div><div><div class="tc-name">Ananya R.</div><div class="tc-role">A1 Passed · Chennai</div><div class="tc-stars">★★★★★</div></div></div></div>
+      <div class="tc reveal"><div class="tc-q">"</div><p class="tc-text">I never thought I'd learn German this easily from home! The online format is perfect and the study materials are excellent. Finished A2 in just 3 months and already enrolled for B1.</p><div class="tc-author"><div class="tc-av" style="background:rgba(26,46,90,0.08);color:var(--indigo)">R</div><div><div class="tc-name">Rahul V.</div><div class="tc-role">A2 Passed · Bangalore</div><div class="tc-stars">★★★★★</div></div></div></div>
+      <div class="tc reveal"><div class="tc-q">"</div><p class="tc-text">The mock tests and personal feedback sessions helped me so much for B1. Krishna Ma'am's patience and dedication is unmatched. Highly recommend for anyone serious about German.</p><div class="tc-author"><div class="tc-av" style="background:rgba(42,96,64,0.08);color:var(--leaf)">P</div><div><div class="tc-name">Priya S.</div><div class="tc-role">B1 Passed · Pondicherry</div><div class="tc-stars">★★★★★</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fi-grid">
+    <div>
+      <div class="f-logo">Krishna <span>Couga</span></div>
+      <p class="f-tag">"Wer eine Sprache lernt, öffnet ein neues Fenster zur Welt."<br>— Who learns a language opens a new window to the world.</p>
+      <div class="f-contact">
+        <div>📞 <strong style="color:rgba(255,255,255,0.7)">90437 70488</strong></div>
+        <div>📍 Lawspet, Pondicherry</div>
+        <div>💻 <strong style="color:rgba(255,255,255,0.7)">Online Classes Only</strong></div>
+        <div>🕐 Mon – Sat · 7 AM – 9 PM</div>
+      </div>
+      <div class="f-social"><a href="#" class="soc">in</a><a href="#" class="soc">fb</a><a href="#" class="soc">yt</a><a href="#" class="soc">ig</a></div>
+    </div>
+    <div>
+      <div class="fl-title">Quick Links</div>
+      <ul class="fl-list"><li><a href="#about">About</a></li><li><a href="#courses">Courses</a></li><li><a href="#fees">Fee Structure</a></li><li><a href="#" onclick="showPage('login');return false">Student Portal</a></li></ul>
+    </div>
+    <div>
+      <div class="fl-title">Courses</div>
+      <ul class="fl-list"><li><a href="#">German A1</a></li><li><a href="#">German A2</a></li><li><a href="#">German B1</a></li><li><a href="#">Goethe Exam Prep</a></li></ul>
+    </div>
+  </div>
+  <div class="f-bottom">
+    <div class="f-copy">© 2025 Krishna Couga. All rights reserved.</div>
+    <div class="f-kalam">Crafted in the spirit of Kalamkari · Powered by AI</div>
+  </div>
+</footer>
+</div><!-- end page-landing -->
+
+<!-- ═══ LOGIN PAGE ═══ -->
+<div class="page" id="page-login">
+  <div class="login-wrap">
+    <div class="login-info">
+      <a href="#" class="li-back" onclick="showPage('landing');return false">← Back to Website</a>
+      <div class="li-eye">Student Portal</div>
+      <h2 class="li-title">Your <em>Learning</em><br>Dashboard Awaits</h2>
+      <p class="li-body">Sign in to access your courses, track attendance, take tests, and chat with your AI German tutor — all in one place.</p>
+      <div class="li-perks">
+        <div class="li-perk"><div class="lp-icon">📚</div><div class="lp-text"><strong>Course Materials</strong> — PDFs, audio, exercises</div></div>
+        <div class="li-perk"><div class="lp-icon">🤖</div><div class="lp-text"><strong>AI German Tutor</strong> — Practice anytime with AI</div></div>
+        <div class="li-perk"><div class="lp-icon">🧪</div><div class="lp-text"><strong>Online Tests</strong> — Practice Goethe exams</div></div>
+        <div class="li-perk"><div class="lp-icon">📅</div><div class="lp-text"><strong>Attendance</strong> — Monthly records</div></div>
+        <div class="li-perk"><div class="lp-icon">💳</div><div class="lp-text"><strong>Fee Payment</strong> — UPI & online payment</div></div>
+      </div>
+    </div>
+    <div class="login-card">
+      <div class="lc-rainbow"></div>
+      <div class="lc-inner">
+        <div class="lc-tabs">
+          <button class="lc-tab active" id="tl" onclick="switchLoginTab('login')">Sign In</button>
+          <button class="lc-tab" id="tr" onclick="switchLoginTab('register')">Register</button>
+        </div>
+        <div id="form-login">
+          <div class="lc-title">Welcome Back</div>
+          <div class="lc-sub">Sign in to your student portal</div>
+          <div class="fg"><label>Email</label><div class="fi"><span class="fi-ico">👤</span><input type="email" id="l-email" placeholder="your@email.com"/></div></div>
+          <div class="fg"><label>Password</label><div class="fi"><span class="fi-ico">🔒</span><input type="password" id="l-pw" placeholder="Your password"/></div></div>
+          <div id="login-err" class="err-msg">Invalid email or password.</div>
+          <div class="form-opts"><label class="chk"><input type="checkbox"/> Remember me</label><a href="#" class="fgt">Forgot password?</a></div>
+          <button class="btn-sub" onclick="doLogin()">Access Portal →</button>
+          <div class="switch-link">New student? <a href="#" onclick="switchLoginTab('register');return false">Register here</a></div>
+        </div>
+        <div id="form-register" style="display:none">
+          <div class="lc-title">Join the Class</div>
+          <div class="lc-sub">Create your student account</div>
+          <div class="form-row">
+            <div class="fg"><label>First Name</label><div class="fi"><span class="fi-ico">👤</span><input type="text" id="r-fn" placeholder="First name"/></div></div>
+            <div class="fg"><label>Last Name</label><div class="fi"><span class="fi-ico">👤</span><input type="text" id="r-ln" placeholder="Last name"/></div></div>
+          </div>
+          <div class="fg"><label>Email</label><div class="fi"><span class="fi-ico">✉️</span><input type="email" id="r-email" placeholder="your@email.com"/></div></div>
+          <div class="fg"><label>Phone</label><div class="fi"><span class="fi-ico">📞</span><input type="tel" id="r-phone" placeholder="+91 9XXXXXXXXX"/></div></div>
+          <div class="fg"><label>Course Level</label><div class="fi"><span class="fi-ico">📚</span><select id="r-level"><option value="">Select level</option><option value="A1">A1 — Beginner (₹3,500)</option><option value="A2">A2 — Elementary (₹4,000)</option><option value="B1">B1 — Intermediate (₹5,500)</option></select></div></div>
+          <div class="fg"><label>Password</label><div class="fi"><span class="fi-ico">🔒</span><input type="password" id="r-pw" placeholder="Min. 8 characters"/></div></div>
+          <div id="reg-err" class="err-msg">Please fill all fields (min. 8 char password).</div>
+          <div id="reg-ok" class="err-msg" style="color:var(--leaf)">Account created! You can now sign in.</div>
+          <button class="btn-sub" onclick="doRegister()">Create Account →</button>
+          <div class="switch-link" style="margin-top:0.8rem">Already enrolled? <a href="#" onclick="switchLoginTab('login');return false">Sign in</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DASHBOARD PAGE ═══ -->
+<div class="page" id="page-dashboard">
+  <aside class="sidebar">
+    <div class="sb-header">
+      <div class="sb-logo">Krishna <span>Couga</span></div>
+      <div class="sb-tagline">German Language Portal</div>
+    </div>
+    <div class="sb-user">
+      <div class="sb-av" id="sb-av-letter">A</div>
+      <div>
+        <div class="sb-uname" id="sb-uname">Student</div>
+        <div class="sb-uid" id="sb-uid">KC · Level A2</div>
+      </div>
+    </div>
+    <nav class="sb-nav">
+      <div class="sb-section">Main</div>
+      <a href="#" class="sb-link active" id="sl-overview" onclick="showView('overview');return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Overview
+      </a>
+      <a href="#" class="sb-link" id="sl-courses" onclick="showView('courses');return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>My Courses
+      </a>
+      <a href="#" class="sb-link" id="sl-tests" onclick="showView('tests');return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>Tests & Exams
+      </a>
+      <div class="sb-section">Academics</div>
+      <a href="#" class="sb-link" id="sl-attendance" onclick="showView('attendance');return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Attendance
+      </a>
+      <a href="#" class="sb-link" id="sl-payment" onclick="showView('payment');return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Fee Payment
+      </a>
+      <a href="#" class="sb-link" id="sl-tutor" onclick="showView('tutor');return false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>AI Tutor
+      </a>
+    </nav>
+    <div class="sb-bottom">
+      <button class="sb-logout" onclick="doLogout()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign Out
+      </button>
+    </div>
+  </aside>
+  <div class="dash-main">
+    <div class="dash-topbar">
+      <div class="dt-title" id="dt-view-title">Overview</div>
+      <div class="dt-date" id="dt-date"></div>
+    </div>
+    <div class="dash-content">
+
+      <!-- OVERVIEW VIEW -->
+      <div class="dash-view active" id="view-overview">
+        <div class="stat-cards">
+          <div class="sc-card"><div class="sc-val" id="ov-att">87%</div><div class="sc-label">Attendance</div><div class="sc-sub">This month</div></div>
+          <div class="sc-card" style="border-left-color:var(--indigo)"><div class="sc-val" style="color:var(--indigo)" id="ov-level">A2</div><div class="sc-label">Current Level</div><div class="sc-sub">CEFR Standard</div></div>
+          <div class="sc-card" style="border-left-color:var(--leaf)"><div class="sc-val" style="color:var(--leaf)" id="ov-tests">3</div><div class="sc-label">Tests Taken</div><div class="sc-sub">This quarter</div></div>
+          <div class="sc-card" style="border-left-color:var(--turmeric)"><div class="sc-val" style="color:var(--turmeric)" id="ov-score">88%</div><div class="sc-label">Avg Score</div><div class="sc-sub">Last 3 tests</div></div>
+        </div>
+        <div class="dash-row">
+          <div class="dcard">
+            <div class="dcard-title">Course Progress</div>
+            <div style="margin-bottom:0.8rem">
+              <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--indigo);font-weight:600;margin-bottom:4px">A1 Foundation <span style="color:var(--leaf)">Complete ✓</span></div>
+              <div class="prog-bar"><div class="prog-fill" style="width:100%;background:linear-gradient(90deg,var(--leaf),#3D8A5A)"></div></div>
+            </div>
+            <div style="margin-bottom:0.8rem">
+              <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--indigo);font-weight:600;margin-bottom:4px">A2 Elementary <span style="color:var(--saffron)" id="a2-pct">68%</span></div>
+              <div class="prog-bar"><div class="prog-fill" id="a2-bar" style="width:68%"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:rgba(26,46,90,0.4);font-weight:600;margin-bottom:4px">B1 Intermediate <span>Locked</span></div>
+              <div class="prog-bar"><div class="prog-fill" style="width:0%;background:rgba(26,46,90,0.1)"></div></div>
+            </div>
+          </div>
+          <div class="dcard">
+            <div class="dcard-title">Recent Activity</div>
+            <div style="display:flex;flex-direction:column;gap:0.6rem">
+              <div style="display:flex;align-items:center;gap:0.8rem;padding:0.6rem;background:var(--cream);border-radius:2px">
+                <div style="width:8px;height:8px;background:var(--leaf);border-radius:50%;flex-shrink:0"></div>
+                <div><div style="font-size:0.75rem;font-weight:600;color:var(--indigo)">A1 Grammar Mock — 88%</div><div style="font-size:0.62rem;color:var(--earth)">3 days ago</div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.8rem;padding:0.6rem;background:var(--cream);border-radius:2px">
+                <div style="width:8px;height:8px;background:var(--saffron);border-radius:50%;flex-shrink:0"></div>
+                <div><div style="font-size:0.75rem;font-weight:600;color:var(--indigo)">A2 Class — Modal Verbs</div><div style="font-size:0.62rem;color:var(--earth)">5 days ago</div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.8rem;padding:0.6rem;background:var(--cream);border-radius:2px">
+                <div style="width:8px;height:8px;background:var(--indigo);border-radius:50%;flex-shrink:0"></div>
+                <div><div style="font-size:0.75rem;font-weight:600;color:var(--indigo)">A2 Vocabulary Test — 92%</div><div style="font-size:0.62rem;color:var(--earth)">1 week ago</div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.8rem;padding:0.6rem;background:var(--cream);border-radius:2px">
+                <div style="width:8px;height:8px;background:var(--turmeric);border-radius:50%;flex-shrink:0"></div>
+                <div><div style="font-size:0.75rem;font-weight:600;color:var(--indigo)">Fee Payment — ₹4,000</div><div style="font-size:0.62rem;color:var(--earth)">2 weeks ago</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Quick AI Chat on Overview -->
+        <div style="background:linear-gradient(135deg,var(--indigo),#2A4080);padding:1.5rem;border-radius:2px;display:flex;align-items:center;justify-content:space-between;color:white;">
+          <div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;margin-bottom:0.3rem">Your AI German Tutor is ready! 🤖</div>
+            <div style="font-size:0.78rem;color:rgba(255,255,255,0.65)">Ask grammar questions, practice vocabulary, or get exam tips — powered by Claude AI</div>
+          </div>
+          <button onclick="showView('tutor')" style="padding:0.7rem 1.4rem;background:var(--saffron);color:white;border:none;font-family:'Josefin Sans',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;border-radius:2px;cursor:pointer;white-space:nowrap;margin-left:1rem">Chat Now →</button>
+        </div>
+      </div>
+
+      <!-- COURSES VIEW -->
+      <div class="dash-view" id="view-courses">
+        <div class="dcard" style="margin-bottom:1.2rem">
+          <div class="dcard-title">A2 Elementary — Current Course</div>
+          <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem">
+            <div style="flex:1"><div class="prog-bar" style="height:12px"><div class="prog-fill" style="width:68%"></div></div></div>
+            <div style="font-size:0.8rem;font-weight:700;color:var(--saffron)">68% Complete</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0.5rem">
+            <div class="cl-module done"><div><div class="cl-module-name">Unit 1: Perfekt Tense</div><div class="cl-module-meta">6 classes · 8 hrs</div></div><span class="cl-module-badge badge-done">Done</span></div>
+            <div class="cl-module done"><div><div class="cl-module-name">Unit 2: Dative Case</div><div class="cl-module-meta">5 classes · 7 hrs</div></div><span class="cl-module-badge badge-done">Done</span></div>
+            <div class="cl-module done"><div><div class="cl-module-name">Unit 3: Modal Verbs</div><div class="cl-module-meta">4 classes · 6 hrs</div></div><span class="cl-module-badge badge-done">Done</span></div>
+            <div class="cl-module" style="border-left-color:var(--saffron)"><div><div class="cl-module-name">Unit 4: Adjective Endings</div><div class="cl-module-meta">4 classes · 5 hrs</div></div><span class="cl-module-badge badge-prog">In Progress</span></div>
+            <div class="cl-module"><div><div class="cl-module-name">Unit 5: Wechselpräpositionen</div><div class="cl-module-meta">3 classes · 4 hrs</div></div><span class="cl-module-badge badge-lock">Upcoming</span></div>
+            <div class="cl-module"><div><div class="cl-module-name">Unit 6: Mock Exam Prep</div><div class="cl-module-meta">3 classes · 4 hrs</div></div><span class="cl-module-badge badge-lock">Upcoming</span></div>
+          </div>
+        </div>
+        <div class="dcard">
+          <div class="dcard-title">A1 Foundation — Completed</div>
+          <div style="display:flex;flex-direction:column;gap:0.5rem">
+            <div class="cl-module done"><div><div class="cl-module-name">Unit 1–8: All Units</div><div class="cl-module-meta">48 classes · 48 hrs total</div></div><span class="cl-module-badge badge-done">Complete</span></div>
+          </div>
+          <div style="margin-top:0.8rem;padding:0.8rem;background:rgba(42,96,64,0.06);border-radius:2px;display:flex;align-items:center;justify-content:space-between">
+            <div style="font-size:0.78rem;color:var(--leaf);font-weight:600">🎓 Certificate of Completion — A1 Level</div>
+            <button style="padding:0.4rem 0.9rem;background:var(--leaf);color:white;border:none;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;border-radius:2px;cursor:pointer">Download</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TESTS VIEW -->
+      <div class="dash-view" id="view-tests">
+        <div class="test-grid">
+          <div class="test-card"><div class="tc-head bg-l"><div><div class="tc-hname">A1 Vocabulary Test</div><div class="tc-hlvl">Level A1 · Completed</div></div><div class="tc-hbadge">Score: 92%</div></div><div class="tc-body"><div class="tc-stats"><div class="tcs-item"><div class="tcs-val">92%</div><div class="tcs-lbl">Score</div></div><div class="tcs-item"><div class="tcs-val">5</div><div class="tcs-lbl">Questions</div></div><div class="tcs-item"><div class="tcs-val">10m</div><div class="tcs-lbl">Time</div></div></div><p class="tc-desc">A1 vocabulary and basic grammar test. Excellent!</p><button class="btn-test" onclick="openTest('a1vocab')">Retake Test</button></div></div>
+          <div class="test-card"><div class="tc-head bg-t"><div><div class="tc-hname">A1 Grammar Mock</div><div class="tc-hlvl">Level A1 · Completed</div></div><div class="tc-hbadge">Score: 88%</div></div><div class="tc-body"><div class="tc-stats"><div class="tcs-item"><div class="tcs-val">88%</div><div class="tcs-lbl">Score</div></div><div class="tcs-item"><div class="tcs-val">5</div><div class="tcs-lbl">Questions</div></div><div class="tcs-item"><div class="tcs-val">12m</div><div class="tcs-lbl">Time</div></div></div><p class="tc-desc">Full Goethe-style A1 grammar mock test. Great result!</p><button class="btn-test" onclick="openTest('a1gram')">Retake Test</button></div></div>
+          <div class="test-card"><div class="tc-head bg-s"><div><div class="tc-hname">A2 Mock Test — 1</div><div class="tc-hlvl">Level A2 · Completed</div></div><div class="tc-hbadge">Score: 82%</div></div><div class="tc-body"><div class="tc-stats"><div class="tcs-item"><div class="tcs-val">82%</div><div class="tcs-lbl">Score</div></div><div class="tcs-item"><div class="tcs-val">5</div><div class="tcs-lbl">Questions</div></div><div class="tcs-item"><div class="tcs-val">15m</div><div class="tcs-lbl">Time</div></div></div><p class="tc-desc">First A2 mock — Perfekt, Dativ, vocabulary. Good progress!</p><button class="btn-test" onclick="openTest('a2mock1')">Retake Test</button></div></div>
+          <div class="test-card"><div class="tc-head bg-i"><div><div class="tc-hname">A2 Mock Test — 2</div><div class="tc-hlvl">Level A2 · Available</div></div><div class="tc-hbadge">Ready</div></div><div class="tc-body"><div class="tc-stats"><div class="tcs-item"><div class="tcs-val">—</div><div class="tcs-lbl">Score</div></div><div class="tcs-item"><div class="tcs-val">5</div><div class="tcs-lbl">Questions</div></div><div class="tcs-item"><div class="tcs-val">15m</div><div class="tcs-lbl">Time</div></div></div><p class="tc-desc">Second A2 mock — Modal verbs, Adjektive, comprehension.</p><button class="btn-test" onclick="openTest('a2mock2')">Start Test →</button></div></div>
+        </div>
+      </div>
+
+      <!-- ATTENDANCE VIEW -->
+      <div class="dash-view" id="view-attendance">
+        <div class="att-grid">
+          <div class="calendar">
+            <div class="cal-head"><div class="cal-month">April 2025</div></div>
+            <div class="cal-days">
+              <div class="cal-day-hd">Mo</div><div class="cal-day-hd">Tu</div><div class="cal-day-hd">We</div><div class="cal-day-hd">Th</div><div class="cal-day-hd">Fr</div><div class="cal-day-hd">Sa</div><div class="cal-day-hd">Su</div>
+              <div class="cal-day"></div><div class="cal-day present">1</div><div class="cal-day present">2</div><div class="cal-day present">3</div><div class="cal-day present">4</div><div class="cal-day present">5</div><div class="cal-day">6</div>
+              <div class="cal-day present">7</div><div class="cal-day present">8</div><div class="cal-day absent">9</div><div class="cal-day present">10</div><div class="cal-day present">11</div><div class="cal-day present">12</div><div class="cal-day">13</div>
+              <div class="cal-day today">14</div><div class="cal-day">15</div><div class="cal-day">16</div><div class="cal-day">17</div><div class="cal-day">18</div><div class="cal-day">19</div><div class="cal-day">20</div>
+              <div class="cal-day">21</div><div class="cal-day">22</div><div class="cal-day">23</div><div class="cal-day">24</div><div class="cal-day">25</div><div class="cal-day">26</div><div class="cal-day">27</div>
+              <div class="cal-day">28</div><div class="cal-day">29</div><div class="cal-day">30</div>
+            </div>
+            <div style="margin-top:1rem;display:flex;gap:0.8rem;font-size:0.65rem">
+              <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:rgba(42,96,64,0.12);border-radius:2px;display:inline-block"></span>Present</span>
+              <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:rgba(176,42,42,0.08);border-radius:2px;display:inline-block"></span>Absent</span>
+              <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:var(--saffron);border-radius:2px;display:inline-block"></span>Today</span>
+            </div>
+          </div>
+          <div class="dcard">
+            <div class="dcard-title">Attendance Summary</div>
+            <div class="stat-cards" style="grid-template-columns:1fr 1fr;margin-bottom:1rem;">
+              <div class="sc-card"><div class="sc-val">11</div><div class="sc-label">Present</div></div>
+              <div class="sc-card" style="border-left-color:var(--danger)"><div class="sc-val" style="color:var(--danger)">1</div><div class="sc-label">Absent</div></div>
+            </div>
+            <div style="padding:1rem;background:rgba(42,96,64,0.06);border-radius:2px;margin-bottom:0.8rem">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <div style="font-size:0.72rem;font-weight:700;color:var(--leaf)">This Month's Attendance Rate</div>
+                <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--leaf)">91.6%</div>
+              </div>
+              <div class="prog-bar"><div class="prog-fill" style="width:91.6%;background:linear-gradient(90deg,var(--leaf),#3D8A5A)"></div></div>
+            </div>
+            <div style="font-size:0.75rem;color:var(--earth);line-height:1.7">Classes are held Monday to Saturday from 7 AM to 9 PM. Please inform the teacher at least 1 hour before class if you cannot attend.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAYMENT VIEW -->
+      <div class="dash-view" id="view-payment">
+        <div class="pay-grid">
+          <div>
+            <div class="dcard" style="margin-bottom:1.2rem">
+              <div class="dcard-title">Payment History</div>
+              <table style="width:100%;border-collapse:collapse;">
+                <tr><th style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--earth);padding:0.5rem 0.6rem;text-align:left;border-bottom:2px solid var(--cream-dark)">Date</th><th style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--earth);padding:0.5rem 0.6rem;text-align:left;border-bottom:2px solid var(--cream-dark)">Description</th><th style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--earth);padding:0.5rem 0.6rem;text-align:left;border-bottom:2px solid var(--cream-dark)">Amount</th><th style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--earth);padding:0.5rem 0.6rem;text-align:left;border-bottom:2px solid var(--cream-dark)">Status</th></tr>
+                <tr><td style="font-size:0.78rem;padding:0.65rem 0.6rem;border-bottom:1px solid var(--cream-dark)">01 Jan 2025</td><td style="font-size:0.78rem;padding:0.65rem 0.6rem;border-bottom:1px solid var(--cream-dark)">A1 Foundation Course</td><td style="font-size:0.78rem;padding:0.65rem 0.6rem;border-bottom:1px solid var(--cream-dark);font-weight:700;color:var(--indigo)">₹3,500</td><td style="font-size:0.78rem;padding:0.65rem 0.6rem;border-bottom:1px solid var(--cream-dark)"><span style="background:rgba(42,96,64,0.1);color:var(--leaf);font-size:0.6rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.2rem 0.55rem;border-radius:2px;">Paid</span></td></tr>
+                <tr><td style="font-size:0.78rem;padding:0.65rem 0.6rem;border-bottom:1px solid var(--cream-dark)">01 Apr 2025</td><td style="font-size:0.78rem;padding:0.65rem 0.6rem;border-bottom:1px solid var(--cream-dark)">A2 Elementary Course</td><td style="font-size:0.78rem;padding:0.65rem 0.6rem;border-bottom:1px solid var(--cream-dark);font-weight:700;color:var(--indigo)">₹4,000</td><td style="font-size:0.78rem;padding:0.65rem 0.6rem;border-bottom:1px solid var(--cream-dark)"><span style="background:rgba(42,96,64,0.1);color:var(--leaf);font-size:0.6rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.2rem 0.55rem;border-radius:2px;">Paid</span></td></tr>
+                <tr><td style="font-size:0.78rem;padding:0.65rem 0.6rem">01 Jul 2025</td><td style="font-size:0.78rem;padding:0.65rem 0.6rem">B1 Intermediate Course</td><td style="font-size:0.78rem;padding:0.65rem 0.6rem;font-weight:700;color:var(--saffron)">₹5,500</td><td style="font-size:0.78rem;padding:0.65rem 0.6rem"><span style="background:rgba(212,160,23,0.12);color:var(--warning);font-size:0.6rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.2rem 0.55rem;border-radius:2px;">Due Soon</span></td></tr>
+              </table>
+            </div>
+            <div class="pay-plans">
+              <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--indigo);margin-bottom:0.8rem">Select Course to Pay</div>
+              <div class="pay-plan selected" id="pp1" onclick="selectPlan(this,'A1 Foundation',3500)"><div class="pp-left"><div class="pp-name">A1 Foundation</div><div class="pp-sub">3 months · 48 hrs</div></div><div class="pp-right"><div class="pp-price">₹3,500</div><div class="pp-period">one-time</div></div></div>
+              <div class="pay-plan" id="pp2" onclick="selectPlan(this,'A2 Elementary',4000)"><div class="pp-left"><div class="pp-name">A2 Elementary</div><div class="pp-sub">3 months · 52 hrs</div></div><div class="pp-right"><div class="pp-price">₹4,000</div><div class="pp-period">one-time</div></div></div>
+              <div class="pay-plan" id="pp3" onclick="selectPlan(this,'B1 Intermediate',5500)"><div class="pp-left"><div class="pp-name">B1 Intermediate</div><div class="pp-sub">4 months · 64 hrs</div></div><div class="pp-right"><div class="pp-price">₹5,500</div><div class="pp-period">one-time</div></div></div>
+            </div>
+          </div>
+          <div>
+            <div class="pay-card">
+              <div class="pay-title">Complete Payment</div>
+              <div class="pay-summary">
+                <div class="ps-row"><span class="ps-label">Course</span><span class="ps-val" id="pay-course-name">A1 Foundation</span></div>
+                <div class="ps-row"><span class="ps-label">Mode</span><span class="ps-val">Online Only</span></div>
+                <div class="ps-row total"><span class="ps-label">Total</span><span class="ps-val" id="pay-total">₹3,500</span></div>
+              </div>
+              <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--indigo);margin-bottom:0.6rem">Payment Method</div>
+              <div class="pay-methods">
+                <button class="pm-btn active" id="pm-upi" onclick="selectPayMethod('upi')">📱 UPI</button>
+                <button class="pm-btn" id="pm-card" onclick="selectPayMethod('card')">💳 Card</button>
+                <button class="pm-btn" id="pm-net" onclick="selectPayMethod('net')">🏦 Net Banking</button>
+                <button class="pm-btn" id="pm-cash" onclick="selectPayMethod('cash')">📞 WhatsApp Pay</button>
+              </div>
+              <div class="pay-upi" id="upi-detail">
+                <div class="pay-upi-label">UPI ID — Scan or Copy</div>
+                <div class="pay-upi-id">krishnacouga@upi</div>
+                <div class="pay-upi-sub">Or call 90437 70488 for WhatsApp Pay</div>
+              </div>
+              <div class="pay-note">After payment, <strong>send screenshot to WhatsApp 90437 70488</strong> for instant confirmation.</div>
+              <button class="btn-pay" onclick="doPay()">Pay Now →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI TUTOR VIEW -->
+      <div class="dash-view" id="view-tutor">
+        <div id="ai-tutor-section">
+          <div class="chat-header">
+            <div class="chat-av">🤖</div>
+            <div class="chat-info">
+              <div class="chat-name">Deutsche Lernhilfe — AI Tutor</div>
+              <div class="chat-status">Online · Powered by Claude AI</div>
+            </div>
+          </div>
+          <div class="chat-msgs" id="chat-msgs">
+            <div class="msg bot">Hallo! Ich bin dein AI-Deutschlehrer! 🇩🇪 I'm here to help you practice German, explain grammar, build vocabulary, or prepare for your Goethe exam. Ask me anything — auf Deutsch oder auf Englisch!</div>
+            <div class="msg bot">Try asking: <em>"Erkläre mir den Dativ" · "Give me 5 A2 vocabulary words" · "What's the difference between haben and sein Perfekt?" · "Quiz me on modal verbs"</em></div>
+          </div>
+          <div class="chat-input-row">
+            <input class="chat-input" id="chat-input" type="text" placeholder="Ask your German question..." onkeydown="if(event.key==='Enter')sendChat()"/>
+            <button class="chat-send" id="chat-btn" onclick="sendChat()">Send →</button>
+          </div>
+        </div>
+        <div style="margin-top:0.8rem;display:flex;gap:0.5rem;flex-wrap:wrap">
+          <button onclick="quickChat('Quiz me on A2 modal verbs')" style="padding:0.4rem 0.8rem;background:var(--cream-dark);border:1px solid rgba(26,46,90,0.1);color:var(--indigo);font-family:Josefin Sans,sans-serif;font-size:0.65rem;font-weight:600;border-radius:20px;cursor:pointer">🧪 Quiz: Modal Verbs</button>
+          <button onclick="quickChat('Explain Perfekt tense with examples')" style="padding:0.4rem 0.8rem;background:var(--cream-dark);border:1px solid rgba(26,46,90,0.1);color:var(--indigo);font-family:Josefin Sans,sans-serif;font-size:0.65rem;font-weight:600;border-radius:20px;cursor:pointer">📚 Perfekt Tense</button>
+          <button onclick="quickChat('Give me 10 useful A2 vocabulary words with meanings')" style="padding:0.4rem 0.8rem;background:var(--cream-dark);border:1px solid rgba(26,46,90,0.1);color:var(--indigo);font-family:Josefin Sans,sans-serif;font-size:0.65rem;font-weight:600;border-radius:20px;cursor:pointer">📝 A2 Vocabulary</button>
+          <button onclick="quickChat('Give me a Goethe A2 exam tip')" style="padding:0.4rem 0.8rem;background:var(--cream-dark);border:1px solid rgba(26,46,90,0.1);color:var(--indigo);font-family:Josefin Sans,sans-serif;font-size:0.65rem;font-weight:600;border-radius:20px;cursor:pointer">🎓 Exam Tips</button>
+          <button onclick="quickChat('Explain the difference between Dativ and Akkusativ')" style="padding:0.4rem 0.8rem;background:var(--cream-dark);border:1px solid rgba(26,46,90,0.1);color:var(--indigo);font-family:Josefin Sans,sans-serif;font-size:0.65rem;font-weight:600;border-radius:20px;cursor:pointer">🔤 Dativ vs Akkusativ</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Cursor ──
+const cur=document.getElementById('cur'),trail=document.getElementById('trail');
+let mx=0,my=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.transform=`translate(${mx-6}px,${my-6}px)`;trail.style.transform=`translate(${mx-16}px,${my-16}px)`;});
+
+// ── Page navigation ──
+function showPage(p){
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+  const pg=document.getElementById('page-'+p);
+  if(pg)pg.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ── Login tab switch ──
+function switchLoginTab(t){
+  document.getElementById('form-login').style.display=t==='login'?'block':'none';
+  document.getElementById('form-register').style.display=t==='register'?'block':'none';
+  document.getElementById('tl').classList.toggle('active',t==='login');
+  document.getElementById('tr').classList.toggle('active',t==='register');
+}
+
+// ── Simple localStorage user store ──
+function getUsers(){try{return JSON.parse(localStorage.getItem('kc_users')||'[]');}catch{return[];}}
+function saveUsers(u){localStorage.setItem('kc_users',JSON.stringify(u));}
+function getSession(){try{return JSON.parse(localStorage.getItem('kc_session')||'null');}catch{return null;}}
+function setSession(u){localStorage.setItem('kc_session',JSON.stringify(u));}
+function clearSession(){localStorage.removeItem('kc_session');}
+
+function doLogin(){
+  const email=document.getElementById('l-email').value.trim();
+  const pw=document.getElementById('l-pw').value;
+  document.getElementById('login-err').style.display='none';
+  const users=getUsers();
+  const user=users.find(u=>u.email===email&&u.password===pw);
+  if(!user){document.getElementById('login-err').style.display='block';return;}
+  setSession(user);
+  loadDashboard(user);
+  showPage('dashboard');
+  toast('Welcome back!',`Hallo, ${user.firstName}! 🇩🇪`);
+}
+
+function doRegister(){
+  const fn=document.getElementById('r-fn').value.trim();
+  const ln=document.getElementById('r-ln').value.trim();
+  const email=document.getElementById('r-email').value.trim();
+  const phone=document.getElementById('r-phone').value.trim();
+  const level=document.getElementById('r-level').value;
+  const pw=document.getElementById('r-pw').value;
+  document.getElementById('reg-err').style.display='none';
+  document.getElementById('reg-ok').style.display='none';
+  if(!fn||!ln||!email||!phone||!level||pw.length<8){document.getElementById('reg-err').style.display='block';return;}
+  const users=getUsers();
+  if(users.find(u=>u.email===email)){document.getElementById('reg-err').textContent='Email already registered.';document.getElementById('reg-err').style.display='block';return;}
+  const newUser={firstName:fn,lastName:ln,email,phone,level,password:pw,id:'KC'+Date.now()};
+  users.push(newUser);
+  saveUsers(users);
+  document.getElementById('reg-ok').style.display='block';
+  setTimeout(()=>switchLoginTab('login'),1500);
+}
+
+function doLogout(){
+  clearSession();
+  showPage('landing');
+  toast('Signed out','See you soon! Tschüss! 👋');
+}
+
+function loadDashboard(user){
+  document.getElementById('sb-av-letter').textContent=user.firstName[0].toUpperCase();
+  document.getElementById('sb-uname').textContent=`${user.firstName} ${user.lastName}`;
+  document.getElementById('sb-uid').textContent=`${user.id} · Level ${user.level}`;
+  document.getElementById('ov-level').textContent=user.level;
+}
+
+// ── Auto-login from session ──
+(function(){
+  const s=getSession();
+  if(s){loadDashboard(s);}
+})();
+
+// ── View switcher ──
+function showView(v){
+  document.querySelectorAll('.dash-view').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.sb-link').forEach(el=>el.classList.remove('active'));
+  const vEl=document.getElementById('view-'+v);
+  if(vEl)vEl.classList.add('active');
+  const lEl=document.getElementById('sl-'+v);
+  if(lEl)lEl.classList.add('active');
+  const titles={overview:'Overview',courses:'My Courses',tests:'Tests & Exams',attendance:'Attendance',payment:'Fee Payment',tutor:'AI German Tutor'};
+  document.getElementById('dt-view-title').textContent=titles[v]||v;
+}
+
+// ── Date ──
+const now=new Date();
+const el=document.getElementById('dt-date');
+if(el)el.textContent=now.toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+// ── Payment ──
+let selPlan=null;
+function selectPlan(el,name,amt){
+  document.querySelectorAll('.pay-plan').forEach(p=>p.classList.remove('selected'));
+  el.classList.add('selected');
+  selPlan={name,amt};
+  document.getElementById('pay-course-name').textContent=name;
+  document.getElementById('pay-total').textContent='₹'+amt.toLocaleString();
+}
+function selectPayMethod(m){
+  document.querySelectorAll('.pm-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('pm-'+m).classList.add('active');
+}
+function doPay(){
+  toast('Payment Info','Send screenshot to WhatsApp 90437 70488 for confirmation 📱',true);
+}
+
+// ── Tests ──
+const questions={
+  a2mock2:[
+    {q:"Was ist die richtige Form? Ich ___ gestern lernen. (müssen)",opts:["musste","müsste","muss","müssen"],ans:0},
+    {q:"Welcher Satz ist richtig?",opts:["Ich lege das Buch auf den Tisch.","Ich lege das Buch auf dem Tisch.","Ich leg das Buch auf den Tisch.","Ich lege das Buch auf der Tisch."],ans:0},
+    {q:"Adjektivendung: Das ist ein ___ Mann. (alt)",opts:["alter","alte","alten","altem"],ans:0},
+    {q:"Übersetze: 'She has already left.'",opts:["Sie ist schon gegangen.","Sie hat schon gegangen.","Sie ist schon gehen.","Sie geht schon."],ans:0},
+    {q:"Was bedeutet 'Briefkasten'?",opts:["Mailbox","Briefcase","Post office","Letter"],ans:0},
+  ],
+  a1vocab:[
+    {q:"Was bedeutet 'Guten Morgen'?",opts:["Good Morning","Good Night","Good Evening","Good Afternoon"],ans:0},
+    {q:"Wie heißt 'apple' auf Deutsch?",opts:["der Apfel","die Birne","die Orange","die Traube"],ans:0},
+    {q:"Was ist die richtige Zahl? 'fünfzehn'",opts:["15","50","5","55"],ans:0},
+    {q:"Welche Farbe ist 'blau'?",opts:["Blue","Red","Green","Yellow"],ans:0},
+    {q:"Was bedeutet 'Danke schön'?",opts:["Thank you very much","Please","Sorry","Hello"],ans:0},
+  ],
+  a1gram:[
+    {q:"Der richtige Artikel: ___ Buch ist neu.",opts:["Das","Der","Die","Den"],ans:0},
+    {q:"Konjugation: Ich ___ Müller. (heißen)",opts:["heiße","heißt","heißen","heißt"],ans:0},
+    {q:"Welcher Satz ist richtig?",opts:["Ich bin 25 Jahre alt.","Ich habe 25 Jahre alt.","Ich bin 25 Jahren.","Ich habe 25 alt."],ans:0},
+    {q:"Was ist der Plural von 'das Kind'?",opts:["die Kinder","die Kinds","das Kinder","der Kinder"],ans:0},
+    {q:"Ergänze: Woher ___ du? (kommen)",opts:["kommst","komme","kommen","kommt"],ans:0},
+  ],
+  a2mock1:[
+    {q:"Perfekt: Er ___ gestern ins Kino ___. (gehen)",opts:["ist gegangen","hat gegangen","ist gehen","hat gehen"],ans:0},
+    {q:"Mit Dativ: Ich gehe mit ___ Freund ins Kino.",opts:["meinem","meinen","meiner","mein"],ans:0},
+    {q:"Was bedeutet 'Kühlschrank'?",opts:["Refrigerator","Washing machine","Dishwasher","Oven"],ans:0},
+    {q:"Richtige Form: Das Essen schmeckt ___. (gut, Superlativ)",opts:["am besten","besser","am gutem","gut"],ans:0},
+    {q:"Übersetze: 'I have already eaten.'",opts:["Ich habe schon gegessen.","Ich esse schon.","Ich habe gegessen schon.","Schon ich gegessen habe."],ans:0},
+  ]
+};
+let curTest=[],curQ=0,score=0,chosen=null,timerInt;
+function openTest(id){
+  curTest=questions[id]||questions.a2mock2;
+  curQ=0;score=0;chosen=null;
+  document.getElementById('tm-title').textContent=id.includes('a1')?'A1 German Test':'A2 German Test';
+  document.getElementById('test-modal').classList.add('open');
+  renderQ();
+  startTimer(15*60);
+}
+function closeTest(){document.getElementById('test-modal').classList.remove('open');clearInterval(timerInt);}
+function renderQ(){
+  const q=curTest[curQ];
+  if(!q)return showResult();
+  chosen=null;
+  const pct=Math.round(((curQ+1)/curTest.length)*100);
+  document.getElementById('tm-prog-lbl').textContent=`Question ${curQ+1} of ${curTest.length}`;
+  document.getElementById('tm-prog-fill').style.width=pct+'%';
+  document.getElementById('tm-score-lbl').textContent=`Score: ${score}`;
+  document.getElementById('tm-questions').innerHTML=`<div class="question-block"><div class="q-num">Question ${curQ+1}</div><div class="q-text">${q.q}</div><div class="q-options">${q.opts.map((o,i)=>`<div class="q-opt" id="qo${i}" onclick="selectOpt(${i},${q.ans})"><span class="q-opt-letter">${'ABCD'[i]}</span>${o}</div>`).join('')}</div></div>`;
+}
+function selectOpt(i,ans){
+  if(chosen!==null)return;
+  chosen=i;
+  document.querySelectorAll('.q-opt').forEach((el,idx)=>{
+    if(idx===ans)el.classList.add('correct');
+    else if(idx===i&&i!==ans)el.classList.add('wrong');
+  });
+  if(i===ans)score++;
+  document.getElementById('tm-score-lbl').textContent=`Score: ${score}`;
+}
+function nextQ(){curQ++;if(curQ>=curTest.length)showResult();else renderQ();}
+function showResult(){
+  clearInterval(timerInt);
+  const pct=Math.round((score/curTest.length)*100);
+  document.getElementById('tm-questions').innerHTML=`<div style="text-align:center;padding:2rem"><div style="font-size:3rem;margin-bottom:0.5rem">${pct>=80?'🎉':pct>=60?'👍':'💪'}</div><div style="font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:700;color:var(--indigo)">${pct}%</div><div style="font-size:0.85rem;color:var(--earth);margin:0.4rem 0">You scored ${score} out of ${curTest.length}</div><div style="font-size:0.8rem;color:${pct>=75?'var(--leaf)':'var(--danger)'};font-weight:700;margin:0.6rem 0">${pct>=75?'✓ Excellent! Goethe exam ready!':'Keep practicing — you can do it!'}</div><button onclick="closeTest()" style="margin-top:1rem;padding:0.7rem 1.5rem;background:var(--saffron);color:var(--white);border:none;font-family:Josefin Sans,sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;border-radius:2px;cursor:pointer;">Close</button></div>`;
+  document.querySelector('.tm-footer').style.display='none';
+}
+function startTimer(sec){
+  clearInterval(timerInt);
+  timerInt=setInterval(()=>{
+    sec--;
+    if(sec<=0){clearInterval(timerInt);showResult();return;}
+    const m=Math.floor(sec/60),s=sec%60;
+    const el=document.getElementById('tm-timer');
+    if(el)el.textContent=`⏱ ${m}:${s<10?'0':''}${s}`;
+  },1000);
+}
+
+// ── Toast ──
+function toast(title,body,ok=true){
+  const el=document.getElementById('toast');
+  document.getElementById('t-title').textContent=title;
+  document.getElementById('t-body').textContent=body;
+  el.style.borderLeftColor=ok?'var(--saffron)':'var(--lotus)';
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),4000);
+}
+
+// ── Scroll reveal ──
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ── Scroll nav ──
+window.addEventListener('scroll',()=>document.getElementById('navbar')?.classList.toggle('scrolled',window.scrollY>40));
+
+// ── AI Tutor Chat (Claude API) ──
+let chatHistory=[];
+
+async function sendChat(){
+  const input=document.getElementById('chat-input');
+  const btn=document.getElementById('chat-btn');
+  const msg=input.value.trim();
+  if(!msg)return;
+  input.value='';
+  btn.disabled=true;
+  addMsg(msg,'user');
+  const typing=addMsg('typing...','typing');
+  chatHistory.push({role:'user',content:msg});
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:`You are a friendly, expert German language tutor named "Deutsche Lernhilfe" for Krishna Couga's online German school in Pondicherry, India. You help students learn German from A1 to B1 level, focusing on Goethe-Institut exam preparation. 
+
+Your style: warm, encouraging, patient, clear. Use a mix of English and German. When explaining grammar, give clear rules with examples. When doing vocabulary, give the German word, article (der/die/das), plural, and meaning. Keep responses concise and well-structured. Use emoji sparingly but appropriately (🇩🇪📚✓). 
+
+Current student context: They are enrolled at Krishna Couga's German classes, currently at A2 level. Always be helpful, supportive, and educational.`,
+        messages:chatHistory
+      })
+    });
+    const data=await res.json();
+    const reply=data.content?.[0]?.text||'Entschuldigung! I could not connect. Please try again.';
+    chatHistory.push({role:'assistant',content:reply});
+    typing.remove();
+    addMsg(reply,'bot');
+  }catch(e){
+    typing.remove();
+    addMsg('Entschuldigung! Could not connect to AI. Please check your connection and try again.','bot');
+  }
+  btn.disabled=false;
+}
+
+function quickChat(msg){
+  document.getElementById('chat-input').value=msg;
+  sendChat();
+}
+
+function addMsg(text,type){
+  const msgs=document.getElementById('chat-msgs');
+  const div=document.createElement('div');
+  div.className=`msg ${type}`;
+  div.innerHTML=text.replace(/\n/g,'<br>');
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+  return div;
+}
+</script>
+</body>
+</html>
